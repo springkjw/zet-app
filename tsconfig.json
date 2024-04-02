@@ -1,0 +1,21 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@assets/*": ["assets/*"],
+      "@assets": ["assets/index"],
+      "@routers": ["routers/index"],
+      "@screens": ["screens/index"],
+      "@utils": ["utils/index"],
+      "@components": ["components/index"],
+      "@services": ["services/index"],
+      "@models": ["models/index"],
+      "@stores": ["stores/index"],
+      "@hooks": ["hooks/index"],
+    },
+  },
+}
