@@ -1,13 +1,22 @@
-import {useQuery} from '@tanstack/react-query';
+import {useQueries} from '@tanstack/react-query';
 
-import {fetchShopBrands} from '@services';
+import {fetchShopBrands, fetchCardBrands} from '@services';
 
 export default function useService() {
-  const {data} = useQuery({
-    queryKey: ['brandShop'],
-    queryFn: fetchShopBrands,
-    initialData: [],
+  const [{data: shops}, {data: cards}] = useQueries({
+    queries: [
+      {
+        queryKey: ['brandShop'],
+        queryFn: fetchShopBrands,
+        initialData: [],
+      },
+      {
+        queryKey: ['brandCard'],
+        queryFn: fetchCardBrands,
+        initialData: [],
+      },
+    ],
   });
 
-  return {brands: data};
+  return {shops, cards};
 }

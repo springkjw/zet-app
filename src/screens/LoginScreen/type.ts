@@ -2,10 +2,13 @@ import type {IBrand} from '@models';
 
 export interface LoginViewProps {
   step: number;
-  brands: IBrand[];
+  shops: IBrand[];
+  cards: IBrand[];
   nickname: string;
-  selectedBrands: string[];
+  selectedShop: string[];
+  selectedCard: string[];
   onChangeNickname(value: string): void;
-  onSelectBrand(brandIds: string[]): void;
+  onSelectShop(brandIds: string[]): void;
+  onSelectCard(brandId: string): void;
   onNext(): void;
 }

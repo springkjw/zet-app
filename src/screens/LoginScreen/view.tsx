@@ -14,11 +14,14 @@ import type {LoginViewProps} from './type';
 
 export default function LoginView({
   step,
-  brands,
+  shops,
+  cards,
   nickname,
-  selectedBrands,
+  selectedShop,
+  selectedCard,
   onChangeNickname,
-  onSelectBrand,
+  onSelectShop,
+  onSelectCard,
   onNext,
 }: LoginViewProps) {
   const style = useStyle();
@@ -62,7 +65,7 @@ export default function LoginView({
     <View style={style.Container}>
       <View style={style.HeaderContainer}>
         <Text font="SEMI_T20_100" color={GRAY_600}>
-          {step}/2
+          {step}/3
         </Text>
       </View>
 
@@ -108,29 +111,61 @@ export default function LoginView({
                 isSelected={false}
                 onSelect={function () {
                   const allBrandIds: string[] = [];
-                  brands?.forEach(function (brand) {
+                  shops?.forEach(function (brand) {
                     if (brand.id) {
                       allBrandIds.push(brand.id);
                     }
                   });
-                  return onSelectBrand(allBrandIds);
+                  return onSelectShop(allBrandIds);
                 }}
               />
             </View>
-            {brands?.map(function (brand) {
+            {shops?.map(function (brand) {
               return (
                 <View style={style.BrandItem}>
                   <Brand
                     data={brand}
                     isSelected={
-                      !!brand.id &&
-                      (selectedBrands?.includes(brand.id) ?? false)
+                      !!brand.id && (selectedShop?.includes(brand.id) ?? false)
                     }
                     onSelect={function (brandId) {
                       if (!brandId) {
                         return;
                       }
-                      return onSelectBrand([brandId]);
+                      return onSelectShop([brandId]);
+                    }}
+                  />
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      )}
+
+      {step === 3 && (
+        <View style={style.StepTwoContainer}>
+          <View style={style.StepTwoDescription}>
+            <Text font="SEMI_T24_150">
+              어떤 카드의{`\n`}
+              할인 혜택 알림을{`\n`}
+              받아볼까요?
+            </Text>
+          </View>
+
+          <View style={style.BrandContainer}>
+            {cards?.map(function (brand) {
+              return (
+                <View style={style.BrandItem}>
+                  <Brand
+                    data={brand}
+                    isSelected={
+                      !!brand.id && (selectedCard?.includes(brand.id) ?? false)
+                    }
+                    onSelect={function (brandId) {
+                      if (!brandId) {
+                        return;
+                      }
+                      return onSelectCard(brandId);
                     }}
                   />
                 </View>

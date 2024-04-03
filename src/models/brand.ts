@@ -8,19 +8,36 @@ export interface IBrand {
   borderColor?: string;
 }
 
-export function createBrand(): IBrand {
+export function createShopBrand(): IBrand {
   return {
     id: faker.string.uuid(),
     name: faker.company.name(),
-    image: faker.image.url(),
+    image: faker.image.urlLoremFlickr({category: 'business'}),
     backgroundColor: faker.color.rgb({format: 'hex'}),
     borderColor: faker.color.rgb({format: 'hex'}),
   };
 }
 
-export function createBrands(): IBrand[] {
+export function createShopBrands(): IBrand[] {
   return Array.from(
     {length: faker.helpers.rangeToNumber({min: 3, max: 10})},
-    createBrand,
+    createShopBrand,
+  );
+}
+
+export function createCardBrand(): IBrand {
+  return {
+    id: faker.string.uuid(),
+    name: faker.finance.creditCardIssuer(),
+    image: faker.image.urlLoremFlickr({category: 'food'}),
+    backgroundColor: faker.color.rgb({format: 'hex'}),
+    borderColor: faker.color.rgb({format: 'hex'}),
+  };
+}
+
+export function createCardBrands(): IBrand[] {
+  return Array.from(
+    {length: faker.helpers.rangeToNumber({min: 3, max: 10})},
+    createCardBrand,
   );
 }

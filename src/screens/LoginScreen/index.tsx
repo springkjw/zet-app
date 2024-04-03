@@ -6,16 +6,17 @@ import useService from './service';
 export default function LoginScreen() {
   const [step, setStep] = useState<number>(1);
   const [nickname, setNickname] = useState<string>('');
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedShop, setSelectedShops] = useState<string[]>([]);
+  const [selectedCard, setSelectedCards] = useState<string[]>([]);
 
-  const {brands} = useService();
+  const {shops, cards} = useService();
 
   const onChangeNickname = useCallback(function (value: string) {
     setNickname(value);
   }, []);
 
-  const onSelectBrand = useCallback(function (brandIds: string[]) {
-    setSelectedBrands(function (prev) {
+  const onSelectShop = useCallback(function (brandIds: string[]) {
+    setSelectedShops(function (prev) {
       const prevSet = new Set(prev);
       const newIdsSet = new Set(brandIds);
 
@@ -33,6 +34,17 @@ export default function LoginScreen() {
     });
   }, []);
 
+  const onSelectCard = useCallback(function (brandId: string) {
+    setSelectedCards(function (prev) {
+      if (prev.includes(brandId)) {
+        return prev.filter(function (id) {
+          return id !== brandId;
+        });
+      }
+      return [...prev, brandId];
+    });
+  }, []);
+
   const onNext = useCallback(function () {
     setStep(function (prev) {
       return prev + 1;
@@ -42,11 +54,14 @@ export default function LoginScreen() {
   return (
     <LoginView
       step={step}
-      brands={brands}
+      shops={shops}
+      cards={cards}
       nickname={nickname}
-      selectedBrands={selectedBrands}
+      selectedShop={selectedShop}
+      selectedCard={selectedCard}
       onChangeNickname={onChangeNickname}
-      onSelectBrand={onSelectBrand}
+      onSelectShop={onSelectShop}
+      onSelectCard={onSelectCard}
       onNext={onNext}
     />
   );
