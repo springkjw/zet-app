@@ -50,6 +50,17 @@ export default function useStyle() {
         ButtonContainer: {},
         StepTwoContainer: {flex: 1},
         StepTwoDescription: {paddingTop: 24, paddingBottom: 24},
+        BrandContainer: {
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
+          marginHorizontal: -9,
+        },
+        BrandItem: {
+          marginHorizontal: 9,
+          marginBottom: 20,
+        },
       });
     },
     [width, insets],

@@ -14,8 +14,11 @@ import type {LoginViewProps} from './type';
 
 export default function LoginView({
   step,
+  brands,
   nickname,
+  selectedBrands,
   onChangeNickname,
+  onSelectBrand,
   onNext,
 }: LoginViewProps) {
   const style = useStyle();
@@ -73,6 +76,7 @@ export default function LoginView({
               placeholder="닉네임"
               placeholderTextColor={GRAY_600}
               maxLength={10}
+              keyboardAppearance="dark"
               onChangeText={onChangeNickname}
             />
             <Text font="SEMI_T24_150" style={style.InputLabel}>
@@ -97,8 +101,41 @@ export default function LoginView({
             </Text>
           </View>
 
-          <View>
-            <Brand label="전체" value="all" />
+          <View style={style.BrandContainer}>
+            <View style={style.BrandItem}>
+              <Brand
+                data={{id: null, name: '전체'}}
+                isSelected={false}
+                onSelect={function () {
+                  const allBrandIds: string[] = [];
+                  brands?.forEach(function (brand) {
+                    if (brand.id) {
+                      allBrandIds.push(brand.id);
+                    }
+                  });
+                  return onSelectBrand(allBrandIds);
+                }}
+              />
+            </View>
+            {brands?.map(function (brand) {
+              return (
+                <View style={style.BrandItem}>
+                  <Brand
+                    data={brand}
+                    isSelected={
+                      !!brand.id &&
+                      (selectedBrands?.includes(brand.id) ?? false)
+                    }
+                    onSelect={function (brandId) {
+                      if (!brandId) {
+                        return;
+                      }
+                      return onSelectBrand([brandId]);
+                    }}
+                  />
+                </View>
+              );
+            })}
           </View>
         </View>
       )}
