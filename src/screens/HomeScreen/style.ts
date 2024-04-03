@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {GRAY_700, WHITE} from '@assets';
+import {GRAY_800, GRAY_500, WHITE} from '@assets';
 import {convertToRGBA} from '@utils';
 
 export default function useStyle() {
@@ -14,7 +14,7 @@ export default function useStyle() {
       return StyleSheet.create({
         Wrapper: {
           flex: 1,
-          backgroundColor: GRAY_700,
+          backgroundColor: GRAY_800,
         },
         ListHeaderComponent: {},
         HeaderWrapper: {},
@@ -39,7 +39,7 @@ export default function useStyle() {
           paddingHorizontal: 20,
           paddingTop: 20,
           paddingBottom: 20,
-          color: convertToRGBA(WHITE, 0.65),
+          color: GRAY_500,
           fontSize: 14,
           fontWeight: '400',
         },

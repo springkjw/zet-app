@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {GRAY_700} from '@assets';
+import {GRAY_800, WHITE} from '@assets';
 
 export function useRootStyle() {
   const insets = useSafeAreaInsets();
@@ -12,11 +12,11 @@ export function useRootStyle() {
       return StyleSheet.create({
         GestureView: {
           flex: 1,
-          backgroundColor: GRAY_700,
+          backgroundColor: GRAY_800,
         },
         Header: {
           height: 50 + insets.top,
-          backgroundColor: GRAY_700,
+          backgroundColor: GRAY_800,
           borderBottomWidth: 0,
           elevation: 0,
           shadowOffset: {
@@ -30,19 +30,18 @@ export function useRootStyle() {
           left: 20,
           bottom: 5,
         },
-        HeaderRight: {
-          right: 20,
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
+        BackContainer: {
+          paddingHorizontal: 20,
           flexDirection: 'row',
-        },
-        HeaderRightItem: {
-          height: 50,
-          width: 32,
-          justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: 8,
+          justifyContent: 'center',
+        },
+        BackText: {
+          fontFamily: 'SUIT-Bold',
+          color: WHITE,
+          fontSize: 18,
+          lineHeight: 18,
+          letterSpacing: -18 * 0.02,
         },
       });
     },

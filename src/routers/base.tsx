@@ -1,44 +1,40 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import {Image, Pressable, TouchableOpacity, View} from 'react-native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
+import {Image, Pressable, View} from 'react-native';
 import {useCallback} from 'react';
 
-import {HomeScreen, ShopItemScreen} from '@screens';
-import {LogoImage, UserIcon, BellIcon, TrendIcon} from '@assets';
+import {HomeScreen, ShopItemScreen, SettingScreen} from '@screens';
+import {LogoImage} from '@assets';
+import {Back, HeaderRight} from '@components';
 import {useRootStyle} from './style';
 
 const Stack = createStackNavigator();
 
 export default function BaseRouter() {
   const style = useRootStyle();
+  const {dispatch, canGoBack} = useNavigation();
 
   const renderHeaderLeft = useCallback(
-    function () {
+    function (type: 'logo' | 'back', label?: string) {
       return (
-        <Pressable>
-          <Image source={LogoImage} style={style.Logo} />
-        </Pressable>
-      );
-    },
-    [style],
-  );
-
-  const renderHeaderRight = useCallback(
-    function () {
-      return (
-        <View style={style.HeaderRight}>
-          <TouchableOpacity style={style.HeaderRightItem}>
-            <BellIcon />
-          </TouchableOpacity>
-          <TouchableOpacity style={style.HeaderRightItem}>
-            <TrendIcon />
-          </TouchableOpacity>
-          <TouchableOpacity style={style.HeaderRightItem}>
-            <UserIcon />
-          </TouchableOpacity>
+        <View>
+          {type === 'logo' && (
+            <Pressable
+              onPress={function () {
+                if (canGoBack()) {
+                  dispatch(
+                    CommonActions.reset({index: 0, routes: [{name: 'Home'}]}),
+                  );
+                }
+              }}>
+              <Image source={LogoImage} style={style.Logo} />
+            </Pressable>
+          )}
+          {type === 'back' && <Back label={label} />}
         </View>
       );
     },
-    [style],
+    [style, dispatch, canGoBack],
   );
 
   return (
@@ -49,8 +45,10 @@ export default function BaseRouter() {
         options={{
           headerStyle: style.Header,
           title: '',
-          headerLeft: renderHeaderLeft,
-          headerRight: renderHeaderRight,
+          headerLeft: function () {
+            return renderHeaderLeft('logo');
+          },
+          headerRight: HeaderRight,
         }}
       />
       <Stack.Screen
@@ -59,7 +57,19 @@ export default function BaseRouter() {
         options={{
           headerStyle: style.Header,
           title: '',
-          headerRight: renderHeaderRight,
+          headerRight: HeaderRight,
+        }}
+      />
+      <Stack.Screen
+        name="Setting"
+        component={SettingScreen}
+        options={{
+          headerStyle: style.Header,
+          title: '',
+          headerRight: HeaderRight,
+          headerLeft: function () {
+            return renderHeaderLeft('back', '내 정보');
+          },
         }}
       />
     </Stack.Navigator>
