@@ -110,29 +110,18 @@ export default function LoginView({
                 data={{id: null, name: '전체'}}
                 isSelected={false}
                 onSelect={function () {
-                  const allBrandIds: string[] = [];
-                  shops?.forEach(function (brand) {
-                    if (brand.id) {
-                      allBrandIds.push(brand.id);
-                    }
-                  });
-                  return onSelectShop(allBrandIds);
+                  return onSelectShop(shops);
                 }}
               />
             </View>
-            {shops?.map(function (brand) {
+            {shops?.map(function (shop) {
               return (
                 <View style={style.BrandItem}>
                   <Brand
-                    data={brand}
-                    isSelected={
-                      !!brand.id && (selectedShop?.includes(brand.id) ?? false)
-                    }
-                    onSelect={function (brandId) {
-                      if (!brandId) {
-                        return;
-                      }
-                      return onSelectShop([brandId]);
+                    data={shop}
+                    isSelected={selectedShop?.includes(shop) ?? false}
+                    onSelect={function (brand) {
+                      return onSelectShop([brand]);
                     }}
                   />
                 </View>
@@ -158,9 +147,7 @@ export default function LoginView({
                 <View style={style.BrandItem}>
                   <Brand
                     data={brand}
-                    isSelected={
-                      !!brand.id && (selectedCard?.includes(brand.id) ?? false)
-                    }
+                    isSelected={selectedCard?.includes(brand)}
                     onSelect={function (brandId) {
                       if (!brandId) {
                         return;

@@ -20,7 +20,7 @@ export default function Brand({
   return (
     <TouchableOpacity
       onPress={function () {
-        return onSelect && onSelect(data.id);
+        return onSelect && onSelect(data);
       }}
       style={style.Container}>
       <View

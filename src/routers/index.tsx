@@ -1,8 +1,8 @@
 import {useMemo} from 'react';
-import {useMMKV} from 'react-native-mmkv';
 import {createStackNavigator} from '@react-navigation/stack';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
+import {useUser} from '@services';
 import AuthRouter from './auth';
 import BaseRouter from './base';
 import {useRootStyle} from './style';
@@ -11,21 +11,17 @@ const Stack = createStackNavigator();
 
 export default function AppRouter() {
   const style = useRootStyle();
-  const storage = useMMKV();
+  const {isLoggedIn} = useUser();
 
   const initialRouteName = useMemo(
     function () {
-      const access = storage.getString('access');
-
-      return 'AuthRouter';
-
-      if (access) {
+      if (isLoggedIn) {
         return 'BaseRouter';
       } else {
         return 'AuthRouter';
       }
     },
-    [storage],
+    [isLoggedIn],
   );
 
   return (

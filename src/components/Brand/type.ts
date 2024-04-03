@@ -3,7 +3,7 @@ import type {IBrand} from '@models';
 export interface BrandProps {
   data: IBrand;
   isSelected?: boolean;
-  onSelect?(brandId: string | null): void;
+  onSelect?(brand: IBrand): void;
 }
 
 export interface StyleProps {

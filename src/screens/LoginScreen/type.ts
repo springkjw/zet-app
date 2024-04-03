@@ -5,10 +5,10 @@ export interface LoginViewProps {
   shops: IBrand[];
   cards: IBrand[];
   nickname: string;
-  selectedShop: string[];
-  selectedCard: string[];
+  selectedShop: IBrand[];
+  selectedCard: IBrand[];
   onChangeNickname(value: string): void;
-  onSelectShop(brandIds: string[]): void;
-  onSelectCard(brandId: string): void;
+  onSelectShop(brandIds: IBrand[]): void;
+  onSelectCard(brandId: IBrand): void;
   onNext(): void;
 }
