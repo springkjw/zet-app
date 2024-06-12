@@ -5,11 +5,11 @@ import useStyle from './style';
 
 import type {ButtonProps} from './type';
 
-export default function Button({label, onPress}: ButtonProps) {
-  const style = useStyle();
+export default function Button({label, onPress, style}: ButtonProps) {
+  const innerStyle = useStyle();
 
   return (
-    <TouchableOpacity onPress={onPress} style={style.Button}>
+    <TouchableOpacity onPress={onPress} style={[innerStyle.Button, style]}>
       <Text font="PRIMARY_BUTTON">{label}</Text>
     </TouchableOpacity>
   );

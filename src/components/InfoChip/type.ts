@@ -1,7 +1,6 @@
 import type {ViewStyle} from 'react-native';
 
-export interface ButtonProps {
-  label: string;
+export interface InfoChipProps {
+  label?: string;
   style?: ViewStyle;
-  onPress?(): void;
 }

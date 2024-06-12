@@ -17,6 +17,7 @@
 		1916C886CAF74C739594E5B8 /* SUIT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53F2C2B5EBF64D03B3976190 /* SUIT-Bold.ttf */; };
 		3ACD2D2B83AE4514BB0710C8 /* SUIT-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E773CEFD261E41E188D749C8 /* SUIT-Heavy.ttf */; };
 		59B12D769A5294967790DC0F /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE12B64CD1F12C3B0AEAEBAA /* ExpoModulesProvider.swift */; };
+		6FB89E7F4B9C17719B7F3874 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BC363AA15BA2D289F37BE80F /* PrivacyInfo.xcprivacy */; };
 		7699B88040F8A987B510C191 /* libPods-zet-zetTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-zet-zetTests.a */; };
 		86A34CD1D52E4AEFB37CBCBA /* SUIT-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6EFE615C8164C91A1A6689F /* SUIT-SemiBold.ttf */; };
 		A84558F12EDC4FA6BD0F6589 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC075E1198EA493DA317A3F5 /* BootSplash.storyboard */; };
@@ -59,6 +60,7 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-zet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-zet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61DF4C3CEFF64ACEB67DFDF3 /* SUIT-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraBold.ttf"; path = "../src/assets/fonts/SUIT-ExtraBold.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-zet-zetTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-zet-zetTests.release.xcconfig"; path = "Target Support Files/Pods-zet-zetTests/Pods-zet-zetTests.release.xcconfig"; sourceTree = "<group>"; };
+		BC363AA15BA2D289F37BE80F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = zet/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		BE12B64CD1F12C3B0AEAEBAA /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-zet/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		C295A297AD8C4F2C9037E267 /* SUIT-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-ExtraLight.ttf"; path = "../src/assets/fonts/SUIT-ExtraLight.ttf"; sourceTree = "<group>"; };
 		C6EFE615C8164C91A1A6689F /* SUIT-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SUIT-SemiBold.ttf"; path = "../src/assets/fonts/SUIT-SemiBold.ttf"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				FC075E1198EA493DA317A3F5 /* BootSplash.storyboard */,
+				BC363AA15BA2D289F37BE80F /* PrivacyInfo.xcprivacy */,
 			);
 			name = zet;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				F1CD1C7EDFA24AE2A4C9E5B3 /* SUIT-Regular.ttf in Resources */,
 				86A34CD1D52E4AEFB37CBCBA /* SUIT-SemiBold.ttf in Resources */,
 				CBA0081A6368413EB093F843 /* SUIT-Thin.ttf in Resources */,
+				6FB89E7F4B9C17719B7F3874 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,6 +661,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -684,6 +689,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				CXX = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
@@ -703,6 +709,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -737,6 +745,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -764,6 +773,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CXX = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
@@ -776,6 +786,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

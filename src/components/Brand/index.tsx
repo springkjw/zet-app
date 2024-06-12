@@ -9,35 +9,43 @@ import type {BrandProps} from './type';
 
 export default function Brand({
   data,
+  size = 70,
   isSelected = false,
+  canSelect = true,
+  hasName = true,
   onSelect,
+  style,
 }: BrandProps) {
-  const style = useStyle({
-    background: data.backgroundColor,
-    border: data.borderColor,
+  const innerStyle = useStyle({
+    background: data?.backgroundColor || GRAY_500,
+    border: data?.borderColor || GRAY_500,
+    size,
   });
 
   return (
     <TouchableOpacity
+      disabled={!canSelect}
       onPress={function () {
-        return onSelect && onSelect(data);
+        return onSelect && data && onSelect(data);
       }}
-      style={style.Container}>
+      style={[innerStyle.Container, style]}>
       <View
         style={[
-          style.ImageContainer,
-          isSelected && style.ImageActiveContainer,
+          innerStyle.ImageContainer,
+          isSelected && innerStyle.ImageActiveContainer,
         ]}>
-        {!data.id && <RNText style={style.AllText}>ALL</RNText>}
+        {!data?.id && <RNText style={innerStyle.AllText}>ALL</RNText>}
 
-        {data.image && <Image source={data.image} style={style.Image} />}
+        {data?.image && <Image source={data?.image} style={innerStyle.Image} />}
       </View>
 
-      {data.id && isSelected && <View style={style.Mask} />}
+      {data?.id && isSelected && <View style={innerStyle.Mask} />}
 
-      <Text font="SEMI_T16_100" color={isSelected ? WHITE : GRAY_500}>
-        {data.name}
-      </Text>
+      {hasName && (
+        <Text font="SEMI_T16_100" color={isSelected ? WHITE : GRAY_500}>
+          {data?.name}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 }
