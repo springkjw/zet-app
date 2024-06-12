@@ -15,7 +15,7 @@ export default function useStyle({font, color}: TextStyleProps) {
       MEDIUM_T12_100: {
         fontFamily: 'SUIT-Medium',
         fontSize: 12,
-        lineHeight: 12 * 1,
+        lineHeight: 12 * 1.1,
         letterSpacing: -12 * 0.02,
       },
       MEDIUM_T12_150: {
@@ -45,7 +45,7 @@ export default function useStyle({font, color}: TextStyleProps) {
       SEMI_T16_100: {
         fontFamily: 'SUIT-SemiBold',
         fontSize: 16,
-        lineHeight: 16 * 1,
+        lineHeight: 16 * 1.1,
         letterSpacing: -16 * 0.02,
       },
       SEMI_T16_150: {
@@ -57,7 +57,7 @@ export default function useStyle({font, color}: TextStyleProps) {
       SEMI_T18_100: {
         fontFamily: 'SUIT-SemiBold',
         fontSize: 18,
-        lineHeight: 18 * 1,
+        lineHeight: 18 * 1.1,
         letterSpacing: -18 * 0.02,
       },
       SEMI_T18_150: {
@@ -69,7 +69,7 @@ export default function useStyle({font, color}: TextStyleProps) {
       SEMI_T20_100: {
         fontFamily: 'SUIT-SemiBold',
         fontSize: 20,
-        lineHeight: 20 * 1,
+        lineHeight: 20 * 1.1,
         letterSpacing: -20 * 0.02,
       },
       SEMI_T20_150: {
@@ -81,7 +81,7 @@ export default function useStyle({font, color}: TextStyleProps) {
       SEMI_T22_100: {
         fontFamily: 'SUIT-SemiBold',
         fontSize: 22,
-        lineHeight: 22 * 1,
+        lineHeight: 22 * 1.1,
         letterSpacing: -22 * 0.02,
       },
       SEMI_T22_150: {

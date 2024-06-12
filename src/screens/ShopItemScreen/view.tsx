@@ -1,14 +1,80 @@
-import {View, ScrollView} from 'react-native';
+import {useMemo, useCallback} from 'react';
+import {FlashList} from '@shopify/flash-list';
+import {View, ScrollView, useWindowDimensions} from 'react-native';
+import {LineChart} from 'react-native-gifted-charts';
 
 import {Text, Button, InfoChip, Brand} from '@components';
-import {GRAY_500, GRAY_600, RED_500, ChevronRightIcon} from '@assets';
+import {
+  GRAY_300,
+  GRAY_500,
+  GRAY_600,
+  GRAY_800,
+  RED_500,
+  PURPLE_500,
+  ChevronRightIcon,
+  InfoIcon,
+} from '@assets';
 import useStyle from './style';
 
 export default function ShopItemView() {
+  const {width} = useWindowDimensions();
   const style = useStyle();
+
+  const priceData = [
+    {value: 11500, date: '23.11.07'},
+    {value: 11000, date: '23.11.12'},
+    {value: 13000, date: '23.11.28'},
+  ];
+
+  const renderDataPoint = useCallback(
+    function () {
+      return <View style={style.DataPoint} />;
+    },
+    [style],
+  );
+
+  const renderDataLabel = useCallback(function (price: number, date: string) {
+    return (
+      <View style={style.DataLabelContainer}>
+        {price && (
+          <Text font="SEMI_T14_100" color={GRAY_300}>
+            {price.toLocaleString()}원
+          </Text>
+        )}
+        <View style={style.DataLabelDate}>
+          <Text font="MEDIUM_T12_100" color={GRAY_500}>
+            {date}
+          </Text>
+        </View>
+      </View>
+    );
+  }, []);
+
+  const priceItems = useMemo(
+    function () {
+      const minPrice = Math.min(
+        ...priceData.map(function (item) {
+          return item.value;
+        }),
+      );
+
+      return priceData.map(function (item, index: number) {
+        return {
+          value: item.value - minPrice + 1000,
+          labelComponent: function () {
+            return renderDataLabel(item.value, item.date);
+          },
+          customDataPoint: renderDataPoint,
+        };
+      });
+    },
+    [priceData, renderDataLabel, renderDataPoint],
+  );
 
   return (
     <View style={style.Wrapper}>
+      <FlashList data={data} />
+
       <ScrollView contentContainerStyle={style.ScrollContentContainer}>
         <View style={style.InfoContainer}>
           <Text font="SEMI_T14_100" color={GRAY_600} style={style.InfoCategory}>
@@ -82,6 +148,57 @@ export default function ShopItemView() {
               style={style.CardBenefitBrand}
             />
             <ChevronRightIcon />
+          </View>
+        </View>
+
+        <View style={style.Divider} />
+
+        <View style={style.StatsContainer}>
+          <Text font="SEMI_T20_100" style={style.InfoTitle}>
+            최저가 그래프
+          </Text>
+
+          <LineChart
+            data={priceItems}
+            areaChart
+            hideYAxisText
+            adjustToWidth
+            spacing={width / 2.5}
+            height={176}
+            hideRules
+            xAxisColor={GRAY_800}
+            yAxisColor={GRAY_800}
+            color1={PURPLE_500}
+            startFillColor1={PURPLE_500}
+            endFillColor1="#0D0D0D"
+            endOpacity1={0}
+            stripColor={PURPLE_500}
+            isAnimated
+            animateOnDataChange
+            animationDuration={1000}
+            onDataChangeAnimationDuration={300}
+            pointerConfig={{
+              initialPointerIndex: 1,
+              persistPointer: true,
+              pointerStripUptoDataPoint: true,
+              pointerStripColor: PURPLE_500,
+              pointerStripWidth: 3,
+              strokeDashArray: [2, 5],
+              pointerColor: PURPLE_500,
+              radius: 4,
+              activatePointersOnLongPress: true,
+            }}
+          />
+        </View>
+
+        <View style={style.Divider} />
+
+        <View style={style.PriceContainer}>
+          <View style={style.PriceTitleContainer}>
+            <Text font="SEMI_T20_100" style={style.PriceTitle}>
+              가격비교
+            </Text>
+            <InfoIcon size={20} color={GRAY_500} />
           </View>
         </View>
       </ScrollView>

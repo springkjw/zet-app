@@ -1,5 +1,8 @@
+import useService from './service';
 import ShopItemView from './view';
 
 export default function ShopItemScreen() {
-  return <ShopItemView />;
+  const {priceData} = useService();
+
+  return <ShopItemView priceData={priceData} />;
 }

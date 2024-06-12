@@ -18,9 +18,9 @@ export function createShopBrand(): IBrand {
   };
 }
 
-export function createShopBrands(): IBrand[] {
+export function createShopBrands(min: number = 3, max: number = 10): IBrand[] {
   return Array.from(
-    {length: faker.helpers.rangeToNumber({min: 3, max: 10})},
+    {length: faker.helpers.rangeToNumber({min, max})},
     createShopBrand,
   );
 }

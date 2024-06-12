@@ -1,16 +1,19 @@
 import {useCallback, useState} from 'react';
-import {View, FlatList, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {FlashList} from '@shopify/flash-list';
 
 import {ChevronDownIcon} from '@assets';
 import {ShopItem} from '@components';
 import useStyle from './style';
 
-export default function HomeView() {
+import type {HomeViewProps} from './type';
+
+export default function HomeView({data}: HomeViewProps) {
   const style = useStyle();
   const [expand, setExpaned] = useState<boolean>(false);
   const animatedHeight = useSharedValue(0);
@@ -178,16 +181,18 @@ export default function HomeView() {
 
   return (
     <View style={style.Wrapper}>
-      <FlatList
+      <FlashList
         ListHeaderComponent={renderHeader}
         ListHeaderComponentStyle={style.ListHeaderComponent}
         contentContainerStyle={style.ListContent}
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        data={data}
         keyExtractor={(item, index) => `item-${index}`}
         ItemSeparatorComponent={renderSeparator}
-        renderItem={function () {
-          return <ShopItem />;
+        renderItem={function ({item}) {
+          return <ShopItem data={item} />;
         }}
+        estimatedItemSize={160}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

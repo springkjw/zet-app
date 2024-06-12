@@ -1,8 +1,7 @@
 import {useMemo} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 
-import {WHITE, BLACK} from '@assets';
-import {convertToRGBA} from '@utils';
+import {WHITE, GRAY_600, GRAY_700} from '@assets';
 
 export default function useStyle() {
   const {width} = useWindowDimensions();
@@ -12,81 +11,76 @@ export default function useStyle() {
       return StyleSheet.create({
         Wrapper: {
           width: width - 40,
-          backgroundColor: convertToRGBA(WHITE, 0.08),
-          height: 165,
+          backgroundColor: GRAY_700,
+          maxHeight: 160,
           borderRadius: 8,
           marginLeft: 20,
           padding: 16,
         },
-        BaseText: {
-          color: WHITE,
-          fontSize: 16,
-          fontWeight: '400',
-        },
         InfoContainer: {
-          flex: 1,
           flexDirection: 'row',
+          paddingBottom: 16,
+          paddingTop: 4,
         },
         InfoContent: {
           flex: 1,
           flexDirection: 'column',
           paddingHorizontal: 12,
-          justifyContent: 'flex-start',
+          justifyContent: 'space-between',
           alignItems: 'flex-start',
+          height: 72,
         },
-        CardContainer: {
-          paddingTop: 13,
-          borderColor: '#2D2D2D',
-          borderTopWidth: 1,
-          flexDirection: 'row',
-        },
-        ImageContainer: {
-          width: 80,
-          height: 80,
-          borderRadius: 4,
-          justifyContent: 'center',
-          alignItems: 'center',
-        },
-        Image: {},
-        TipContainer: {
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          marginBottom: 10,
-        },
-        Tip: {
-          backgroundColor: '#FF4D4D',
-          height: 20,
-          borderRadius: 4,
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 6,
-        },
-        TipText: {
-          fontSize: 12,
-          color: BLACK,
-          fontWeight: '700',
-        },
-        Title: {
-          marginBottom: 10,
-        },
+        Title: {paddingTop: 4},
         PriceContainer: {
           flexDirection: 'row',
           justifyContent: 'flex-start',
           alignItems: 'center',
         },
-        PriceDiscountText: {
-          color: '#FF4D4D',
-          fontWeight: '700',
-          marginRight: 4,
+        PriceDiscountText: {marginRight: 4},
+        Image: {
+          width: 72,
+          height: 72,
+          borderRadius: 4,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: GRAY_600,
         },
-        PriceText: {
-          fontWeight: '700',
+        TipContainer: {
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          marginBottom: 6,
         },
-        CardTitle: {
-          color: convertToRGBA(WHITE, 0.65),
-          marginRight: 22,
+        Tip: {
+          backgroundColor: 'rgba(243, 78, 75, 0.12)',
+          height: 20,
+          borderRadius: 4,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 6,
+          paddingTop: 2,
         },
+        CardContainer: {
+          paddingTop: 16,
+          flexDirection: 'row',
+          alignItems: 'center',
+          overflow: 'hidden',
+          borderTopWidth: 1,
+          borderTopColor: GRAY_600,
+        },
+        CardTitle: {marginRight: 16},
+        CardBrandItemContainer: {
+          flexDirection: 'row',
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          gap: 8,
+        },
+        CardBrandItem: {
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        CardBrandItemText: {marginRight: 4},
       });
     },
     [width],

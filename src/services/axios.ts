@@ -1,7 +1,12 @@
 import {default as Axios} from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 
-import {createShopBrands, createCardBrands} from '@models';
+import {
+  createShopBrands,
+  createCardBrands,
+  createItem,
+  createItems,
+} from '@models';
 
 const client = Axios.create({
   baseURL: 'https://api.zetapp.com',
@@ -16,3 +21,5 @@ export default client;
 
 mock.onGet('/brand/shop/').reply(200, createShopBrands());
 mock.onGet('/brand/card/').reply(200, createCardBrands());
+mock.onGet('/item/').reply(200, createItems());
+mock.onGet(/\/item\/\d+/).reply(200, createItem());

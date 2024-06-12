@@ -1,5 +1,8 @@
+import useService from './service';
 import HomeView from './view';
 
 export default function HomeScreen() {
-  return <HomeView />;
+  const {data} = useService();
+
+  return <HomeView data={data} />;
 }
