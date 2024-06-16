@@ -8,3 +8,4 @@ export {default as HeaderRight} from './HeaderRight';
 export {default as InfoChip} from './InfoChip';
 export {default as PriceItem} from './PriceItem';
 export {default as PriceChart} from './PriceChart';
+export {default as NoticeItem} from './NoticeItem';

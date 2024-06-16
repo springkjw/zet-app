@@ -11,13 +11,8 @@ export default function useStyle() {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      BackText: {
-        fontFamily: 'SUIT-Bold',
-        color: WHITE,
-        fontSize: 18,
-        lineHeight: 18,
-        letterSpacing: -18 * 0.02,
+        height: 56,
+        gap: 16,
       },
     });
   }, []);

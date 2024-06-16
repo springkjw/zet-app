@@ -3,7 +3,13 @@ import {useNavigation, CommonActions} from '@react-navigation/native';
 import {Image, Pressable, View} from 'react-native';
 import {useCallback} from 'react';
 
-import {HomeScreen, ShopItemScreen, SettingScreen} from '@screens';
+import {
+  HomeScreen,
+  ShopItemScreen,
+  SettingScreen,
+  NoticeListScreen,
+  NoticeDetailScreen,
+} from '@screens';
 import {LogoImage} from '@assets';
 import {Back, HeaderRight} from '@components';
 import {useRootStyle} from './style';
@@ -48,7 +54,9 @@ export default function BaseRouter() {
           headerLeft: function () {
             return renderHeaderLeft('logo');
           },
-          headerRight: HeaderRight,
+          headerRight: function () {
+            return <HeaderRight />;
+          },
         }}
       />
       <Stack.Screen
@@ -68,9 +76,25 @@ export default function BaseRouter() {
         options={{
           headerStyle: style.Header,
           title: '',
-          headerRight: HeaderRight,
+          headerRight: function () {
+            return <HeaderRight />;
+          },
           headerLeft: function () {
             return renderHeaderLeft('back', '내 정보');
+          },
+        }}
+      />
+      <Stack.Screen
+        name="NoticeList"
+        component={NoticeListScreen}
+        options={{
+          headerStyle: style.Header,
+          title: '',
+          headerRight: function () {
+            return <HeaderRight hasSetting={false} />;
+          },
+          headerLeft: function () {
+            return renderHeaderLeft('back', '공지사항');
           },
         }}
       />

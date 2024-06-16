@@ -1,8 +1,12 @@
 import Svg, {Path} from 'react-native-svg';
 
-export default function BellIcon() {
+interface BellIconProps {
+  size?: number;
+}
+
+export default function BellIcon({size = 32}: BellIconProps) {
   return (
-    <Svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Path
         d="M22.6667 11.6667C22.6667 9.89856 21.9643 8.20286 20.714 6.95262C19.4638 5.70238 17.7681 5 16 5C14.2319 5 12.5362 5.70238 11.286 6.95262C10.0357 8.20286 9.33333 9.89856 9.33333 11.6667C9.33333 19.4444 6 21.6667 6 21.6667H26C26 21.6667 22.6667 19.4444 22.6667 11.6667Z"
         stroke="white"

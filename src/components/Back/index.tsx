@@ -1,10 +1,13 @@
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
+import {Text} from '@components';
 import {ChevronLeftIcon} from '@assets';
 import useStyle from './style';
 
-export default function Back({label}) {
+import type {BackProps} from './type';
+
+export default function Back({label = ''}: BackProps) {
   const style = useStyle();
   const {dispatch, canGoBack} = useNavigation();
 
@@ -16,8 +19,8 @@ export default function Back({label}) {
         }
       }}
       style={style.BackContainer}>
-      <ChevronLeftIcon />
-      <Text style={style.BackText}>{label ?? ''}</Text>
+      <ChevronLeftIcon size={20} />
+      <Text font="SEMI_T18_150">{label ?? ''}</Text>
     </TouchableOpacity>
   );
 }

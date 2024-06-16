@@ -1,8 +1,12 @@
 import Svg, {Path} from 'react-native-svg';
 
-export default function UserIcon() {
+interface UserIconProps {
+  size?: number;
+}
+
+export default function UserIcon({size = 32}: UserIconProps) {
   return (
-    <Svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 32 32" fill="none">
       <Path
         d="M26 27.25V24.75C26 23.4239 25.4732 22.1521 24.5355 21.2145C23.5979 20.2768 22.3261 19.75 21 19.75H11C9.67392 19.75 8.40215 20.2768 7.46447 21.2145C6.52678 22.1521 6 23.4239 6 24.75V27.25"
         stroke="white"

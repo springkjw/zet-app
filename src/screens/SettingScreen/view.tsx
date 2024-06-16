@@ -5,7 +5,9 @@ import {ChevronDownIcon} from '@assets';
 import {Text} from '@components';
 import useStyle from './style';
 
-export default function SettingView() {
+import type {NoticeListViewProps} from './type';
+
+export default function SettingView({goToPage}: NoticeListViewProps) {
   const style = useStyle();
 
   return (
@@ -34,7 +36,11 @@ export default function SettingView() {
 
         <View style={style.InfoItem}>
           <Text font="SEMI_T18_100">공지사항</Text>
-          <TouchableOpacity style={style.InfoButton}>
+          <TouchableOpacity
+            onPress={function () {
+              return goToPage('notice');
+            }}
+            style={style.InfoButton}>
             <ChevronDownIcon />
           </TouchableOpacity>
         </View>

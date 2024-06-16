@@ -3,3 +3,7 @@ export {default as ShopItemScreen} from './ShopItemScreen';
 export {default as WelcomeScreen} from './WelcomeScreen';
 export {default as LoginScreen} from './LoginScreen';
 export {default as SettingScreen} from './SettingScreen';
+export {default as NotificationSettingScreen} from './NotificationSettingScreen';
+export {default as NotificationListScreen} from './NotificationListScreen';
+export {default as NoticeListScreen} from './NoticeListScreen';
+export {default as NoticeDetailScreen} from './NoticeDetailScreen';
