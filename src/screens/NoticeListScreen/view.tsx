@@ -5,7 +5,9 @@ import {FlashList} from '@shopify/flash-list';
 import {NoticeItem} from '@components';
 import useStyle from './style';
 
-export default function NoticeListView() {
+import type {NoticeListViewProps} from './type';
+
+export default function NoticeListView({data}: NoticeListViewProps) {
   const style = useStyle();
 
   const renderSeparator = useCallback(function () {
@@ -17,9 +19,12 @@ export default function NoticeListView() {
       <FlashList
         contentContainerStyle={style.NoticeListContentContainer}
         estimatedItemSize={80}
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+        data={data}
+        keyExtractor={function (item) {
+          return item.id;
+        }}
         renderItem={function ({item}) {
-          return <NoticeItem />;
+          return <NoticeItem data={item} />;
         }}
         ItemSeparatorComponent={renderSeparator}
       />

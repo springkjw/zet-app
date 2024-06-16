@@ -25,6 +25,7 @@ export interface TextProps {
   font?: FontType;
   color?: string;
   children: JSX.Element | ReactNode | string;
+  numberOfLines?: number;
   style?: object;
 }
 

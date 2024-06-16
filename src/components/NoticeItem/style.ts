@@ -24,6 +24,9 @@ export default function useStyle() {
         justifyContent: 'center',
         alignItems: 'center',
       },
+      NoticeTitleContainer: {
+        paddingRight: 16,
+      },
     });
   }, []);
 }

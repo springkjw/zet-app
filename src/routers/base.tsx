@@ -98,6 +98,20 @@ export default function BaseRouter() {
           },
         }}
       />
+      <Stack.Screen
+        name="NoticeDetail"
+        component={NoticeDetailScreen}
+        options={{
+          headerStyle: style.Header,
+          title: '',
+          headerRight: function () {
+            return <HeaderRight hasSetting={false} />;
+          },
+          headerLeft: function () {
+            return renderHeaderLeft('back', '');
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
