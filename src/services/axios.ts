@@ -22,4 +22,4 @@ export default client;
 mock.onGet('/brand/shop/').reply(200, createShopBrands());
 mock.onGet('/brand/card/').reply(200, createCardBrands());
 mock.onGet('/item/').reply(200, createItems());
-mock.onGet(/\/item\/\d+/).reply(200, createItem());
+mock.onGet(/\/item\/\w+/).reply(200, createItem());

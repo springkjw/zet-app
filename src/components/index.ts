@@ -7,3 +7,4 @@ export {default as Back} from './Back';
 export {default as HeaderRight} from './HeaderRight';
 export {default as InfoChip} from './InfoChip';
 export {default as PriceItem} from './PriceItem';
+export {default as PriceChart} from './PriceChart';

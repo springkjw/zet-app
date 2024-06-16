@@ -57,7 +57,9 @@ export default function BaseRouter() {
         options={{
           headerStyle: style.Header,
           title: '',
-          headerRight: HeaderRight,
+          headerLeft: function () {
+            return renderHeaderLeft('back', '');
+          },
         }}
       />
       <Stack.Screen

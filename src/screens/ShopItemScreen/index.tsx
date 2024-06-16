@@ -1,8 +1,16 @@
+import {useRoute} from '@react-navigation/native';
+
 import useService from './service';
 import ShopItemView from './view';
 
-export default function ShopItemScreen() {
-  const {priceData} = useService();
+import type {BaseStackParamList, ShopItemRouteProp} from './type';
 
-  return <ShopItemView priceData={priceData} />;
+export default function ShopItemScreen() {
+  const {
+    params: {id: itemId},
+  } = useRoute<ShopItemRouteProp>();
+
+  const {data} = useService(itemId);
+
+  return <ShopItemView data={data} />;
 }

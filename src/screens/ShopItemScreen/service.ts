@@ -1,9 +1,13 @@
-export default function useService() {
-  return {
-    priceData: [
-      {value: 11500, date: '23.11.07'},
-      {value: 11000, date: '23.11.12'},
-      {value: 13000, date: '23.11.28'},
-    ],
-  };
+import {useQuery} from '@tanstack/react-query';
+import {fetchShopItem} from 'services';
+
+export default function useService(itemId: string) {
+  const {data} = useQuery({
+    queryKey: ['shopItem', itemId],
+    queryFn: function ({queryKey, signal}) {
+      return fetchShopItem(queryKey[1] as string, signal as AbortSignal);
+    },
+  });
+
+  return {data};
 }

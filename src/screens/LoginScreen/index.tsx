@@ -54,7 +54,6 @@ export default function LoginScreen() {
 
   const onNext = useCallback(
     function () {
-      console.log('STEP', step);
       if (step === 3) {
         onMutate({
           nickname,

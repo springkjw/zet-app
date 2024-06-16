@@ -1,17 +1,35 @@
 import dayjs from 'dayjs';
 import {fakerKO as faker} from '@faker-js/faker';
-import {createShopBrands} from './brand';
+import {createShopBrands, createCardBrand} from './brand';
 
 import type {IBrand} from './brand';
 
-export interface IItemProce {
+export interface IItemPriceStats {
   value: number;
   date: string;
 }
 
+export interface IItemPrice {
+  id: string;
+  brand: IBrand | null;
+  price: number;
+  cardPrice: number;
+  shippingPrice: number;
+}
+
 export interface IItem {
   id: string;
-  prices: IItemProce[];
+  image: string | null;
+  categoryName: string;
+  title: string;
+  price: number;
+  perPrice: number;
+  brand: IBrand | null;
+  shippingPrice: number;
+  cardDiscount: number;
+  hasCardDiscountCondition: boolean;
+  stats: IItemPriceStats[];
+  prices: IItemPrice[];
 }
 
 export interface IItemSimple {
@@ -25,8 +43,26 @@ export interface IItemSimple {
 export function createItem(): IItem {
   return {
     id: faker.string.uuid(),
-    prices: Array.from(
-      {length: faker.helpers.rangeToNumber({min: 3, max: 10})},
+    image: faker.image.urlLoremFlickr({category: 'food'}),
+    categoryName: faker.commerce.department(),
+    title: faker.commerce.productName(),
+    brand: createCardBrand(),
+    price: parseInt(
+      faker.finance.amount({min: 10000, max: 200000, dec: 0}),
+      10,
+    ),
+    perPrice: parseInt(faker.finance.amount({min: 100, max: 2000, dec: 0}), 10),
+    shippingPrice: parseInt(
+      faker.finance.amount({min: 0, max: 10000, dec: 0}),
+      10,
+    ),
+    cardDiscount: parseInt(
+      faker.finance.amount({min: 0, max: 10000, dec: 0}),
+      10,
+    ),
+    hasCardDiscountCondition: faker.datatype.boolean(),
+    stats: Array.from(
+      {length: faker.helpers.rangeToNumber({min: 0, max: 10})},
       function () {
         return {
           value: parseInt(
@@ -34,6 +70,27 @@ export function createItem(): IItem {
             10,
           ),
           date: dayjs(faker.date.recent()).format('YY.MM.DD'),
+        };
+      },
+    ),
+    prices: Array.from(
+      {length: faker.helpers.rangeToNumber({min: 3, max: 10})},
+      function () {
+        return {
+          id: faker.string.uuid(),
+          brand: createCardBrand(),
+          price: parseInt(
+            faker.finance.amount({min: 10000, max: 200000, dec: 0}),
+            10,
+          ),
+          cardPrice: parseInt(
+            faker.finance.amount({min: 0, max: 20000, dec: 0}),
+            10,
+          ),
+          shippingPrice: parseInt(
+            faker.finance.amount({min: 0, max: 10000, dec: 0}),
+            10,
+          ),
         };
       },
     ),

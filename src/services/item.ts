@@ -11,9 +11,12 @@ export async function fetchShopItems(): Promise<IItem[]> {
   }
 }
 
-export async function fetchShopItem(itemId: string): Promise<IItem> {
+export async function fetchShopItem(
+  itemId: string,
+  signal: AbortSignal,
+): Promise<IItem> {
   try {
-    return await client.get(`/item/${itemId}/`);
+    return await client.get(`/item/${itemId}/`, {signal});
   } catch (e) {
     console.log(e);
     throw e;
