@@ -1,6 +1,6 @@
 import {useQuery} from '@tanstack/react-query';
 
-import {fetchNotices} from 'services/notice';
+import {fetchNotices} from '@services';
 
 export default function useService() {
   const {data} = useQuery({

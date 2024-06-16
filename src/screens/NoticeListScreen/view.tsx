@@ -20,6 +20,8 @@ export default function NoticeListView({data}: NoticeListViewProps) {
         contentContainerStyle={style.NoticeListContentContainer}
         estimatedItemSize={80}
         data={data}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
         keyExtractor={function (item) {
           return item.id;
         }}
