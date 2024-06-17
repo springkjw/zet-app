@@ -7,17 +7,18 @@ import useStyle from './style';
 
 import type {NoticeListViewProps} from './type';
 
-export default function SettingView({goToPage}: NoticeListViewProps) {
+export default function SettingView({nickname, goToPage}: NoticeListViewProps) {
   const style = useStyle();
 
   return (
     <View style={style.Container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         <View style={style.UserInfoContainer}>
           <Image style={style.UserInfoImage} />
           <View style={style.UserInfoTextContainer}>
             <Text font="SEMI_T16_100">
-              김콜라<Text style={style.Opcity50}>님</Text>
+              {nickname ?? ''}
+              <Text style={style.Opcity50}>님</Text>
             </Text>
             <Text font="SEMI_T16_100" style={style.Opcity90}>
               오늘도 시원한 콜라 한 잔 하셨나요?
@@ -27,7 +28,11 @@ export default function SettingView({goToPage}: NoticeListViewProps) {
 
         <View style={style.InfoItem}>
           <Text font="SEMI_T18_100">가격 알림 설정</Text>
-          <TouchableOpacity style={style.InfoButton}>
+          <TouchableOpacity
+            onPress={function () {
+              return goToPage('notificationSetting');
+            }}
+            style={style.InfoButton}>
             <ChevronDownIcon />
           </TouchableOpacity>
         </View>

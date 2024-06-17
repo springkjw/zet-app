@@ -29,12 +29,32 @@ export function useUser() {
   );
 
   const onMutate = useCallback(
-    function ({nickname, shops, cards}: IUser) {
-      setUser({nickname, shops, cards});
-      storage.set('ZetUser', JSON.stringify({nickname, shops, cards}));
+    function ({nickname, shops, cards, notification}: IUser) {
+      setUser(function (prev) {
+        const payload: IUser = {};
+        if (nickname) {
+          payload.nickname = nickname;
+        }
+        if (shops) {
+          payload.shops = shops;
+        }
+        if (cards) {
+          payload.cards = cards;
+        }
+        if (notification) {
+          payload.notification = notification;
+        }
+        const newUser = {...prev, ...payload};
+        storage.set('ZetUser', JSON.stringify(newUser));
+        return newUser;
+      });
     },
     [setUser, storage],
   );
 
-  return {isLoggedIn, onMutate};
+  return {
+    isLoggedIn,
+    user,
+    onMutate,
+  };
 }

@@ -1,7 +1,9 @@
 export interface BaseStackParamList {
   NoticeList: {};
+  NotificationSetting: {};
 }
 
 export interface NoticeListViewProps {
-  goToPage(page: 'notice'): void;
+  nickname?: string | null;
+  goToPage(page: 'notice' | 'notificationSetting'): void;
 }

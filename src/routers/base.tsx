@@ -9,6 +9,7 @@ import {
   SettingScreen,
   NoticeListScreen,
   NoticeDetailScreen,
+  NotificationSettingScreen,
 } from '@screens';
 import {LogoImage} from '@assets';
 import {Back, HeaderRight} from '@components';
@@ -109,6 +110,20 @@ export default function BaseRouter() {
           },
           headerLeft: function () {
             return renderHeaderLeft('back', '');
+          },
+        }}
+      />
+      <Stack.Screen
+        name="NotificationSetting"
+        component={NotificationSettingScreen}
+        options={{
+          headerStyle: style.Header,
+          title: '',
+          headerRight: function () {
+            return <HeaderRight hasSetting={false} />;
+          },
+          headerLeft: function () {
+            return renderHeaderLeft('back', '가격 알림 설정');
           },
         }}
       />

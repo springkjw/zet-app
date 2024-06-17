@@ -6,6 +6,12 @@ export const DEFAULT_USER: IUser = {
   nickname: null,
   shops: [],
   cards: [],
+  notification: {
+    hotDeal: true,
+    lowestPrice: true,
+    priceChange: true,
+    night: true,
+  },
 };
 
 export const userState = atom({
