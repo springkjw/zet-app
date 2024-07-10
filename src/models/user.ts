@@ -9,6 +9,7 @@ export interface INotification {
 
 export interface IUser {
   nickname?: string | null;
+  isFinished?: boolean;
   shops?: IBrand[];
   cards?: IBrand[];
   notification?: INotification;

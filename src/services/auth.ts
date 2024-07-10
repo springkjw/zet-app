@@ -23,7 +23,7 @@ export function useUser() {
   const isLoggedIn = useMemo(
     function () {
       const localUser = storage.getString('ZetUser');
-      return !!localUser || !!user.nickname;
+      return (!!localUser || !!user.nickname) && !!user.isFinished;
     },
     [user, storage],
   );

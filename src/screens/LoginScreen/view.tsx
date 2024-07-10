@@ -1,5 +1,5 @@
 import {TextInput, View} from 'react-native';
-import {useRef, useLayoutEffect} from 'react';
+import {useRef, useLayoutEffect, useMemo} from 'react';
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
@@ -7,7 +7,8 @@ import Animated, {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {Button, Text, Brand} from '@components';
-import {WHITE, GRAY_100, GRAY_600} from '@assets';
+import {WHITE, GRAY_100, GRAY_500, GRAY_600} from '@assets';
+import {useUser} from '@services';
 import useStyle from './style';
 
 import type {LoginViewProps} from './type';
@@ -26,10 +27,25 @@ export default function LoginView({
 }: LoginViewProps) {
   const style = useStyle();
   const insets = useSafeAreaInsets();
+  const {user} = useUser();
 
   const inputRef = useRef<TextInput>(null);
 
   const keyboard = useAnimatedKeyboard();
+
+  const disabled = useMemo(
+    function () {
+      if (step === 1) {
+        return !nickname || nickname.length === 0;
+      } else if (step === 2) {
+        return selectedShop.length === 0;
+      } else if (step === 3) {
+        return selectedCard.length === 0;
+      }
+      return false;
+    },
+    [step, nickname, selectedShop, selectedCard],
+  );
 
   useLayoutEffect(function () {
     inputRef.current?.focus();
@@ -86,7 +102,9 @@ export default function LoginView({
               님,
             </Text>
           </View>
-          <Text font="SEMI_T14_100" color={GRAY_100}>
+          <Text
+            font="SEMI_T14_100"
+            color={nickname?.length === 0 ? GRAY_500 : GRAY_100}>
             {nickname?.length ?? 0}/10
           </Text>
           <Text font="SEMI_T24_150" style={style.Description}>
@@ -99,7 +117,7 @@ export default function LoginView({
         <View style={style.StepTwoContainer}>
           <View style={style.StepTwoDescription}>
             <Text font="SEMI_T24_150">
-              복슬복슬한반달가슴곰 님,{`\n`}어떤 쇼핑몰에서{`\n`}가격을
+              {user.nickname ?? '콜라'} 님,{`\n`}어떤 쇼핑몰에서{`\n`}가격을
               탐지할까요?
             </Text>
           </View>
@@ -163,7 +181,11 @@ export default function LoginView({
       )}
 
       <Animated.View style={[stepOneButtonStyle, style.ButtonContainer]}>
-        <Button onPress={onNext} label={step === 1 ? '다음' : '계속하기'} />
+        <Button
+          onPress={onNext}
+          label={step === 1 ? '다음' : '계속하기'}
+          disabled={disabled}
+        />
       </Animated.View>
     </View>
   );

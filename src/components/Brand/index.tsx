@@ -17,8 +17,8 @@ export default function Brand({
   style,
 }: BrandProps) {
   const innerStyle = useStyle({
-    background: data?.backgroundColor || GRAY_500,
-    border: data?.borderColor || GRAY_500,
+    background: data?.backgroundColor || '#2C2C2C',
+    border: data?.borderColor || '#393939',
     size,
   });
 

@@ -1,5 +1,5 @@
 import {useCallback} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import {useUser} from '@services';
 import SettingView from './view';
@@ -9,7 +9,8 @@ import type {BaseStackParamList} from './type';
 
 export default function SettingScreen() {
   const {user, onLogout} = useUser();
-  const {navigate} = useNavigation<StackNavigationProp<BaseStackParamList>>();
+  const {dispatch, navigate} =
+    useNavigation<StackNavigationProp<BaseStackParamList>>();
 
   const goToPage = useCallback(
     function (page: 'notice' | 'notificationSetting') {
@@ -28,8 +29,14 @@ export default function SettingScreen() {
   const onWithdraw = useCallback(
     function () {
       onLogout();
+      dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: 'AuthRouter'}],
+        }),
+      );
     },
-    [onLogout],
+    [onLogout, dispatch],
   );
 
   return (

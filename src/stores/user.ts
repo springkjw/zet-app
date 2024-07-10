@@ -4,6 +4,7 @@ import type {IUser} from '@models';
 
 export const DEFAULT_USER: IUser = {
   nickname: null,
+  isFinished: false,
   shops: [],
   cards: [],
   notification: {

@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {BLACK, WHITE} from '@assets';
+import {GRAY_800, WHITE} from '@assets';
 
 export default function useStyle() {
   const {width} = useWindowDimensions();
@@ -12,7 +12,7 @@ export default function useStyle() {
     function () {
       return StyleSheet.create({
         Container: {
-          backgroundColor: BLACK,
+          backgroundColor: GRAY_800,
           flex: 1,
           paddingHorizontal: 20,
         },
@@ -34,8 +34,8 @@ export default function useStyle() {
         },
         Input: {
           height: 36,
-          minWidth: 200,
-          maxWidth: width - 40 - 28,
+          minWidth: 210,
+          maxWidth: width - 40 - 20,
           borderBottomColor: WHITE,
           borderBottomWidth: 1,
           color: WHITE,
@@ -49,7 +49,7 @@ export default function useStyle() {
         Description: {marginTop: 24},
         ButtonContainer: {},
         StepTwoContainer: {flex: 1},
-        StepTwoDescription: {paddingTop: 24, paddingBottom: 24},
+        StepTwoDescription: {paddingTop: 24, paddingBottom: 40},
         BrandContainer: {
           flexDirection: 'row',
           flexWrap: 'wrap',

@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react';
+import {useState, useCallback, useEffect} from 'react';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import {useUser} from '@services';
@@ -16,7 +16,29 @@ export default function LoginScreen() {
   const [selectedCard, setSelectedCards] = useState<IBrand[]>([]);
 
   const {shops, cards} = useService();
-  const {onMutate} = useUser();
+  const {user, onMutate} = useUser();
+
+  useEffect(
+    function () {
+      if (!!user.isFinished) {
+        dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: 'BaseRouter'}],
+          }),
+        );
+      } else {
+        if (!user.nickname) {
+          setStep(1);
+        } else if (user.shops.length === 0) {
+          setStep(2);
+        } else if (user.cards.length === 0) {
+          setStep(3);
+        }
+      }
+    },
+    [user, dispatch],
+  );
 
   const onChangeNickname = useCallback(function (value: string) {
     setNickname(value);
@@ -55,11 +77,7 @@ export default function LoginScreen() {
   const onNext = useCallback(
     function () {
       if (step === 3) {
-        onMutate({
-          nickname,
-          shops: selectedShop,
-          cards: selectedCard,
-        });
+        onMutate({cards: selectedCard});
         dispatch(
           CommonActions.reset({
             index: 0,
@@ -67,6 +85,12 @@ export default function LoginScreen() {
           }),
         );
       } else {
+        if (step === 1) {
+          onMutate({nickname});
+        } else if (step === 2) {
+          onMutate({shops: selectedShop});
+        }
+
         setStep(function (prev) {
           if (prev === 3) {
             return prev;
