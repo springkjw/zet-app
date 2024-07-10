@@ -6,3 +6,5 @@ clone_branch_directly(true)
 
 type("appstore")
 app_identifier(["shop.myzet.zet"])
+
+readonly(false)
