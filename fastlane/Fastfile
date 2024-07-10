@@ -58,31 +58,6 @@ platform :ios do
     upload_to_testflight(
       beta_app_feedback_email: Constant::DEVELOPER_EMAIL,
       beta_app_description: Constant::DEFAULT_DESCRIPTION,
-      distribute_external: true,
-      notify_external_testers: true,
-      groups: ["내부"],
-      demo_account_required: true,
-      beta_app_review_info: {
-        contact_email: Constant::DEVELOPER_EMAIL,
-        contact_first_name: Constant::DEVELOPER_FIRST_NAME,
-        contact_last_name: Constant::DEVELOPER_LAST_NAME,
-        contact_phone: Constant::DEVELOPER_PHONE,
-        demo_account_name: "test@zet.shop",
-        demo_account_password: "zet1234!"
-      },
-      localized_app_info: {
-        "default": {
-          feedback_email: Constant::DEVELOPER_EMAIL,
-          marketing_url: Constant::MARKETING_URL,
-          privacy_policy_url: Constant::PRIVACY_URL,
-          description: Constant::DEFAULT_DESCRIPTION,
-        },
-      },
-      localized_build_info: {
-        "default": {
-          whats_new: release_notes
-        },
-      },
       changelog: release_notes
     )
     commit_version_bump(message: "Version bump", xcodeproj: Constant::PROJECT)
