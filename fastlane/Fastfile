@@ -35,7 +35,7 @@ platform :ios do
 	desc "테스트플라잇에 배포"
 
   lane :certs do
-    match(readonly: true)
+    match(readonly: false)
   end
 
   private_lane :build do
