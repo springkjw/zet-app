@@ -10,16 +10,20 @@ import {
   Brand,
   PriceItem,
   PriceChart,
+  PeriodTab,
 } from '@components';
 import {
   GRAY_300,
   GRAY_500,
   GRAY_600,
   RED_500,
+  PURPLE_500,
   PURPLE_600,
   ChevronRightIcon,
   InfoIcon,
+  CokeImage,
 } from '@assets';
+import {arrayCheckIsLowestValue} from '@utils';
 import useStyle from './style';
 
 import type {ShopItemViewProps} from './type';
@@ -36,11 +40,11 @@ export default function ShopItemView({data}: ShopItemViewProps) {
   );
 
   const renderDataLabel = useCallback(
-    function (price: number, date: string) {
+    function (price: number, date: string, isLowest: boolean) {
       return (
         <View style={style.DataLabelContainer}>
           {price && (
-            <Text font="SEMI_T14_100" color={GRAY_300}>
+            <Text font="SEMI_T14_100" color={isLowest ? PURPLE_500 : GRAY_300}>
               {price.toLocaleString()}원
             </Text>
           )}
@@ -71,7 +75,16 @@ export default function ShopItemView({data}: ShopItemViewProps) {
         return {
           value: Math.max(item.value - minPrice + 1000, 0),
           labelComponent: function () {
-            return renderDataLabel(item.value ?? 0, item.date ?? '');
+            return renderDataLabel(
+              item.value ?? 0,
+              item.date ?? '',
+              arrayCheckIsLowestValue(
+                data?.stats?.map(function (item) {
+                  return item?.value ?? 0;
+                }),
+                item.value ?? 0,
+              ),
+            );
           },
           customDataPoint: renderDataPoint,
         };
@@ -84,7 +97,10 @@ export default function ShopItemView({data}: ShopItemViewProps) {
     function () {
       return (
         <>
-          <Image style={style.Image} source={data?.image} />
+          <View style={style.ImageConatiner}>
+            <Image style={style.Image} source={CokeImage} />
+            <Image style={style.Image} source={CokeImage} />
+          </View>
           <View style={style.InfoContainer}>
             <Text
               font="SEMI_T14_100"
@@ -167,27 +183,29 @@ export default function ShopItemView({data}: ShopItemViewProps) {
             <Button label="최저가로 구매하기" style={style.InfoButton} />
           </View>
 
-          <View style={style.CardBenefitContainer}>
-            <View>
-              <Text font="SEMI_T16_150">
-                신한카드, 국민카드가 있다면{'\n'}이 가격에 구입 가능해요!
-              </Text>
-              <View style={style.CardBenefitPriceContainer}>
-                <Text font="SEMI_T18_100" color={RED_500}>
-                  11,800원
+          <View style={style.CardBenefitWrapper}>
+            <View style={style.CardBenefitContainer}>
+              <View>
+                <Text font="SEMI_T16_150">
+                  신한카드, 국민카드가 있다면{'\n'}이 가격에 구입 가능해요!
                 </Text>
-                <InfoChip label="조건있음" style={style.InfoChip} />
+                <View style={style.CardBenefitPriceContainer}>
+                  <Text font="SEMI_T18_100" color={RED_500}>
+                    11,800원
+                  </Text>
+                  <InfoChip label="조건있음" style={style.InfoChip} />
+                </View>
               </View>
-            </View>
 
-            <View style={style.CardBenefitBrandContainer}>
-              <Brand
-                size={56}
-                canSelect={false}
-                hasName={false}
-                style={style.CardBenefitBrand}
-              />
-              <ChevronRightIcon />
+              <View style={style.CardBenefitBrandContainer}>
+                <Brand
+                  size={56}
+                  canSelect={false}
+                  hasName={false}
+                  style={style.CardBenefitBrand}
+                />
+                <ChevronRightIcon />
+              </View>
             </View>
           </View>
 
@@ -199,6 +217,10 @@ export default function ShopItemView({data}: ShopItemViewProps) {
                 <Text font="SEMI_T20_100" style={style.InfoTitle}>
                   최저가 그래프
                 </Text>
+
+                <View style={style.InfoPeriodTab}>
+                  <PeriodTab />
+                </View>
 
                 <PriceChart data={priceItems} />
               </View>
@@ -232,6 +254,7 @@ export default function ShopItemView({data}: ShopItemViewProps) {
   const renderFooter = useCallback(function () {
     return (
       <>
+        <View style={style.Space} />
         <View style={style.Divider} />
         <View style={style.ItemInfoContainer}>
           <Text font="SEMI_T18_100">제품정보</Text>
@@ -315,7 +338,11 @@ export default function ShopItemView({data}: ShopItemViewProps) {
         }}
         data={data?.prices.slice(0, 5) ?? []}
         renderItem={function ({item}) {
-          return <PriceItem />;
+          return (
+            <View style={style.PriceItemContainer}>
+              <PriceItem />
+            </View>
+          );
         }}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}

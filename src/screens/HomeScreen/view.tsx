@@ -1,5 +1,5 @@
 import {useCallback, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {View, TouchableOpacity, ScrollView} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,8 +7,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import {FlashList} from '@shopify/flash-list';
 
-import {ChevronDownIcon} from '@assets';
-import {ShopItem} from '@components';
+import {ChevronDownIcon, GRAY_500, GRAY_600} from '@assets';
+import {ShopItem, Text, FilterChip} from '@components';
 import useStyle from './style';
 
 import type {HomeViewProps} from './type';
@@ -20,10 +20,23 @@ export default function HomeView({data}: HomeViewProps) {
 
   const collapsableStyle = useAnimatedStyle(
     function () {
-      animatedHeight.value = expand ? withTiming(212) : withTiming(0);
+      animatedHeight.value = expand ? withTiming(222) : withTiming(0);
 
       return {
         height: animatedHeight.value,
+      };
+    },
+    [expand],
+  );
+
+  const rotateStyle = useAnimatedStyle(
+    function () {
+      return {
+        transform: [
+          {
+            rotate: `${expand ? '180deg' : '0deg'}`,
+          },
+        ],
       };
     },
     [expand],
@@ -38,134 +51,130 @@ export default function HomeView({data}: HomeViewProps) {
       return (
         <View style={style.HeaderWrapper}>
           <View style={style.Header}>
-            <Text style={style.HeaderTitle}>최저가 탐색 조건 설정</Text>
+            <Text font="SEMI_T18_100">최저가 탐색 조건 설정</Text>
 
             <TouchableOpacity onPress={onExpand} style={style.HeaderMore}>
-              <ChevronDownIcon />
+              <Animated.View style={rotateStyle}>
+                <ChevronDownIcon color={GRAY_600} />
+              </Animated.View>
             </TouchableOpacity>
           </View>
 
           <Animated.View style={[style.HeaderContent, collapsableStyle]}>
             <View style={style.HeaderContentItem}>
-              <Text style={style.HeaderContentItemTitle}>브랜드</Text>
+              <Text
+                style={style.HeaderContentItemTitle}
+                font="SEMI_T14_100"
+                color={GRAY_500}>
+                브랜드
+              </Text>
               <View style={style.HeaderContentItemOptionContainer}>
                 <ScrollView
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      코카콜라
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>펩시</Text>
-                  </TouchableOpacity>
+                  <FilterChip label="코카콜라" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="펩시" />
                 </ScrollView>
               </View>
             </View>
 
             <View style={style.HeaderContentItem}>
-              <Text style={style.HeaderContentItemTitle}>용량</Text>
+              <Text
+                style={style.HeaderContentItemTitle}
+                font="SEMI_T14_100"
+                color={GRAY_500}>
+                용량
+              </Text>
               <View style={style.HeaderContentItemOptionContainer}>
                 <ScrollView
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>190ml</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>210ml</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>315ml</Text>
-                  </TouchableOpacity>
+                  <FilterChip label="190ml" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="210ml" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="315ml" />
                 </ScrollView>
               </View>
             </View>
 
             <View style={style.HeaderContentItem}>
-              <Text style={style.HeaderContentItemTitle}>쇼핑몰</Text>
+              <Text
+                style={style.HeaderContentItemTitle}
+                font="SEMI_T14_100"
+                color={GRAY_500}>
+                쇼핑몰
+              </Text>
               <View style={style.HeaderContentItemOptionContainer}>
                 <ScrollView
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      11번가
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>G마켓</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>쿠팡</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      인터파크
-                    </Text>
-                  </TouchableOpacity>
+                  <FilterChip label="11번가" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="G마켓" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="쿠팡" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="인터파크" />
                 </ScrollView>
               </View>
             </View>
 
             <View style={style.HeaderContentItem}>
-              <Text style={style.HeaderContentItemTitle}>할인율</Text>
+              <Text
+                style={style.HeaderContentItemTitle}
+                font="SEMI_T14_100"
+                color={GRAY_500}>
+                할인율
+              </Text>
               <View style={style.HeaderContentItemOptionContainer}>
                 <ScrollView
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      역대 최저가
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      역대 할인가
-                    </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>
-                      할인가
-                    </Text>
-                  </TouchableOpacity>
+                  <FilterChip label="역대 최저가" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="역대 할인가" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="할인가" />
                 </ScrollView>
               </View>
             </View>
 
             <View
               style={[style.HeaderContentItem, style.HeaderContentLastItem]}>
-              <Text style={style.HeaderContentItemTitle}>카드 혜택</Text>
+              <Text
+                style={style.HeaderContentItemTitle}
+                font="SEMI_T14_100"
+                color={GRAY_500}>
+                카드 혜택
+              </Text>
               <View style={style.HeaderContentItemOptionContainer}>
                 <ScrollView
                   horizontal
                   bounces={false}
                   showsHorizontalScrollIndicator={false}>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>신한</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>국민</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>하나</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={style.HeaderContentItemOption}>
-                    <Text style={style.HeaderContentItemOptionText}>현대</Text>
-                  </TouchableOpacity>
+                  <FilterChip label="신한" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="국민" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="하나" />
+                  <View style={style.FilterSepartor} />
+                  <FilterChip label="현대" />
                 </ScrollView>
               </View>
             </View>
           </Animated.View>
 
-          <Text style={style.HeaderDescription}>
-            *100ml당 가격이 낮은 순으로 소개해 드려요.
-          </Text>
+          <View style={style.HeaderDescriptionContainer}>
+            <Text style={style.HeaderDescription}>
+              *100ml당 가격이 낮은 순으로 소개해 드려요.
+            </Text>
+          </View>
         </View>
       );
     },

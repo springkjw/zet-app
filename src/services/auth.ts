@@ -2,7 +2,7 @@ import {useRecoilState} from 'recoil';
 import {useEffect, useCallback, useMemo} from 'react';
 import {useMMKV} from 'react-native-mmkv';
 
-import {userState} from '@stores';
+import {userState, DEFAULT_USER} from '@stores';
 
 import type {IUser} from '@models';
 
@@ -52,9 +52,18 @@ export function useUser() {
     [setUser, storage],
   );
 
+  const onLogout = useCallback(
+    function () {
+      storage.delete('ZetUser');
+      setUser(DEFAULT_USER);
+    },
+    [setUser],
+  );
+
   return {
     isLoggedIn,
     user,
     onMutate,
+    onLogout,
   };
 }

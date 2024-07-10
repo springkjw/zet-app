@@ -1,0 +1,8 @@
+storage_mode("git")
+git_url("https://github.com/springkjw/zet-app")
+git_basic_authorization("c3ByaW5na2p3OmdocF9sUkEybUVxQlQyVVhLd21JTTJ4czFoVlN3cDhoTHMzRUY1UkM=")
+git_branch("main")
+clone_branch_directly(true)
+
+type("appstore")
+app_identifier(["shop.myzet.zet"])

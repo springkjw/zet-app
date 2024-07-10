@@ -8,7 +8,7 @@ import type {StackNavigationProp} from '@react-navigation/stack';
 import type {BaseStackParamList} from './type';
 
 export default function SettingScreen() {
-  const {user} = useUser();
+  const {user, onLogout} = useUser();
   const {navigate} = useNavigation<StackNavigationProp<BaseStackParamList>>();
 
   const goToPage = useCallback(
@@ -25,5 +25,18 @@ export default function SettingScreen() {
     [navigate],
   );
 
-  return <SettingView nickname={user.nickname} goToPage={goToPage} />;
+  const onWithdraw = useCallback(
+    function () {
+      onLogout();
+    },
+    [onLogout],
+  );
+
+  return (
+    <SettingView
+      nickname={user.nickname}
+      goToPage={goToPage}
+      onWithdraw={onWithdraw}
+    />
+  );
 }

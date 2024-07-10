@@ -53,7 +53,7 @@ export default function useStyle() {
         },
         Tip: {
           backgroundColor: 'rgba(243, 78, 75, 0.12)',
-          height: 20,
+          height: 24,
           borderRadius: 4,
           justifyContent: 'center',
           alignItems: 'center',

@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {StyleSheet, useWindowDimensions} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {GRAY_800, GRAY_500, WHITE} from '@assets';
+import {GRAY_700, GRAY_800, GRAY_500, GRAY_900, WHITE} from '@assets';
 import {convertToRGBA} from '@utils';
 
 export default function useStyle() {
@@ -20,25 +20,29 @@ export default function useStyle() {
         HeaderWrapper: {},
         Header: {
           height: 64,
+          paddingTop: 16,
           paddingLeft: 20,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
         },
         HeaderContent: {
-          borderColor: '#2D2D2D',
-          borderBottomWidth: 1,
+          borderColor: GRAY_900,
+          borderBottomWidth: 8,
           overflow: 'hidden',
         },
-        HeaderTitle: {
-          color: WHITE,
-          fontSize: 18,
-          fontWeight: 'bold',
+        HeaderDescriptionContainer: {
+          borderWidth: 1,
+          borderRadius: 100,
+          height: 34,
+          paddingHorizontal: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          borderColor: GRAY_700,
+          marginHorizontal: 20,
+          marginVertical: 16,
         },
         HeaderDescription: {
-          paddingHorizontal: 20,
-          paddingTop: 20,
-          paddingBottom: 20,
           color: GRAY_500,
           fontSize: 14,
           fontWeight: '400',
@@ -56,29 +60,16 @@ export default function useStyle() {
           paddingLeft: 20,
           width,
           height: 40,
+          paddingTop: 8,
         },
         HeaderContentLastItem: {
           height: 52,
-          paddingBottom: 12,
+          paddingBottom: 20,
         },
-        HeaderContentItemTitle: {
-          width: 70,
-          fontSize: 16,
-          color: WHITE,
-          fontWeight: '700',
-        },
+        HeaderContentItemTitle: {width: 70},
         HeaderContentItemOptionContainer: {
           flex: 1,
-        },
-        HeaderContentItemOption: {
-          height: 40,
-          justifyContent: 'center',
-          paddingHorizontal: 8,
-        },
-        HeaderContentItemOptionText: {
-          color: convertToRGBA(WHITE, 0.4),
-          fontSize: 16,
-          fontWeight: '400',
+          height: 28,
         },
         ListContent: {
           paddingBottom: insets.bottom + 20,
@@ -86,6 +77,7 @@ export default function useStyle() {
         Separator: {
           height: 12,
         },
+        FilterSepartor: {width: 6, height: 26},
       });
     },
     [insets, width],

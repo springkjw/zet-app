@@ -1,0 +1,95 @@
+fastlane_version '2.219.0'
+
+module Constant
+  DEVELOPER_EMAIL = "springkjw@gmail.com"
+  DEVELOPER_FIRST_NAME = "재원"
+  DEVELOPER_LAST_NAME = "권"
+  DEVELOPER_PHONE = "+82-10-5450-7196"
+
+  PROJECT = "./ios/zet.xcodeproj"
+  DEFAULT_DESCRIPTION = "ZET 앱을 사용해주셔서 감사합니다"
+  MARKETING_URL = "https://zet.shop"
+  PRIVACY_URL = "https://zet.shop/privacy"
+end
+
+def get_build()
+  return get_build_number(xcodeproj: Constant::PROJECT)
+end
+
+def get_commit_log()
+  current_build = get_build()
+  log = """
+#{current_build} 버전이 배포되었습니다.
+문제가 있으면 편하게 연락주세요.
+"""
+  return log
+end
+
+before_all do
+  ensure_git_branch(branch: 'main')
+  ensure_git_status_clean
+  git_pull
+end
+
+platform :ios do
+	desc "테스트플라잇에 배포"
+
+  lane :certs do
+    match(readonly: true)
+  end
+
+  private_lane :build do
+    app_store_connect_api_key(
+      key_id: "M7679MPJ98",
+      issuer_id: "69a6de91-822a-47e3-e053-5b8c7c11a4d1",
+      key_filepath: "./certs/key/AuthKey_M7679MPJ98.p8",
+      duration: 1200,
+      in_house: false
+    )
+
+    certs
+    increment_build_number(xcodeproj: Constant::PROJECT)
+    build_app(scheme: 'zet', workspace: './ios/zet.xcworkspace', configuration: 'Release')
+  end
+
+  lane :distribute do
+    build
+    release_notes = get_commit_log()
+    upload_to_testflight(
+      beta_app_feedback_email: Constant::DEVELOPER_EMAIL,
+      beta_app_description: Constant::DEFAULT_DESCRIPTION,
+      distribute_external: true,
+      notify_external_testers: true,
+      groups: ["내부"],
+      demo_account_required: true,
+      beta_app_review_info: {
+        contact_email: Constant::DEVELOPER_EMAIL,
+        contact_first_name: Constant::DEVELOPER_FIRST_NAME,
+        contact_last_name: Constant::DEVELOPER_LAST_NAME,
+        contact_phone: Constant::DEVELOPER_PHONE,
+        demo_account_name: "test@zet.shop",
+        demo_account_password: "zet1234!"
+      },
+      localized_app_info: {
+        "default": {
+          feedback_email: Constant::DEVELOPER_EMAIL,
+          marketing_url: Constant::MARKETING_URL,
+          privacy_policy_url: Constant::PRIVACY_URL,
+          description: Constant::DEFAULT_DESCRIPTION,
+        },
+      },
+      localized_build_info: {
+        "default": {
+          whats_new: release_notes
+        },
+      },
+      changelog: release_notes
+    )
+    commit_version_bump(message: "Version bump", xcodeproj: Constant::PROJECT)
+    push_to_git_remote
+  end
+end
+
+platform :android do
+  # Android Lanes
+end

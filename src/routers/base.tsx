@@ -65,9 +65,13 @@ export default function BaseRouter() {
         component={ShopItemScreen}
         options={{
           headerStyle: style.Header,
+          headerTransparent: true,
           title: '',
           headerLeft: function () {
             return renderHeaderLeft('back', '');
+          },
+          headerRight: function () {
+            return <HeaderRight />;
           },
         }}
       />

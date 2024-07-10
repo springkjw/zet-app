@@ -1,5 +1,6 @@
 export const WHITE = '#FFFFFF';
 export const BLACK = '#0E0D0D';
+export const TRANSPARENT = 'transparent';
 
 export const GRAY_100 = '#D9D9D9';
 export const GRAY_200 = '#E4E3E3';
@@ -27,8 +28,8 @@ export const RED_100 = '#FFDEDE';
 export const RED_200 = '#FFBBBA';
 export const RED_300 = '#FF9D9C';
 export const RED_400 = '#F34E4B';
-export const RED_500 = '#EE2D2B';
-export const RED_600 = '#E91613';
+export const RED_500 = '#F34E4B';
+export const RED_600 = '#EE2D2B';
 export const RED_700 = '#DF1A17';
 export const RED_800 = '#CD110E';
 export const RED_900 = '#C4100E';

@@ -6,4 +6,5 @@ export interface BaseStackParamList {
 export interface NoticeListViewProps {
   nickname?: string | null;
   goToPage(page: 'notice' | 'notificationSetting'): void;
+  onWithdraw(): void;
 }

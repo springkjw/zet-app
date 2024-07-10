@@ -2,7 +2,7 @@ import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {GRAY_800, WHITE} from '@assets';
+import {GRAY_800, TRANSPARENT, WHITE} from '@assets';
 
 export function useRootStyle() {
   const insets = useSafeAreaInsets();

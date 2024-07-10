@@ -1,7 +1,7 @@
 import {useMemo} from 'react';
 import {StyleSheet} from 'react-native';
 
-import {GRAY_800, WHITE} from '@assets';
+import {GRAY_500, GRAY_800, WHITE} from '@assets';
 
 export default function useStyle() {
   return useMemo(function () {
@@ -42,6 +42,41 @@ export default function useStyle() {
         height: 64,
         justifyContent: 'center',
         alignItems: 'center',
+      },
+      WithdrawWrapper: {marginHorizontal: 20},
+      WithdrawContaienr: {},
+      WithdrawBackground: {
+        backgroundColor: '#262525',
+        height: 254,
+        padding: 20,
+        borderRadius: 16,
+      },
+      WithdrawContentContainer: {
+        flex: 1,
+        marginTop: 44,
+        height: 254,
+        borderRadius: 16,
+        padding: 20,
+      },
+      WithdrawDescription: {
+        paddingVertical: 16,
+      },
+      WithdrawActionContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        marginTop: 12,
+      },
+      WithdrawButton: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 48,
+        borderRadius: 12,
+        backgroundColor: GRAY_500,
+      },
+      WithdrawButtonSubmit: {
+        backgroundColor: '#E6E6E6',
       },
     });
   }, []);
