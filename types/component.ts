@@ -6,3 +6,11 @@ export interface IOptions {
   label: string;
   value: number;
 }
+
+export enum ItemChipType {
+  DEFAULT = "default",
+  ZET_PICK = "zet_pick",
+  PRICE = "price",
+  LARGE = "large",
+  MEDIUM = "medium",
+}
