@@ -1,15 +1,16 @@
 import { TouchableOpacity } from "react-native";
 
 import { BaseText } from "@/components/Text";
-
 import { useStyle } from "./style";
 
-export default function FilterChip({ label, value }) {
+import type IFilterChipProps from "./type";
+
+export default function FilterChip({ label, value }: IFilterChipProps) {
   const innerStyle = useStyle();
 
   return (
     <TouchableOpacity style={[innerStyle.FilterChip]}>
-      <BaseText>{label}</BaseText>
+      <BaseText style={innerStyle.FilterChipText}>{label}</BaseText>
     </TouchableOpacity>
   );
 }

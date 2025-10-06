@@ -7,7 +7,7 @@ export default function useStyle() {
 
   return StyleSheet.create({
     HomeFilter: {
-      ...padding({ top: 4, bottom: 20, left: 20 }),
+      ...padding({ top: 4, left: 20 }),
     },
     HomeFilterHeaderContainer: {
       ...size({ height: 60 }),
@@ -18,10 +18,39 @@ export default function useStyle() {
       ...size({ width: 40, height: 60 }),
       ...flex({ justify: "center", align: "center" }),
     },
-    HomeFilterContainer: {},
-    HomeFilterItem: {},
-    HomeFilterItemLabel: {
-      ...size({ width: 65 }),
+    HomeFilterContainer: {
+      ...size({ width: "100%" }),
+      ...flex({
+        direction: "column",
+        justify: "flex-start",
+        align: "flex-start",
+        gap: 14,
+      }),
     },
+    HomeFilterItem: {
+      ...flex({
+        direction: "row",
+        justify: "flex-start",
+        align: "center",
+        gap: 16,
+      }),
+      ...size({ width: "100%" }),
+    },
+    HomeFilterItemLabelContainer: {
+      ...flex({
+        direction: "row",
+        justify: "flex-start",
+        align: "center",
+        gap: 6,
+        flex: 1,
+      }),
+    },
+    HomeFilterItemLabel: {
+      ...size({ width: 50 }),
+    },
+    HomeFilterItemSeparator: {
+      ...size({ width: 6 }),
+    },
+    HomeFilterListContainer: {},
   });
 }

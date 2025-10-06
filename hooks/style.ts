@@ -1,3 +1,4 @@
+import { useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors } from "@/assets";
@@ -170,4 +171,4 @@ export function useBaseStyle() {
   return { layout, size, flex, margin, padding, border, font, position };
 }
 
-export { useSafeAreaInsets };
+export { useSafeAreaInsets, useWindowDimensions };
