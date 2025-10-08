@@ -1,4 +1,6 @@
 import type { TSize, TVariant } from "@/types";
+import type { ReactNode } from "react";
+import type { StyleProp, TextStyle, ViewStyle } from "react-native";
 
 export interface IBaseButtonProps {
   label?: string;
@@ -7,6 +9,10 @@ export interface IBaseButtonProps {
   disabled?: boolean;
   variant?: TVariant;
   size?: TSize;
+  onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+  children?: ReactNode;
 }
 
 export interface IBaseButtonStyle {

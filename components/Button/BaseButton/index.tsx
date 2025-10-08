@@ -13,6 +13,10 @@ export default function BaseButton({
   disabled = false,
   variant = "primary",
   size = "large",
+  onPress,
+  style,
+  labelStyle,
+  children,
 }: IBaseButtonProps) {
   const [pressed, setPressed] = useState<boolean>(false);
 
@@ -29,16 +33,18 @@ export default function BaseButton({
 
   return (
     <Pressable
-      style={[innerStyle.BaseButton]}
+      style={[innerStyle.BaseButton, style]}
       disabled={disabled}
+      onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}
     >
       {label && (
-        <BaseText weight="semibold" color={textStyle.color}>
+        <BaseText weight="semibold" color={textStyle.color} style={labelStyle}>
           {label}
         </BaseText>
       )}
+      {children}
     </Pressable>
   );
 }
