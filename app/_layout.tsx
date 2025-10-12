@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import "react-native-reanimated";
 
 import { colors } from "@/assets";
@@ -38,7 +39,7 @@ export default function RootLayout() {
   }, [restoreAuth, restoreOnboarding, setLoading]);
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack
         screenOptions={{
           contentStyle: {
@@ -51,6 +52,6 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" />
       </Stack>
       <StatusBar style="light" />
-    </>
+    </GestureHandlerRootView>
   );
 }

@@ -1,4 +1,4 @@
-export type TVariant = "primary" | "outline";
+export type TVariant = "primary" | "outline" | "warning";
 export type TSize = "small" | "medium" | "large";
 export type TFontWeight = "medium" | "semibold" | "bold";
 

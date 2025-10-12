@@ -27,6 +27,11 @@ export function useStyle({
           return colors.GRAY[700];
         }
         return colors.GRAY[800];
+      case "warning":
+        if (pressed) {
+          return colors.RED[200];
+        }
+        return colors.RED[50];
       default:
         if (pressed) {
           return colors.RED[800];
