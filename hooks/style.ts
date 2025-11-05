@@ -141,7 +141,7 @@ export function useBorderStyle() {
 }
 
 export function useFontStyle() {
-  const font = (style: IStyleFont = {}) => {
+  const font = (style: IStyleFont = {}): TextStyle => {
     const fontStyle: TextStyle = {
       fontFamily: "Pretendard",
       color: colors.GRAY[900],
@@ -167,8 +167,22 @@ export function useBaseStyle() {
   const { size, margin, padding } = useSpaceStyle();
   const { border } = useBorderStyle();
   const { font } = useFontStyle();
+  const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
-  return { layout, size, flex, margin, padding, border, font, position };
+  return {
+    layout,
+    size,
+    flex,
+    margin,
+    padding,
+    border,
+    font,
+    position,
+    width,
+    height,
+    insets,
+  };
 }
 
 export { useSafeAreaInsets, useWindowDimensions };
