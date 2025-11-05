@@ -1,3 +1,4 @@
+import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -7,6 +8,15 @@ import "react-native-reanimated";
 import { colors } from "@/assets";
 import { useAuthStore } from "@/stores";
 import { storage } from "@/utils";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+    shouldShowBanner: true,
+    shouldShowList: true,
+  }),
+});
 
 export default function RootLayout() {
   const { restoreAuth, restoreOnboarding, setLoading } = useAuthStore();

@@ -51,7 +51,7 @@ export function useStyle({
       case "medium":
         return 48;
       default:
-        return 64;
+        return 56;
     }
   }, [height, buttonSize]);
 
