@@ -3,6 +3,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 import "react-native-reanimated";
 
 import { colors } from "@/assets";
@@ -50,17 +51,19 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Stack
-        screenOptions={{
-          contentStyle: {
-            backgroundColor: colors.GRAY[800],
-          },
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" />
-      </Stack>
+      <KeyboardProvider>
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: colors.GRAY[800],
+            },
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+        </Stack>
+      </KeyboardProvider>
       <StatusBar style="light" />
     </GestureHandlerRootView>
   );

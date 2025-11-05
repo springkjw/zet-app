@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { TextInput, View } from "react-native";
 
 import { BaseText } from "@/components/Text";
@@ -5,6 +6,7 @@ import useStyle from "./style";
 
 export default function OnboardingNicknameForm() {
   const style = useStyle();
+  const [nickname, setNickname] = useState("");
 
   return (
     <View style={style.OnboardingNicknameFormContainer}>
@@ -16,12 +18,16 @@ export default function OnboardingNicknameForm() {
                 style={style.OnboardingNicknameFormInput}
                 numberOfLines={1}
                 maxLength={10}
+                autoFocus={true}
+                value={nickname}
+                onChangeText={setNickname}
+                placeholder=""
               />
             </View>
             <BaseText style={style.OnboardingNicknameFormLabel}>님,</BaseText>
           </View>
           <BaseText style={style.OnboardingNicknameFormCountText}>
-            0/10
+            {nickname.length}/10
           </BaseText>
         </View>
         <View>

@@ -1,12 +1,17 @@
 import { useRouter } from "expo-router";
 import { View } from "react-native";
+import {
+  KeyboardAwareScrollView,
+  KeyboardStickyView,
+} from "react-native-keyboard-controller";
 
+import { colors } from "@/assets";
 import { BaseButton, OnboardingNicknameForm } from "@/components";
 import { useBaseStyle } from "@/hooks";
 import { useAuthStore } from "@/stores";
 
 export default function OnboardScreen() {
-  const { layout, flex, size, padding, width, insets } = useBaseStyle();
+  const { flex, size, padding, width, insets, font } = useBaseStyle();
   const router = useRouter();
   const { setOnboarding } = useAuthStore();
 
@@ -17,22 +22,33 @@ export default function OnboardScreen() {
 
   return (
     <View style={{ ...flex({ flex: 1 }) }}>
-      <View style={{ ...flex({ flex: 1 }) }}>
-        <OnboardingNicknameForm />
-      </View>
-      <View
-        style={{
-          ...size({ height: 80 + insets.bottom }),
-          ...flex({ align: "center", justify: "center" }),
-          ...padding({ bottom: insets.bottom }),
-        }}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        bottomOffset={80 + 12 + insets.bottom}
       >
-        <BaseButton
-          label="다음"
-          onPress={handleComplete}
-          style={{ ...size({ width: width - 36 }) }}
-        />
-      </View>
+        <View style={{ ...flex({ flex: 1 }) }} />
+        <View style={{ ...flex({ flex: 10 }) }}>
+          <OnboardingNicknameForm />
+        </View>
+      </KeyboardAwareScrollView>
+      <KeyboardStickyView offset={{ closed: -12 - insets.bottom, opened: 0 }}>
+        <View
+          style={{
+            ...size({ height: 80 }),
+            ...flex({ align: "center", justify: "center" }),
+            ...padding({ vertical: 12 }),
+          }}
+        >
+          <BaseButton
+            label="다음"
+            onPress={handleComplete}
+            labelStyle={{
+              ...font({ size: 16, weight: 700, color: colors.COMMON[100] }),
+            }}
+            style={{ ...size({ width: width - 36 }) }}
+          />
+        </View>
+      </KeyboardStickyView>
     </View>
   );
 }
