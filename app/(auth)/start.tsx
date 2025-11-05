@@ -3,13 +3,14 @@ import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 
 import { StartImage, colors } from "@/assets";
-import { BaseButton, BaseText, ConfirmModal } from "@/components";
+import { BaseButton, BaseText, ConfirmModal, PermissionModal } from "@/components";
 import {
   useBaseStyle,
   useModal,
   useSafeAreaInsets,
   useWindowDimensions,
 } from "@/hooks";
+import { checkNotificationPermission, requestNotificationPermission } from "@/hooks/notification";
 import { useAuthStore } from "@/stores";
 
 export default function StartScreen() {
@@ -20,11 +21,18 @@ export default function StartScreen() {
   const router = useRouter();
   const { setOnboarding } = useAuthStore();
   const { isConfirm, onConfirm } = useModal();
+  const { isConfirm: isPermissionModalVisible, onConfirm: setPermissionModalVisible } = useModal();
 
-  // const handleStart = async () => {
-  //   await setOnboarding({ hasAgreedToTerms: true });
-  //   router.push("/(auth)/onboard");
-  // };
+  const handleStart = async () => {
+    const permissionStatus = await checkNotificationPermission();
+
+    if (permissionStatus === "granted") {
+      await setOnboarding({ hasAgreedToTerms: true });
+      router.push("/(auth)/onboard");
+    } else {
+      onConfirm(true);
+    }
+  };
 
   return (
     <View
@@ -109,23 +117,46 @@ export default function StartScreen() {
             label="ZET와 최저가 탐색 시작하기"
             style={{ ...size({ width: width - 36, height: 62 }) }}
             labelStyle={{ ...font({ color: colors.COMMON[100], size: 18 }) }}
-            onPress={() => onConfirm(true)}
+            onPress={handleStart}
           />
         </View>
       </View>
 
       <ConfirmModal
         cancelLabel="괜찮아요"
-        confirmLabel="알림받기"
+        confirmLabel="알림 받기"
         isConfirm={isConfirm}
-        onChange={(value) => {
-          onConfirm(value);
+        onChange={async (value) => {
+          if (value) {
+            const granted = await requestNotificationPermission();
+            if (granted) {
+              onConfirm(false);
+              setOnboarding({ hasAgreedToTerms: true });
+              router.push("/(auth)/onboard");
+            } else {
+              onConfirm(false);
+              setPermissionModalVisible(true);
+            }
+          } else {
+            onConfirm(false);
+            setOnboarding({ hasAgreedToTerms: true });
+            router.push("/(auth)/onboard");
+          }
         }}
       >
         <BaseText size={16} weight="semibold" color={colors.COMMON[100]}>
           최저가 정보를 놓치지 않고 받아보려면{`\n`}알림 수신 동의가 필요해요.
         </BaseText>
       </ConfirmModal>
+
+      <PermissionModal
+        isVisible={isPermissionModalVisible}
+        onClose={() => setPermissionModalVisible(false)}
+      >
+        <BaseText size={16} weight="semibold" color={colors.COMMON[100]}>
+          알림 권한이 거부되어 있어요.{`\n`}설정에서 알림을 허용해주세요.
+        </BaseText>
+      </PermissionModal>
     </View>
   );
 }
