@@ -3,14 +3,22 @@ import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 
 import { StartImage, colors } from "@/assets";
-import { BaseButton, BaseText, ConfirmModal, PermissionModal } from "@/components";
+import {
+  BaseButton,
+  BaseText,
+  ConfirmModal,
+  PermissionModal,
+} from "@/components";
 import {
   useBaseStyle,
   useModal,
   useSafeAreaInsets,
   useWindowDimensions,
 } from "@/hooks";
-import { checkNotificationPermission, requestNotificationPermission } from "@/hooks/notification";
+import {
+  checkNotificationPermission,
+  requestNotificationPermission,
+} from "@/hooks/notification";
 import { useAuthStore } from "@/stores";
 
 export default function StartScreen() {
@@ -21,7 +29,10 @@ export default function StartScreen() {
   const router = useRouter();
   const { setOnboarding } = useAuthStore();
   const { isConfirm, onConfirm } = useModal();
-  const { isConfirm: isPermissionModalVisible, onConfirm: setPermissionModalVisible } = useModal();
+  const {
+    isConfirm: isPermissionModalVisible,
+    onConfirm: setPermissionModalVisible,
+  } = useModal();
 
   const handleStart = async () => {
     const permissionStatus = await checkNotificationPermission();
@@ -116,7 +127,9 @@ export default function StartScreen() {
           <BaseButton
             label="ZET와 최저가 탐색 시작하기"
             style={{ ...size({ width: width - 36, height: 62 }) }}
-            labelStyle={{ ...font({ color: colors.COMMON[100], size: 18 }) }}
+            labelStyle={{
+              ...font({ color: colors.COMMON[100], size: 18, weight: 600 }),
+            }}
             onPress={handleStart}
           />
         </View>

@@ -11,7 +11,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.geniusproject.zet",
-      "usesAppleSignIn": true
+      "usesAppleSignIn": true,
+      "scheme": "zet",
+      "appleTeamId": "ZMP384EB88"
     },
     "android": {
       "adaptiveIcon": {
@@ -110,7 +112,13 @@
           "color": "#1E1E1E"
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-dev-client",
+        {
+          "launchMode": "most-recent"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
