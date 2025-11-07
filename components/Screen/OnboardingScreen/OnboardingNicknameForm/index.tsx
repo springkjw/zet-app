@@ -1,3 +1,8 @@
+/**
+ * @description 온보딩 닉네임 폼 컴포넌트
+ * @author 권재원
+ * @since 2025-11-07
+ */
 import { useState } from "react";
 import { TextInput, View } from "react-native";
 

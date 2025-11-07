@@ -50,7 +50,7 @@ export default function useStyle() {
         color: colors.COMMON[100],
         weight: 600,
         height: 28,
-        spacing: -0.48,
+        spacing: 1.5,
       }),
     },
     OnboardingNicknameFormCountText: {
