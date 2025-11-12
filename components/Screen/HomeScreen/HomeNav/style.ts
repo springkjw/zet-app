@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ImageStyle, StyleSheet } from "react-native";
 
 import { useBaseStyle, useSafeAreaInsets } from "@/hooks";
 
@@ -22,7 +22,7 @@ export default function useStyle() {
       ...size({ width: 40, height: 40 }),
     },
     HomeNavLogo: {
-      ...size({ width: 40, height: 40 }),
+      ...size<ImageStyle>({ width: 40, height: 40 }),
     },
     HomeNavButtonContainer: {
       ...size({ height: 56 }),
