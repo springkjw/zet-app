@@ -45,10 +45,11 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     }),
 
   loginWithSocial: async (provider, user, tokens) => {
-    await storage.saveUser({ ...user, provider });
+    const userWithProvider = { ...user, provider };
+    await storage.saveUser(userWithProvider);
     await storage.saveTokens(tokens);
     set({
-      user: { ...user, provider },
+      user: userWithProvider,
       tokens,
       isGuest: false,
       isAuthenticated: true,

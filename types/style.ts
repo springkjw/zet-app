@@ -3,6 +3,8 @@ import type { DimensionValue } from "react-native";
 export interface IStyleLayout {
   color?: string;
   index?: number;
+  opacity?: number;
+  overflow?: "visible" | "hidden" | "scroll";
 }
 
 export interface IStyleSize {
