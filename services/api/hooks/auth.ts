@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { guestStorage } from "@/utils";
 import { apiClient } from "../client";
 import {
   LoginRequestSchema,
@@ -7,6 +8,8 @@ import {
   RefreshTokenResponseSchema,
   UpdatePreferredShopsRequestSchema,
   UpdatePreferredShopsResponseSchema,
+  UpdateProfileRequestSchema,
+  UpdateProfileResponseSchema,
   UserSchema,
   type ILoginRequest,
   type ILoginResponse,
@@ -14,6 +17,8 @@ import {
   type IRefreshTokenResponse,
   type IUpdatePreferredShopsRequest,
   type IUpdatePreferredShopsResponse,
+  type IUpdateProfileRequest,
+  type IUpdateProfileResponse,
   type IUser,
 } from "../schemas/auth.schema";
 
@@ -24,6 +29,8 @@ export const authKeys = {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
+  const { mutate: updateProfile } = useUpdateProfile();
+  const { mutate: updatePreferredShops } = useUpdatePreferredShops();
 
   return useMutation<ILoginResponse, Error, ILoginRequest>({
     mutationFn: async (credentials) => {
@@ -34,8 +41,20 @@ export const useLogin = () => {
       );
       return LoginResponseSchema.parse(response);
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       apiClient.setAuthToken(data.tokens.accessToken);
+
+      if (data.isNewUser) {
+        const guestProfile = await guestStorage.get();
+        if (guestProfile) {
+          updateProfile({ nickname: guestProfile.nickname });
+          updatePreferredShops({ shopIds: guestProfile.preferredShopIds });
+          await guestStorage.clear();
+        }
+      } else {
+        await guestStorage.clear();
+      }
+
       queryClient.setQueryData(authKeys.me(), data.user);
     },
   });
@@ -98,6 +117,24 @@ export const useUpdatePreferredShops = () => {
         validatedRequest
       );
       return UpdatePreferredShopsResponseSchema.parse(response);
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(authKeys.me(), data.user);
+    },
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation<IUpdateProfileResponse, Error, IUpdateProfileRequest>({
+    mutationFn: async (request) => {
+      const validatedRequest = UpdateProfileRequestSchema.parse(request);
+      const response = await apiClient.patch<IUpdateProfileResponse>(
+        "/auth/me",
+        validatedRequest
+      );
+      return UpdateProfileResponseSchema.parse(response);
     },
     onSuccess: (data) => {
       queryClient.setQueryData(authKeys.me(), data.user);

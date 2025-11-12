@@ -20,8 +20,15 @@ export const authHandlers = [
         );
       }
 
+      const isNewUser = Math.random() > 0.5;
+
       const response = generateLoginResponse({
         user: MOCK_USERS.defaultUser,
+        isNewUser,
+        onboarding: {
+          hasAgreedToTerms: true,
+          hasCompletedOnboarding: !isNewUser,
+        },
       });
 
       return HttpResponse.json(response, { status: 200 });
@@ -109,4 +116,36 @@ export const authHandlers = [
       }
     }
   ),
+
+  http.patch(`${API_CONFIG.BASE_URL}/auth/me`, async ({ request }) => {
+    await delay(300);
+
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    try {
+      const body = await request.json();
+
+      if (!body || typeof body !== 'object' || !('nickname' in body)) {
+        return HttpResponse.json(
+          { error: 'Invalid request body' },
+          { status: 400 }
+        );
+      }
+
+      const updatedUser = {
+        ...MOCK_USERS.defaultUser,
+        nickname: body.nickname,
+      };
+
+      return HttpResponse.json({ user: updatedUser }, { status: 200 });
+    } catch (error) {
+      return HttpResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      );
+    }
+  }),
 ];

@@ -1,10 +1,11 @@
 import { create } from "zustand";
 
-import { storage } from "@/utils";
+import { storage, guestStorage } from "@/utils";
 
 import type {
   IAuthState,
   IAuthTokens,
+  IGuestProfile,
   IOnboardingState,
   IUser,
   TSocialProvider,
@@ -22,6 +23,10 @@ interface IAuthStore extends IAuthState {
   restoreAuth: (user: IUser, tokens: IAuthTokens) => void;
   setOnboarding: (state: Partial<IOnboardingState>) => void;
   restoreOnboarding: (state: IOnboardingState) => void;
+  setGuestProfile: (nickname: string, shopIds: string[]) => Promise<void>;
+  getGuestProfile: () => Promise<IGuestProfile | null>;
+  clearGuestProfile: () => Promise<void>;
+  hasGuestProfile: () => Promise<boolean>;
 }
 
 export const useAuthStore = create<IAuthStore>((set) => ({
@@ -45,11 +50,10 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     }),
 
   loginWithSocial: async (provider, user, tokens) => {
-    const userWithProvider = { ...user, provider };
-    await storage.saveUser(userWithProvider);
+    await storage.saveUser(user);
     await storage.saveTokens(tokens);
     set({
-      user: userWithProvider,
+      user,
       tokens,
       isGuest: false,
       isAuthenticated: true,
@@ -91,4 +95,20 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     set({
       onboarding: state,
     }),
+
+  setGuestProfile: async (nickname, shopIds) => {
+    await guestStorage.save({ nickname, preferredShopIds: shopIds });
+  },
+
+  getGuestProfile: async () => {
+    return await guestStorage.get();
+  },
+
+  clearGuestProfile: async () => {
+    await guestStorage.clear();
+  },
+
+  hasGuestProfile: async () => {
+    return await guestStorage.has();
+  },
 }));

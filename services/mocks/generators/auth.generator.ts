@@ -18,9 +18,8 @@ fakerKO.seed(123);
 export const generateUser = (): IUser => {
   const mockUser = generateMock(UserSchema, {
     stringMap: {
-      email: () => fakerKO.internet.email(),
-      name: () => fakerKO.person.fullName(),
-      profileImage: () => fakerKO.image.avatar(),
+      nickname: () => fakerKO.person.firstName(),
+      createdAt: () => fakerKO.date.past().toISOString(),
     },
   });
 
@@ -51,6 +50,7 @@ export const generateLoginResponse = (
     tokens: overrides?.tokens ?? generateAuthTokens(),
     onboarding:
       overrides?.onboarding ?? generateOnboardingState({ hasAgreedToTerms: true }),
+    isNewUser: overrides?.isNewUser ?? false,
   };
 };
 
@@ -62,10 +62,6 @@ export const generateRefreshTokenResponse = (): IRefreshTokenResponse => {
 
 export const MOCK_USERS = {
   defaultUser: generateUser(),
-  newUser: {
-    ...generateUser(),
-    name: undefined,
-    profileImage: undefined,
-  },
+  newUser: generateUser(),
   completedOnboardingUser: generateUser(),
 };

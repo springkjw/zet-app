@@ -1,19 +1,13 @@
 import { z } from "zod";
 
-export const SocialProviderSchema = z.enum([
-  "google",
-  "apple",
-  "kakao",
-  "naver",
-]);
+export const SocialProviderSchema = z.enum(["kakao", "naver", "apple"]);
 
 export const UserSchema = z.object({
   id: z.string().uuid(),
-  email: z.string().email(),
-  name: z.string().optional(),
-  profileImage: z.string().url().optional(),
-  provider: SocialProviderSchema.optional(),
+  nickname: z.string().min(1).max(20),
+  provider: SocialProviderSchema,
   preferredShopIds: z.array(z.string().uuid()).optional(),
+  createdAt: z.string().datetime(),
 });
 
 export const AuthTokensSchema = z.object({
@@ -35,6 +29,7 @@ export const LoginResponseSchema = z.object({
   user: UserSchema,
   tokens: AuthTokensSchema,
   onboarding: OnboardingStateSchema,
+  isNewUser: z.boolean(),
 });
 
 export const RefreshTokenRequestSchema = z.object({
@@ -53,6 +48,14 @@ export const UpdatePreferredShopsResponseSchema = z.object({
   user: UserSchema,
 });
 
+export const UpdateProfileRequestSchema = z.object({
+  nickname: z.string().min(1).max(20),
+});
+
+export const UpdateProfileResponseSchema = z.object({
+  user: UserSchema,
+});
+
 export type TSocialProvider = z.infer<typeof SocialProviderSchema>;
 export type IUser = z.infer<typeof UserSchema>;
 export type IAuthTokens = z.infer<typeof AuthTokensSchema>;
@@ -67,3 +70,5 @@ export type IUpdatePreferredShopsRequest = z.infer<
 export type IUpdatePreferredShopsResponse = z.infer<
   typeof UpdatePreferredShopsResponseSchema
 >;
+export type IUpdateProfileRequest = z.infer<typeof UpdateProfileRequestSchema>;
+export type IUpdateProfileResponse = z.infer<typeof UpdateProfileResponseSchema>;
