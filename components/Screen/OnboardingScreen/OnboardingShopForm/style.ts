@@ -11,12 +11,24 @@ export default function useStyle() {
       ...size({ width }),
       ...padding({ horizontal: 20 }),
     },
+    OnboardingShopFormTitleContainer: {
+      ...padding({ top: 20, bottom: 20 }),
+    },
     OnboardingShopFormTitle: {
       ...font({
         color: colors.COMMON[100],
         size: 24,
         weight: 600,
         height: 32,
+      }),
+    },
+    OnboardingShopFormShopContainer: {
+      ...padding({ top: 14, bottom: 14 }),
+      ...flex({
+        direction: "row",
+        align: "flex-start",
+        justify: "flex-start",
+        wrap: "wrap",
       }),
     },
   });
