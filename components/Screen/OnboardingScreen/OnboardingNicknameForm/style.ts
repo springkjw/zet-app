@@ -3,7 +3,11 @@ import { StyleSheet } from "react-native";
 import { colors } from "@/assets";
 import { useBaseStyle } from "@/hooks";
 
-export default function useStyle() {
+import type { IOnboardingNicknameFormStyle } from "./type";
+
+export default function useStyle({
+  hasError = false,
+}: IOnboardingNicknameFormStyle) {
   const { flex, font, border, size, padding, width } = useBaseStyle();
 
   return StyleSheet.create({
@@ -40,7 +44,10 @@ export default function useStyle() {
       }),
     },
     OnboardingNicknameFormInputContainer: {
-      ...border({ bottom: 1, color: colors.COMMON[100] }),
+      ...border({
+        bottom: hasError ? 2 : 1,
+        color: hasError ? colors.RED[900] : colors.COMMON[100],
+      }),
       ...size({ width: "100%", height: 36 }),
       ...padding({ bottom: 4 }),
     },
@@ -56,7 +63,7 @@ export default function useStyle() {
     OnboardingNicknameFormCountText: {
       ...font({
         size: 14,
-        color: colors.GRAY[500],
+        color: colors.COMMON[100],
         weight: 600,
         height: 20,
         spacing: -0.48,
@@ -68,6 +75,15 @@ export default function useStyle() {
         color: colors.COMMON[100],
         weight: 600,
         height: 32,
+        spacing: -0.48,
+      }),
+    },
+    OnboardingNicknameFormErrorText: {
+      ...font({
+        size: 14,
+        color: colors.RED[900],
+        weight: 600,
+        height: 20,
         spacing: -0.48,
       }),
     },
