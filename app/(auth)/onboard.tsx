@@ -13,7 +13,7 @@ import {
   OnboardingSubmitButton,
 } from "@/components";
 import { useBaseStyle } from "@/hooks";
-import { useUpdatePreferredShops } from "@/services";
+import { useUpdatePreferredShops, useUpdateProfile } from "@/services";
 import { useAuthStore, useShopStore } from "@/stores";
 
 import type { TOnboardingStep } from "@/types";
@@ -21,7 +21,7 @@ import type { TOnboardingStep } from "@/types";
 export default function OnboardScreen() {
   const { flex, insets, size, padding } = useBaseStyle();
   const router = useRouter();
-  const { setOnboarding } = useAuthStore();
+  const { isGuest, setOnboarding, setGuestProfile } = useAuthStore();
   const selectedShopIds = useShopStore(
     (state) => state.onboarding.selectedShopIds
   );
@@ -29,7 +29,10 @@ export default function OnboardScreen() {
     (state) => state.clearOnboardingShops
   );
 
-  const { mutate: updatePreferredShops, isPending } = useUpdatePreferredShops();
+  const { mutate: updatePreferredShops, isPending: isUpdatingShops } =
+    useUpdatePreferredShops();
+  const { mutate: updateProfile, isPending: isUpdatingProfile } =
+    useUpdateProfile();
 
   const [step, setStep] = useState<TOnboardingStep>("nickname");
   const [nickname, setNickname] = useState("");
@@ -48,29 +51,55 @@ export default function OnboardScreen() {
       if (hasError || nickname.length === 0) {
         return;
       }
-      setStep("shop");
+
+      if (isGuest) {
+        await setGuestProfile(nickname, []);
+        setStep("shop");
+      } else {
+        updateProfile(
+          { nickname },
+          {
+            onSuccess: () => {
+              setStep("shop");
+            },
+            onError: (error) => {
+              console.error("Failed to update profile:", error);
+            },
+          }
+        );
+      }
     } else if (step === "shop") {
-      updatePreferredShops(
-        { shopIds: selectedShopIds },
-        {
-          onSuccess: async () => {
-            await setOnboarding({ hasCompletedOnboarding: true });
-            clearOnboardingShops();
-            router.replace("/");
-          },
-          onError: (error) => {
-            console.error("Failed to update preferred shops:", error);
-          },
-        }
-      );
+      if (isGuest) {
+        await setGuestProfile(nickname, selectedShopIds);
+        await setOnboarding({ hasCompletedOnboarding: true });
+        clearOnboardingShops();
+        router.replace("/");
+      } else {
+        updatePreferredShops(
+          { shopIds: selectedShopIds },
+          {
+            onSuccess: async () => {
+              await setOnboarding({ hasCompletedOnboarding: true });
+              clearOnboardingShops();
+              router.replace("/");
+            },
+            onError: (error) => {
+              console.error("Failed to update preferred shops:", error);
+            },
+          }
+        );
+      }
     }
   }, [
     step,
     nickname,
     hasError,
     selectedShopIds,
+    isGuest,
     updatePreferredShops,
+    updateProfile,
     setOnboarding,
+    setGuestProfile,
     clearOnboardingShops,
     router,
   ]);
@@ -108,7 +137,9 @@ export default function OnboardScreen() {
           step={step}
           onPress={handleNext}
           disabled={
-            step === "nickname" ? hasError || nickname.length === 0 : false
+            step === "nickname"
+              ? hasError || nickname.length === 0 || isUpdatingProfile
+              : isUpdatingShops
           }
         />
       </KeyboardStickyView>
