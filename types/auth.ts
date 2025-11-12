@@ -1,22 +1,9 @@
-export type TSocialProvider = "google" | "apple" | "kakao" | "naver";
-
-export interface IUser {
-  id: string;
-  email: string;
-  name?: string;
-  profileImage?: string;
-  provider?: TSocialProvider;
-}
-
-export interface IAuthTokens {
-  accessToken: string;
-  refreshToken?: string;
-}
-
-export interface IOnboardingState {
-  hasAgreedToTerms: boolean;
-  hasCompletedOnboarding: boolean;
-}
+export type {
+  TSocialProvider,
+  IUser,
+  IAuthTokens,
+  IOnboardingState,
+} from "../services/api/schemas/auth.schema";
 
 export interface IAuthState {
   user: IUser | null;
@@ -25,4 +12,9 @@ export interface IAuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   onboarding: IOnboardingState;
+}
+
+export interface IGuestProfile {
+  nickname: string;
+  preferredShopIds: string[];
 }
