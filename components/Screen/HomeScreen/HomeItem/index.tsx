@@ -6,16 +6,20 @@ import { BaseText } from "@/components/Text";
 import { ItemChipType } from "@/types";
 import useStyle from "./style";
 
-export default function HomeItem() {
+import type IHomeItemProps from "./type";
+
+export default function HomeItem({ shop }: IHomeItemProps) {
   const style = useStyle();
 
   return (
     <View style={style.HomeItem}>
       <View style={style.HomeItemContent}>
-        <Image style={style.HomeItemImage} />
+        <Image style={style.HomeItemImage} source={{ uri: shop?.image }} />
         <View>
           <ItemChip type={ItemChipType.ZET_PICK} style={style.HomeItemChip} />
-          <BaseText style={style.HomeItemTitle}>펩시 제로 355ml 24개</BaseText>
+          <BaseText style={style.HomeItemTitle}>
+            {shop?.name || "펩시 제로 355ml 24개"}
+          </BaseText>
 
           <View style={style.HomeItemPriceContainer}>
             <BaseText weight="semibold" style={style.HomeItemDiscountRateText}>
