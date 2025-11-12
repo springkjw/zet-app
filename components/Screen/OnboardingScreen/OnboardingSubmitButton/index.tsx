@@ -15,6 +15,7 @@ import type IOnboardingSubmitButtonProps from "./type";
 export default function OnboardingSubmitButton({
   step,
   onPress,
+  disabled,
 }: IOnboardingSubmitButtonProps) {
   const { flex, size, padding, width, font } = useBaseStyle();
 
@@ -36,6 +37,7 @@ export default function OnboardingSubmitButton({
       <BaseButton
         label={buttonLabel}
         onPress={onPress}
+        disabled={disabled}
         labelStyle={{
           ...font({ size: 16, weight: 700, color: colors.COMMON[100] }),
         }}
