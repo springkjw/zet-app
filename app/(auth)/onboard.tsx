@@ -9,37 +9,83 @@ import {
 import {
   OnboardingNicknameForm,
   OnboardingShopForm,
+  OnboardingStepText,
   OnboardingSubmitButton,
 } from "@/components";
 import { useBaseStyle } from "@/hooks";
-import { useAuthStore } from "@/stores";
+import { useUpdatePreferredShops } from "@/services";
+import { useAuthStore, useShopStore } from "@/stores";
 
 import type { TOnboardingStep } from "@/types";
 
 export default function OnboardScreen() {
-  const { flex, insets } = useBaseStyle();
+  const { flex, insets, size, padding } = useBaseStyle();
   const router = useRouter();
   const { setOnboarding } = useAuthStore();
+  const selectedShopIds = useShopStore(
+    (state) => state.onboarding.selectedShopIds
+  );
+  const clearOnboardingShops = useShopStore(
+    (state) => state.clearOnboardingShops
+  );
+
+  const { mutate: updatePreferredShops, isPending } = useUpdatePreferredShops();
 
   const [step, setStep] = useState<TOnboardingStep>("nickname");
+  const [nickname, setNickname] = useState("");
+  const [hasError, setHasError] = useState(false);
+
+  const handleNicknameChange = useCallback(
+    (value: string, isValid: boolean) => {
+      setNickname(value);
+      setHasError(!isValid);
+    },
+    []
+  );
 
   const handleNext = useCallback(async () => {
-    // if ()
-    //   await setOnboarding({ hasCompletedOnboarding: true });
-    //   router.replace("/");
-    // } else {
-    //   setStep(step === "nickname" ? "shop" : "nickname");
-    // }
-    setStep((prev) => {
-      if (prev === "nickname") {
-        return "shop";
+    if (step === "nickname") {
+      if (hasError || nickname.length === 0) {
+        return;
       }
-      return prev;
-    });
-  }, [step, setOnboarding, router]);
+      setStep("shop");
+    } else if (step === "shop") {
+      updatePreferredShops(
+        { shopIds: selectedShopIds },
+        {
+          onSuccess: async () => {
+            await setOnboarding({ hasCompletedOnboarding: true });
+            clearOnboardingShops();
+            router.replace("/");
+          },
+          onError: (error) => {
+            console.error("Failed to update preferred shops:", error);
+          },
+        }
+      );
+    }
+  }, [
+    step,
+    nickname,
+    hasError,
+    selectedShopIds,
+    updatePreferredShops,
+    setOnboarding,
+    clearOnboardingShops,
+    router,
+  ]);
 
   return (
     <View style={{ ...flex({ flex: 1 }) }}>
+      <View
+        style={{
+          ...padding({ top: insets.top, horizontal: 20 }),
+          ...size({ width: "100%", height: 40 + insets.top }),
+          ...flex({ align: "flex-start", justify: "flex-start" }),
+        }}
+      >
+        <OnboardingStepText step={step} />
+      </View>
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
@@ -48,12 +94,23 @@ export default function OnboardScreen() {
       >
         <View style={{ ...flex({ flex: 1 }) }} />
         <View style={{ ...flex({ flex: 10 }) }}>
-          {step === "nickname" && <OnboardingNicknameForm />}
+          {step === "nickname" && (
+            <OnboardingNicknameForm
+              value={nickname}
+              onChange={handleNicknameChange}
+            />
+          )}
           {step === "shop" && <OnboardingShopForm />}
         </View>
       </KeyboardAwareScrollView>
       <KeyboardStickyView offset={{ closed: -12 - insets.bottom, opened: 0 }}>
-        <OnboardingSubmitButton step={step} onPress={handleNext} />
+        <OnboardingSubmitButton
+          step={step}
+          onPress={handleNext}
+          disabled={
+            step === "nickname" ? hasError || nickname.length === 0 : false
+          }
+        />
       </KeyboardStickyView>
     </View>
   );
