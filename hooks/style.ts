@@ -14,13 +14,15 @@ import type {
   IStylePosition,
   IStyleSize,
 } from "@/types";
-import type { TextStyle, ViewStyle } from "react-native";
+import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export function useLayoutStyle() {
   const layout = (style: IStyleLayout = {}) => {
     const layoutStyle: ViewStyle = {};
     setStyleValue(layoutStyle, "backgroundColor", style.color);
     setStyleValue(layoutStyle, "zIndex", style.index);
+    setStyleValue(layoutStyle, "opacity", style.opacity);
+    setStyleValue(layoutStyle, "overflow", style.overflow);
     return layoutStyle;
   };
 
@@ -39,10 +41,12 @@ export function useLayoutStyle() {
     return flexStyle;
   };
 
-  const position = (style: IStylePosition) => {
-    const positionStyle: ViewStyle = {
+  const position = <T extends ViewStyle | ImageStyle = ViewStyle>(
+    style: IStylePosition
+  ): T => {
+    const positionStyle = {
       position: "absolute",
-    };
+    } as T;
 
     setStyleValue(positionStyle, "position", style.position);
     setStyleValue(positionStyle, "top", style.top);
@@ -57,8 +61,10 @@ export function useLayoutStyle() {
 }
 
 export function useSpaceStyle() {
-  const size = (style: IStyleSize) => {
-    const sizeStyle: ViewStyle = {};
+  const size = <T extends ViewStyle | ImageStyle = ViewStyle>(
+    style: IStyleSize
+  ): T => {
+    const sizeStyle = {} as T;
     setStyleValue(sizeStyle, "width", style.width);
     setStyleValue(sizeStyle, "height", style.height);
     setStyleValue(sizeStyle, "maxWidth", style.maxWidth);
