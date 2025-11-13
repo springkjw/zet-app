@@ -26,7 +26,7 @@ export function useLayoutStyle() {
     return layoutStyle;
   };
 
-  const flex = (style: IStyleFlex = {}) => {
+  const flex = (style: IStyleFlex = {}): ViewStyle | TextStyle => {
     const flexStyle: ViewStyle = {
       alignItems: "center",
       justifyContent: "center",
@@ -74,7 +74,7 @@ export function useSpaceStyle() {
     return sizeStyle;
   };
 
-  const margin = (style: IStyleMargin) => {
+  const margin = (style: IStyleMargin): ViewStyle | TextStyle => {
     const marginStyle: ViewStyle = {};
 
     Object.entries(style).forEach(([key, value]) => {
@@ -87,7 +87,7 @@ export function useSpaceStyle() {
     return marginStyle;
   };
 
-  const padding = (style: IStylePadding) => {
+  const padding = (style: IStylePadding): ViewStyle | TextStyle => {
     const paddingStyle: ViewStyle = {};
 
     Object.entries(style).forEach(([key, value]) => {

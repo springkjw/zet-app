@@ -1,6 +1,7 @@
 export type TVariant = "primary" | "outline" | "warning";
 export type TSize = "small" | "medium" | "large";
 export type TFontWeight = "medium" | "semibold" | "bold";
+export type TDirection = "top" | "right" | "bottom" | "left";
 
 export interface IOptions {
   label: string;
