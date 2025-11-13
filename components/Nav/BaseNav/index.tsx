@@ -17,7 +17,7 @@ export default function BaseNav({ title, children }: IBaseNavProps) {
         style={style.BaseNavBackButton}
         onPress={() => router.back()}
       >
-        <ChevronLeftIcon size={24} />
+        <ChevronLeftIcon size={20} />
       </TouchableOpacity>
       {title && (
         <View style={style.BaseNavContent}>
