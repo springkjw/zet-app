@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/assets";
+import { BORDER_RADIUS, HORIZONTAL_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 
 export default function useStyle() {
@@ -11,16 +12,16 @@ export default function useStyle() {
       ...size({ height: 0 }),
     },
     BaseModalBackdrop: {
-      ...layout({ color: colors.GRAY[700] }),
+      ...layout({ color: colors.GRAY[800] }),
       opacity: 0.5,
     },
     BaseModalContainer: {
-      ...margin({ horizontal: 20 }),
-      ...border({ radius: 16, width: 0 }),
+      ...margin({ horizontal: HORIZONTAL_PADDING }),
+      ...border({ radius: BORDER_RADIUS, width: 0 }),
     },
     BaseModalContent: {
       ...layout({ color: colors.GRAY[700] }),
-      ...padding({ horizontal: 20, vertical: 20 }),
+      ...padding({ horizontal: HORIZONTAL_PADDING, vertical: 20 }),
       ...border({ radius: 16, width: 0 }),
     },
     BaseModalButtonContainer: {

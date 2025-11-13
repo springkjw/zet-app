@@ -1,9 +1,10 @@
+import type { TVariant } from "@/types";
 import type { ReactNode } from "react";
 
 export interface IBaseModalButton {
-  label: string;
-  variant: "primary" | "secondary" | "warning" | "danger";
-  onPress: () => void;
+  label?: string;
+  variant?: TVariant;
+  onPress?: () => void;
 }
 
 export default interface IBaseModalProps {

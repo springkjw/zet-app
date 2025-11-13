@@ -1,3 +1,6 @@
+/**
+ * 확인 모달 컴포넌트
+ */
 import { useMemo } from "react";
 
 import BaseModal from "@/components/Modal/BaseModal";
