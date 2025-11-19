@@ -71,4 +71,12 @@ export const storage = {
       return null;
     }
   },
+
+  async clearOnboarding(): Promise<void> {
+    try {
+      await SecureStore.deleteItemAsync(KEYS.ONBOARDING);
+    } catch (error) {
+      console.error("Failed to clear onboarding:", error);
+    }
+  },
 };

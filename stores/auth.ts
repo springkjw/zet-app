@@ -63,12 +63,18 @@ export const useAuthStore = create<IAuthStore>((set) => ({
 
   logout: async () => {
     await storage.clearAuth();
+    await storage.clearOnboarding();
+    await guestStorage.clear();
     set({
       user: null,
       tokens: null,
       isGuest: false,
       isAuthenticated: false,
       isLoading: false,
+      onboarding: {
+        hasAgreedToTerms: false,
+        hasCompletedOnboarding: false,
+      },
     });
   },
 
