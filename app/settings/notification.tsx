@@ -1,48 +1,37 @@
-import { router } from "expo-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { View } from "react-native";
 
 import { colors } from "@/assets";
+import { BaseMenu } from "@/components/Menu";
 import { BaseNav } from "@/components/Nav";
-import { LogoutModal, SettingMenu } from "@/components/Screen";
+import { BaseToggle } from "@/components/Toggle";
 import { CONTENT_PADDING, HORIZONTAL_PADDING } from "@/constants";
-import { useBaseStyle, useModal } from "@/hooks";
+import { useBaseStyle } from "@/hooks";
 
 import type { ViewStyle } from "react-native";
 
-export default function SettingsScreen() {
+export default function NotificationSettingScreen() {
   const { flex, layout, padding, size } = useBaseStyle();
-  const { isConfirm, onConfirm } = useModal();
+
+  const [newStockNotification, setNewStockNotification] = useState(true);
+  const [newShopNotification, setNewShopNotification] = useState(true);
 
   const menuItems = useMemo(() => {
     return [
       [
         {
-          label: "알림",
-          onPress: () => router.push("/settings/notification"),
-        },
-      ],
-      [
-        {
-          label: "피드백 공유",
-        },
-      ],
-      [
-        {
-          label: "서비스 약관",
+          label: "새 입고 알림",
+          value: newStockNotification,
+          onValueChange: setNewStockNotification,
         },
         {
-          label: "개인정보처리 및 방침",
-        },
-      ],
-      [
-        {
-          label: "로그아웃",
-          onPress: () => onConfirm(true),
+          label: "신규 쇼핑몰 알림",
+          value: newShopNotification,
+          onValueChange: setNewShopNotification,
         },
       ],
     ];
-  }, [router, onConfirm]);
+  }, [newStockNotification, newShopNotification]);
 
   return (
     <View
@@ -55,7 +44,7 @@ export default function SettingsScreen() {
         ...layout<ViewStyle>({ color: colors.GRAY[800] }),
       }}
     >
-      <BaseNav title="설정" />
+      <BaseNav title="알림 설정" />
 
       <View
         style={{
@@ -72,22 +61,25 @@ export default function SettingsScreen() {
         }}
       >
         {menuItems.map((group, groupIndex) => (
-          <View key={`setting-menu-group-${groupIndex}`}>
+          <View key={`notification-menu-group-${groupIndex}`}>
             {group.map((item, itemIndex) => (
-              <SettingMenu
-                key={`setting-menu-${groupIndex}-${itemIndex}`}
+              <BaseMenu
+                key={`notification-menu-${groupIndex}-${itemIndex}`}
                 label={item.label}
                 hasBorder={itemIndex !== group.length - 1}
                 isTop={itemIndex === 0}
                 isBottom={itemIndex === group.length - 1}
-                onPress={"onPress" in item ? item.onPress : undefined}
-              />
+              >
+                <BaseToggle
+                  value={item.value}
+                  onValueChange={item.onValueChange}
+                  size="medium"
+                />
+              </BaseMenu>
             ))}
           </View>
         ))}
       </View>
-
-      <LogoutModal isConfirm={isConfirm} onConfirm={onConfirm} />
     </View>
   );
 }

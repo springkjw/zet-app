@@ -1,20 +1,16 @@
-import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { colors } from "@/assets";
-import {
-  ProfileActions,
-  ProfileHeader,
-  ProfileInfo,
-} from "@/components/Screen/ProfileScreen";
+import { ProfileHeader, ProfileInfo } from "@/components/Screen/ProfileScreen";
+import { HORIZONTAL_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 import { useAuthStore } from "@/stores";
 
+import type { ViewStyle } from "react-native";
+
 export default function ProfileScreen() {
-  const { flex, layout } = useBaseStyle();
-  const router = useRouter();
-  const { user, isGuest, logout, getGuestProfile } = useAuthStore();
+  const { padding } = useBaseStyle();
+  const { user, isGuest, getGuestProfile } = useAuthStore();
   const [nickname, setNickname] = useState<string>("");
 
   useEffect(() => {
@@ -32,21 +28,14 @@ export default function ProfileScreen() {
     loadProfile();
   }, [isGuest, user, getGuestProfile]);
 
-  const handleLogout = () => {
-    logout();
-    router.replace("/(auth)/login");
-  };
-
   return (
-    <View
-      style={{
-        ...flex({ flex: 1, direction: "column", justify: "flex-start" }),
-        ...layout({ color: colors.GRAY[800] }),
-      }}
-    >
+    <View>
       <ProfileHeader />
-      <ProfileInfo nickname={nickname} />
-      <ProfileActions onLogout={handleLogout} />
+      <View
+        style={{ ...padding<ViewStyle>({ horizontal: HORIZONTAL_PADDING }) }}
+      >
+        <ProfileInfo nickname={nickname} />
+      </View>
     </View>
   );
 }

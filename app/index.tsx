@@ -35,19 +35,14 @@ export default function HomeScreen() {
     return <View />;
   }
 
-  if (!onboarding.hasAgreedToTerms) {
+  if (!onboarding.hasAgreedToTerms || (!isAuthenticated && !isGuest)) {
     return <Redirect href="/(auth)/login" />;
   }
 
-  if (!isAuthenticated && !isGuest) {
-    return <Redirect href="/(auth)/login" />;
-  }
-
-  if (isGuest && shouldCheckGuest) {
-    return <Redirect href="/(auth)/onboard" />;
-  }
-
-  if (!isGuest && !onboarding.hasCompletedOnboarding) {
+  if (
+    (isGuest && shouldCheckGuest) ||
+    (!isGuest && !onboarding.hasCompletedOnboarding)
+  ) {
     return <Redirect href="/(auth)/onboard" />;
   }
 
