@@ -1,8 +1,7 @@
-import type { TDirection } from "@/types";
-
 export default interface ISettingMenuProps {
   label?: string;
-  direction?: TDirection;
+  isTop?: boolean;
+  isBottom?: boolean;
   hasBorder?: boolean;
   onPress?: () => void;
 }
