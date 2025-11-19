@@ -15,7 +15,7 @@ export default function ProfileHeader() {
   const style = useStyle();
 
   return (
-    <BaseNav title="프로필">
+    <BaseNav title="내 정보">
       <TouchableOpacity
         style={style.SettingsButton}
         onPress={() => router.push("/settings")}

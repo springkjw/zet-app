@@ -1,28 +1,45 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/assets";
+import { CONTENT_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 
+import type { ViewStyle } from "react-native";
+
 export default function useStyle() {
-  const { flex, padding, margin, size, layout, font } = useBaseStyle();
+  const { flex, padding, size, layout, border, font } = useBaseStyle();
 
   return StyleSheet.create({
-    ProfileInfo: {
-      ...padding({ vertical: 40, horizontal: 20 }),
-      ...flex({ direction: "column", align: "center", gap: 16 }),
+    ProfileInfoContainer: {
+      ...padding<ViewStyle>({ vertical: CONTENT_PADDING }),
+      ...flex<ViewStyle>({
+        direction: "column",
+        justify: "flex-start",
+        align: "flex-start",
+        gap: 16,
+      }),
+    },
+    ProfileInfoUserContainer: {
+      ...flex<ViewStyle>({
+        direction: "row",
+        align: "flex-start",
+        gap: CONTENT_PADDING,
+      }),
     },
     ProfileInfoIconContainer: {
-      ...size({ width: 80, height: 80 }),
+      ...size<ViewStyle>({ width: 56, height: 56 }),
       ...layout({
         color: colors.GRAY[700],
-        borderColor: colors.GRAY[600],
-        borderWidth: 2,
-        borderRadius: 40,
       }),
-      ...flex({ justify: "center", align: "center" }),
+      ...border({
+        color: colors.GRAY[600],
+        width: 2,
+        radius: 112,
+      }),
+      ...flex<ViewStyle>({ justify: "center", align: "center" }),
     },
     ProfileInfoNickname: {
-      ...font({ size: 24, weight: "bold" }),
+      ...font({ size: 18, color: colors.COMMON[100], height: 32, weight: 700 }),
     },
   });
 }
