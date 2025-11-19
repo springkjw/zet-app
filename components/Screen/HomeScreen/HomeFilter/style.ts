@@ -1,43 +1,52 @@
 import { StyleSheet } from "react-native";
 
+import { CONTENT_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 
+import type { ViewStyle } from "react-native";
+
 export default function useStyle() {
-  const { size, padding, flex } = useBaseStyle();
+  const { size, padding, flex, margin } = useBaseStyle();
 
   return StyleSheet.create({
     HomeFilter: {
-      ...padding({ top: 4, left: 20 }),
+      ...padding<ViewStyle>({
+        top: 4,
+        left: CONTENT_PADDING,
+      }),
     },
     HomeFilterHeaderContainer: {
-      ...size({ height: 60 }),
-      ...padding({ right: 10 }),
-      ...flex({ direction: "row", justify: "space-between", align: "center" }),
+      ...size<ViewStyle>({ height: 60 }),
+      ...padding<ViewStyle>({ right: 10 }),
+      ...flex<ViewStyle>({
+        direction: "row",
+        justify: "space-between",
+        align: "center",
+      }),
     },
     HomeFilterHeaderButton: {
-      ...size({ width: 40, height: 60 }),
-      ...flex({ justify: "center", align: "center" }),
+      ...size<ViewStyle>({ width: 40, height: 60 }),
+      ...flex<ViewStyle>({ justify: "center", align: "center" }),
     },
     HomeFilterContainer: {
-      ...size({ width: "100%" }),
-      ...flex({
+      ...size<ViewStyle>({ width: "100%" }),
+      ...flex<ViewStyle>({
         direction: "column",
         justify: "flex-start",
         align: "flex-start",
-        gap: 14,
       }),
     },
     HomeFilterItem: {
-      ...flex({
+      ...flex<ViewStyle>({
         direction: "row",
         justify: "flex-start",
         align: "center",
-        gap: 16,
       }),
-      ...size({ width: "100%" }),
+      ...size<ViewStyle>({ width: "100%" }),
+      ...margin<ViewStyle>({ bottom: CONTENT_PADDING / 2 }),
     },
     HomeFilterItemLabelContainer: {
-      ...flex({
+      ...flex<ViewStyle>({
         direction: "row",
         justify: "flex-start",
         align: "center",
@@ -46,10 +55,10 @@ export default function useStyle() {
       }),
     },
     HomeFilterItemLabel: {
-      ...size({ width: 50 }),
+      ...size<TextStyle>({ width: 50 }),
     },
     HomeFilterItemSeparator: {
-      ...size({ width: 6 }),
+      ...size<ViewStyle>({ width: 6 }),
     },
     HomeFilterListContainer: {},
   });

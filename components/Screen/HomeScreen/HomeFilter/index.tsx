@@ -1,3 +1,6 @@
+/**
+ * 홈 필터 컴포넌트
+ */
 import { useState } from "react";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import Animated, {

@@ -35,16 +35,4 @@ export const homeFilterData: IHomeFilterData[] = [
       { label: "일반", value: 4 },
     ],
   },
-  {
-    label: "카드혜택",
-    options: [
-      { label: "농협", value: 0 },
-      { label: "국민", value: 1 },
-      { label: "산업", value: 2 },
-      { label: "신한", value: 3 },
-      { label: "우리", value: 4 },
-      { label: "하나", value: 5 },
-      { label: "현대", value: 6 },
-    ],
-  },
 ];

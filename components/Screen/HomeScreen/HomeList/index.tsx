@@ -1,3 +1,6 @@
+/**
+ * 홈 리스트 컴포넌트
+ */
 import { useMemo } from "react";
 import { FlatList, View } from "react-native";
 
@@ -35,7 +38,7 @@ export default function HomeList() {
             <BaseText style={style.HomeListHeaderText}>
               {user?.preferredShopIds && user.preferredShopIds.length > 0
                 ? "선택한 쇼핑몰의 상품을 소개해 드려요."
-                : "100ml당 가격이 낮은 순으로 소개해 드려요."}
+                : "🥤 100ml당 가격이 낮은 순으로 소개해 드려요."}
             </BaseText>
           </View>
         )}

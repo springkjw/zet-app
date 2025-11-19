@@ -1,3 +1,6 @@
+/**
+ * 홈 네비게이션 컴포넌트
+ */
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { TouchableOpacity, View } from "react-native";

@@ -1,7 +1,10 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/assets";
+import { BORDER_RADIUS, CONTENT_PADDING } from "@/constants";
 import { useBaseStyle, useWindowDimensions } from "@/hooks";
+
+import type { ImageStyle, ViewStyle } from "react-native";
 
 export default function useStyle() {
   const { width } = useWindowDimensions();
@@ -9,13 +12,16 @@ export default function useStyle() {
 
   return StyleSheet.create({
     HomeItem: {
-      ...border({ radius: 8 }),
-      ...size({ width: width - 40, minHeight: 100 }),
-      ...layout({ color: colors.GRAY[700] }),
+      ...border<ViewStyle>({ radius: BORDER_RADIUS }),
+      ...size<ViewStyle>({ width: width - 40, minHeight: 100 }),
+      ...layout<ViewStyle>({ color: colors.GRAY[700] }),
     },
     HomeItemContent: {
-      ...padding({ horizontal: 16, vertical: 16 }),
-      ...flex({
+      ...padding<ViewStyle>({
+        horizontal: CONTENT_PADDING,
+        vertical: CONTENT_PADDING,
+      }),
+      ...flex<ViewStyle>({
         direction: "row",
         justify: "flex-start",
         align: "flex-start",
@@ -23,12 +29,12 @@ export default function useStyle() {
       }),
     },
     HomeItemImage: {
-      ...size({ width: 72, height: 72 }),
-      ...border({ radius: 4 }),
-      ...layout({ color: colors.GRAY[600] }),
+      ...size<ImageStyle>({ width: 72, height: 72 }),
+      ...border<ImageStyle>({ radius: 4 }),
+      ...layout<ImageStyle>({ color: colors.GRAY[600] }),
     },
     HomeItemChip: {
-      ...margin({ bottom: 8 }),
+      ...margin<ViewStyle>({ bottom: 8 }),
     },
     HomeItemTitle: {
       ...font({
@@ -37,7 +43,7 @@ export default function useStyle() {
       }),
     },
     HomeItemPriceContainer: {
-      ...flex({
+      ...flex<ViewStyle>({
         direction: "row",
         justify: "flex-start",
         align: "center",

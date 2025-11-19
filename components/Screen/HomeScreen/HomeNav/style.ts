@@ -1,37 +1,42 @@
-import { ImageStyle, StyleSheet } from "react-native";
+import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
 
+import { HORIZONTAL_PADDING, NAV_HEIGHT } from "@/constants";
 import { useBaseStyle, useSafeAreaInsets } from "@/hooks";
 
 export default function useStyle() {
-  const { flex, padding, margin, size, layout } = useBaseStyle();
+  const { flex, padding, margin, size } = useBaseStyle();
   const insets = useSafeAreaInsets();
 
   return StyleSheet.create({
     HomeNav: {
-      ...size({ height: 56 + insets.top }),
-      ...padding({ top: insets.top }),
-      ...flex({
+      ...size<ViewStyle>({ height: NAV_HEIGHT + insets.top }),
+      ...padding<ViewStyle>({ top: insets.top }),
+      ...flex<ViewStyle>({
         direction: "row",
         justify: "space-between",
         align: "flex-end",
       }),
     },
     HomeNavLogoContainer: {
-      ...padding({ horizontal: 20 }),
-      ...margin({ bottom: 8 }),
-      ...size({ width: 40, height: 40 }),
+      ...padding<ViewStyle>({ left: HORIZONTAL_PADDING }),
+      ...margin<ViewStyle>({ bottom: 8 }),
+      ...size<ViewStyle>({ width: 40, height: 40 }),
     },
     HomeNavLogo: {
       ...size<ImageStyle>({ width: 40, height: 40 }),
     },
     HomeNavButtonContainer: {
-      ...size({ height: 56 }),
-      ...flex({ direction: "row", justify: "center", align: "center" }),
-      ...padding({ horizontal: 16 }),
+      ...padding<ViewStyle>({ right: HORIZONTAL_PADDING / 2 }),
+      ...size<ViewStyle>({ height: NAV_HEIGHT }),
+      ...flex<ViewStyle>({
+        direction: "row",
+        justify: "center",
+        align: "center",
+      }),
     },
     HomeNavButton: {
-      ...size({ width: 40, height: 56 }),
-      ...flex({ justify: "center", align: "center" }),
+      ...size<ViewStyle>({ width: NAV_HEIGHT, height: NAV_HEIGHT }),
+      ...flex<ViewStyle>({ justify: "center", align: "center" }),
     },
   });
 }
