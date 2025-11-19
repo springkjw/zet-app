@@ -11,6 +11,7 @@ export default function BaseMenu({
   isTop = false,
   isBottom = false,
   hasBorder = false,
+  disabled = false,
   onPress,
   containerStyle,
 }: IBaseMenuProps) {
@@ -25,8 +26,14 @@ export default function BaseMenu({
         containerStyle,
       ]}
     >
-      <TouchableOpacity style={style.BaseMenuButton} onPress={onPress}>
-        {label && <BaseText style={style.BaseMenuButtonLabel}>{label}</BaseText>}
+      <TouchableOpacity
+        style={style.BaseMenuButton}
+        onPress={onPress}
+        disabled={disabled}
+      >
+        {label && (
+          <BaseText style={style.BaseMenuButtonLabel}>{label}</BaseText>
+        )}
         {children}
       </TouchableOpacity>
 

@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable } from "react-native";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   interpolateColor,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
-import { colors } from "@/assets/style";
+
+import { colors } from "@/assets";
 import useStyle from "./style";
-import IBaseToggleProps from "./type";
+
+import type IBaseToggleProps from "./type";
 
 export default function BaseToggle({
   value,
@@ -48,7 +50,7 @@ export default function BaseToggle({
       [0, 1],
       disabled
         ? [colors.GRAY[800], colors.GRAY[800]]
-        : [colors.GRAY[700], colors.GRAY[600]]
+        : [colors.GRAY[600], colors.RED[500]]
     );
 
     return { backgroundColor };
@@ -71,8 +73,10 @@ export default function BaseToggle({
       accessibilityState={{ checked: value, disabled }}
       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     >
-      <Animated.View style={[styles.Container, backgroundAnimatedStyle, style]}>
-        <Animated.View style={[styles.Thumb, thumbAnimatedStyle]} />
+      <Animated.View
+        style={[styles.BaseToggleContainer, backgroundAnimatedStyle, style]}
+      >
+        <Animated.View style={[styles.BaseToggleThumb, thumbAnimatedStyle]} />
       </Animated.View>
     </Pressable>
   );

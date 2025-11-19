@@ -1,18 +1,13 @@
+import type { ReactNode } from "react";
 import type { ViewStyle } from "react-native";
 
 export default interface IBaseMenuProps {
-  // Content
   label?: string;
-  children?: React.ReactNode;
-
-  // Layout
+  children?: ReactNode;
   isTop?: boolean;
   isBottom?: boolean;
   hasBorder?: boolean;
-
-  // Interaction
+  disabled?: boolean;
   onPress?: () => void;
-
-  // Style overrides
   containerStyle?: ViewStyle;
 }

@@ -69,6 +69,7 @@ export default function NotificationSettingScreen() {
                 hasBorder={itemIndex !== group.length - 1}
                 isTop={itemIndex === 0}
                 isBottom={itemIndex === group.length - 1}
+                disabled
               >
                 <BaseToggle
                   value={item.value}
