@@ -17,8 +17,10 @@ import type {
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
 export function useLayoutStyle() {
-  const layout = (style: IStyleLayout = {}) => {
-    const layoutStyle: ViewStyle = {};
+  const layout = <T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStyleLayout = {}
+  ): T => {
+    const layoutStyle = {} as T;
     setStyleValue(layoutStyle, "backgroundColor", style.color);
     setStyleValue(layoutStyle, "zIndex", style.index);
     setStyleValue(layoutStyle, "opacity", style.opacity);
@@ -26,11 +28,13 @@ export function useLayoutStyle() {
     return layoutStyle;
   };
 
-  const flex = (style: IStyleFlex = {}): ViewStyle | TextStyle => {
-    const flexStyle: ViewStyle = {
+  const flex = <T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStyleFlex = {}
+  ): T => {
+    const flexStyle = {
       alignItems: "center",
       justifyContent: "center",
-    };
+    } as T;
 
     setStyleValue(flexStyle, "flex", style.flex);
     setStyleValue(flexStyle, "flexDirection", style.direction);
@@ -61,7 +65,7 @@ export function useLayoutStyle() {
 }
 
 export function useSpaceStyle() {
-  const size = <T extends ViewStyle | ImageStyle = ViewStyle>(
+  const size = <T extends ViewStyle | ImageStyle | TextStyle = ViewStyle>(
     style: IStyleSize
   ): T => {
     const sizeStyle = {} as T;
@@ -74,27 +78,31 @@ export function useSpaceStyle() {
     return sizeStyle;
   };
 
-  const margin = (style: IStyleMargin): ViewStyle | TextStyle => {
-    const marginStyle: ViewStyle = {};
+  const margin = <T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStyleMargin
+  ): T => {
+    const marginStyle = {} as T;
 
     Object.entries(style).forEach(([key, value]) => {
       if (value !== undefined) {
         const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        const marginKey = `margin${capitalizedKey}` as keyof ViewStyle;
-        marginStyle[marginKey] = value;
+        const marginKey = `margin${capitalizedKey}` as keyof T;
+        marginStyle[marginKey] = value as any;
       }
     });
     return marginStyle;
   };
 
-  const padding = (style: IStylePadding): ViewStyle | TextStyle => {
-    const paddingStyle: ViewStyle = {};
+  const padding = <T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStylePadding
+  ): T => {
+    const paddingStyle = {} as T;
 
     Object.entries(style).forEach(([key, value]) => {
       if (value !== undefined) {
         const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        const paddingKey = `padding${capitalizedKey}` as keyof ViewStyle;
-        paddingStyle[paddingKey] = value;
+        const paddingKey = `padding${capitalizedKey}` as keyof T;
+        paddingStyle[paddingKey] = value as any;
       }
     });
     return paddingStyle;
@@ -104,8 +112,10 @@ export function useSpaceStyle() {
 }
 
 export function useBorderStyle() {
-  const border = (style: IStyleBorder) => {
-    const borderStyle: ViewStyle = {};
+  const border = <T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStyleBorder
+  ): T => {
+    const borderStyle = {} as T;
 
     setStyleValue(borderStyle, "borderWidth", style.width);
     setStyleValue(borderStyle, "borderColor", style.color);
