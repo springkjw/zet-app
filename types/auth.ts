@@ -1,9 +1,11 @@
-export type {
+import type {
   TSocialProvider,
   IUser,
   IAuthTokens,
   IOnboardingState,
 } from "../services/api/schemas/auth.schema";
+
+export type { TSocialProvider, IUser, IAuthTokens, IOnboardingState };
 
 export interface IAuthState {
   user: IUser | null;

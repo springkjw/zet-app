@@ -11,8 +11,8 @@ export default function useStyle() {
 
   return StyleSheet.create({
     ProfileInfoContainer: {
-      ...padding<ViewStyle>({ vertical: CONTENT_PADDING }),
-      ...flex<ViewStyle>({
+      ...padding({ vertical: CONTENT_PADDING }),
+      ...flex({
         direction: "column",
         justify: "flex-start",
         align: "flex-start",
@@ -20,14 +20,14 @@ export default function useStyle() {
       }),
     },
     ProfileInfoUserContainer: {
-      ...flex<ViewStyle>({
+      ...flex({
         direction: "row",
         align: "flex-start",
         gap: CONTENT_PADDING,
       }),
     },
     ProfileInfoIconContainer: {
-      ...size<ViewStyle>({ width: 56, height: 56 }),
+      ...size({ width: 56, height: 56 }),
       ...layout({
         color: colors.GRAY[700],
       }),
@@ -36,7 +36,7 @@ export default function useStyle() {
         width: 2,
         radius: 112,
       }),
-      ...flex<ViewStyle>({ justify: "center", align: "center" }),
+      ...flex({ justify: "center", align: "center" }),
     },
     ProfileInfoNickname: {
       ...font({ size: 18, color: colors.COMMON[100], height: 32, weight: 700 }),

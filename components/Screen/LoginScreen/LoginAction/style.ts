@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, ImageStyle } from "react-native";
 
 import { colors } from "@/assets";
 import { useBaseStyle, useWindowDimensions } from "@/hooks";
@@ -49,7 +49,7 @@ export default function useStyle() {
       }),
     },
     LoginAppleButtonImage: {
-      ...size({ width: 20, height: 20 }),
+      ...size<ImageStyle>({ width: 20, height: 20 }),
     },
     LoginAppleButtonText: {
       ...font({

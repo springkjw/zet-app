@@ -10,10 +10,10 @@ export function useStyle() {
 
   return StyleSheet.create({
     FilterChip: {
-      ...size<ViewStyle>({ height: 32 }),
-      ...flex<ViewStyle>({}),
+      ...size({ height: 32 }),
+      ...flex({}),
       ...border({ radius: 100, width: 1, color: colors.GRAY[700] }),
-      ...padding<ViewStyle>({ horizontal: 10 }),
+      ...padding({ horizontal: 10 }),
     },
     FilterChipText: {
       ...font({

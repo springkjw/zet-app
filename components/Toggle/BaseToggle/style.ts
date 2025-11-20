@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { StyleSheet, ViewStyle } from "react-native";
 
 import { colors } from "@/assets/style";
-import { useBaseStyle } from "@/hooks/style";
+import { useBaseStyle } from "@/hooks";
 
 import type { IBaseToggleStyle, TToggleSize } from "./type";
 
@@ -26,7 +26,7 @@ export default function useStyle({
   size,
   pressed,
 }: IBaseToggleStyle) {
-  const { flex, size: sizeUtil, border, padding, layout } = useBaseStyle();
+  const { flex, size: sizeUtil, border, padding, layout, shadow } = useBaseStyle();
 
   const config = SIZE_CONFIG[size];
 
@@ -69,7 +69,7 @@ export default function useStyle({
         }),
         ...padding({ horizontal: 2, vertical: 1.5 }),
         ...layout({ color: backgroundColor }),
-      } as ViewStyle,
+      },
       BaseToggleThumb: {
         ...sizeUtil({
           width: config.thumbSize * 1.5,
@@ -81,12 +81,14 @@ export default function useStyle({
           color: "rgba(0,0,0,0.1)",
         }),
         ...layout({ color: thumbColor }),
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.15,
-        shadowRadius: 1.5,
-        elevation: 2,
-      } as ViewStyle,
+        ...shadow({
+          color: "#000",
+          offset: { width: 0, height: 1 },
+          opacity: 0.15,
+          radius: 1.5,
+          elevation: 2,
+        }),
+      },
     }),
     thumbTravel,
   };

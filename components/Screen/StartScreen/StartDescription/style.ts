@@ -1,4 +1,4 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle } from "react-native";
 
 import { useBaseStyle } from "@/hooks";
 
@@ -9,9 +9,9 @@ export default function useStyle() {
     StartDescriptionContainer: {
       ...flex({ flex: 1 }),
       ...padding({ top: 40 }),
-    } as ViewStyle,
+    },
     StartDescriptionText: {
-      ...margin({ bottom: 24 }),
-    } as TextStyle,
+      ...margin<TextStyle>({ bottom: 24 }),
+    },
   });
 }

@@ -1,6 +1,6 @@
 import { Redirect } from "expo-router";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { colors } from "@/assets";
 import { HomeFilter, HomeList, HomeNav } from "@/components";
@@ -51,10 +51,10 @@ export default function HomeScreen() {
       <HomeNav />
       <HomeFilter />
       <View
-        style={{
-          ...size({ height: 8 }),
-          ...layout({ color: colors.GRAY[900] }),
-        }}
+        style={[
+          size<ViewStyle>({ height: 8 }),
+          layout<ViewStyle>({ color: colors.GRAY[900] }),
+        ]}
       />
       <HomeList />
     </>

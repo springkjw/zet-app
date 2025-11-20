@@ -12,16 +12,16 @@ export default function useStyle() {
 
   return StyleSheet.create({
     HomeItem: {
-      ...border<ViewStyle>({ radius: BORDER_RADIUS }),
-      ...size<ViewStyle>({ width: width - 40, minHeight: 100 }),
-      ...layout<ViewStyle>({ color: colors.GRAY[700] }),
+      ...border({ radius: BORDER_RADIUS }),
+      ...size({ width: width - 40, minHeight: 100 }),
+      ...layout({ color: colors.GRAY[700] }),
     },
     HomeItemContent: {
-      ...padding<ViewStyle>({
+      ...padding({
         horizontal: CONTENT_PADDING,
         vertical: CONTENT_PADDING,
       }),
-      ...flex<ViewStyle>({
+      ...flex({
         direction: "row",
         justify: "flex-start",
         align: "flex-start",
@@ -34,7 +34,7 @@ export default function useStyle() {
       ...layout<ImageStyle>({ color: colors.GRAY[600] }),
     },
     HomeItemChip: {
-      ...margin<ViewStyle>({ bottom: 8 }),
+      ...margin({ bottom: 8 }),
     },
     HomeItemTitle: {
       ...font({
@@ -43,7 +43,7 @@ export default function useStyle() {
       }),
     },
     HomeItemPriceContainer: {
-      ...flex<ViewStyle>({
+      ...flex({
         direction: "row",
         justify: "flex-start",
         align: "center",

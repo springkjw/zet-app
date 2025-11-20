@@ -4,7 +4,7 @@
  * @since 2025-11-07
  */
 import { useMemo } from "react";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { colors } from "@/assets";
 import { BaseButton } from "@/components/Button";
@@ -28,20 +28,18 @@ export default function OnboardingSubmitButton({
 
   return (
     <View
-      style={{
-        ...size({ height: 80 }),
-        ...flex({ align: "center", justify: "center" }),
-        ...padding({ vertical: 12 }),
-      }}
+      style={[
+        size<ViewStyle>({ height: 80 }),
+        flex<ViewStyle>({ align: "center", justify: "center" }),
+        padding<ViewStyle>({ vertical: 12 }),
+      ]}
     >
       <BaseButton
         label={buttonLabel}
         onPress={onPress}
         disabled={disabled}
-        labelStyle={{
-          ...font({ size: 16, weight: 700, color: colors.COMMON[100] }),
-        }}
-        style={{ ...size({ width: width - 36 }) }}
+        labelStyle={font({ size: 16, weight: 700, color: colors.COMMON[100] })}
+        style={size<ViewStyle>({ width: width - 36 })}
       />
     </View>
   );

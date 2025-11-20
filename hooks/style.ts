@@ -2,7 +2,7 @@ import { useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors } from "@/assets";
-import { setStyleValue } from "@/utils";
+import { isValidStyleValue } from "@/utils";
 
 import type {
   IStyleBorder,
@@ -16,142 +16,215 @@ import type {
 } from "@/types";
 import type { ImageStyle, TextStyle, ViewStyle } from "react-native";
 
-export function useLayoutStyle() {
-  const layout = <T extends ViewStyle | TextStyle = ViewStyle>(
-    style: IStyleLayout = {}
-  ): T => {
-    const layoutStyle = {} as T;
-    setStyleValue(layoutStyle, "backgroundColor", style.color);
-    setStyleValue(layoutStyle, "zIndex", style.index);
-    setStyleValue(layoutStyle, "opacity", style.opacity);
-    setStyleValue(layoutStyle, "overflow", style.overflow);
-    return layoutStyle;
-  };
+/**
+ * 타입 안전한 스타일 생성 헬퍼
+ */
+function createStyle<T extends ViewStyle | TextStyle | ImageStyle>(
+  baseStyle: Partial<T> = {}
+): T {
+  return { ...baseStyle } as T;
+}
 
-  const flex = <T extends ViewStyle | TextStyle = ViewStyle>(
+/**
+ * 타입 안전한 속성 설정
+ */
+function setProperty<T extends ViewStyle | TextStyle | ImageStyle>(
+  style: T,
+  key: keyof T,
+  value: any
+): void {
+  if (isValidStyleValue(value)) {
+    (style as any)[key] = value;
+  }
+}
+
+export function useLayoutStyle() {
+  // 함수 오버로딩: 제네릭 없이 호출 시 ViewStyle 반환
+  function layout(style?: IStyleLayout): ViewStyle;
+  function layout<T extends ViewStyle | TextStyle>(style?: IStyleLayout): T;
+  function layout<T extends ViewStyle | TextStyle = ViewStyle>(
+    style: IStyleLayout = {}
+  ): T {
+    const layoutStyle = createStyle<T>();
+
+    setProperty(layoutStyle, "backgroundColor" as keyof T, style.color);
+    setProperty(layoutStyle, "zIndex" as keyof T, style.index);
+    setProperty(layoutStyle, "opacity" as keyof T, style.opacity);
+    setProperty(layoutStyle, "overflow" as keyof T, style.overflow);
+
+    return layoutStyle;
+  }
+
+  function flex(style?: IStyleFlex): ViewStyle;
+  function flex<T extends ViewStyle | TextStyle>(style?: IStyleFlex): T;
+  function flex<T extends ViewStyle | TextStyle = ViewStyle>(
     style: IStyleFlex = {}
-  ): T => {
-    const flexStyle = {
+  ): T {
+    const flexStyle = createStyle<T>({
       alignItems: "center",
       justifyContent: "center",
-    } as T;
+    } as Partial<T>);
 
-    setStyleValue(flexStyle, "flex", style.flex);
-    setStyleValue(flexStyle, "flexDirection", style.direction);
-    setStyleValue(flexStyle, "justifyContent", style.justify);
-    setStyleValue(flexStyle, "alignItems", style.align);
-    setStyleValue(flexStyle, "flexWrap", style.wrap);
-    setStyleValue(flexStyle, "gap", style.gap);
+    setProperty(flexStyle, "flex" as keyof T, style.flex);
+    setProperty(flexStyle, "flexDirection" as keyof T, style.direction);
+    setProperty(flexStyle, "justifyContent" as keyof T, style.justify);
+    setProperty(flexStyle, "alignItems" as keyof T, style.align);
+    setProperty(flexStyle, "flexWrap" as keyof T, style.wrap);
+    setProperty(flexStyle, "gap" as keyof T, style.gap);
+
     return flexStyle;
-  };
+  }
 
-  const position = <T extends ViewStyle | ImageStyle = ViewStyle>(
+  function position(style: IStylePosition): ViewStyle;
+  function position<T extends ViewStyle | ImageStyle>(style: IStylePosition): T;
+  function position<T extends ViewStyle | ImageStyle = ViewStyle>(
     style: IStylePosition
-  ): T => {
-    const positionStyle = {
+  ): T {
+    const positionStyle = createStyle<T>({
       position: "absolute",
-    } as T;
+    } as Partial<T>);
 
-    setStyleValue(positionStyle, "position", style.position);
-    setStyleValue(positionStyle, "top", style.top);
-    setStyleValue(positionStyle, "bottom", style.bottom);
-    setStyleValue(positionStyle, "left", style.left);
-    setStyleValue(positionStyle, "right", style.right);
+    setProperty(positionStyle, "position" as keyof T, style.position);
+    setProperty(positionStyle, "top" as keyof T, style.top);
+    setProperty(positionStyle, "bottom" as keyof T, style.bottom);
+    setProperty(positionStyle, "left" as keyof T, style.left);
+    setProperty(positionStyle, "right" as keyof T, style.right);
 
     return positionStyle;
-  };
+  }
 
   return { layout, flex, position };
 }
 
 export function useSpaceStyle() {
-  const size = <T extends ViewStyle | ImageStyle | TextStyle = ViewStyle>(
+  function size(style: IStyleSize): ViewStyle;
+  function size<T extends ViewStyle | ImageStyle | TextStyle>(style: IStyleSize): T;
+  function size<T extends ViewStyle | ImageStyle | TextStyle = ViewStyle>(
     style: IStyleSize
-  ): T => {
-    const sizeStyle = {} as T;
-    setStyleValue(sizeStyle, "width", style.width);
-    setStyleValue(sizeStyle, "height", style.height);
-    setStyleValue(sizeStyle, "maxWidth", style.maxWidth);
-    setStyleValue(sizeStyle, "minWidth", style.minWidth);
-    setStyleValue(sizeStyle, "maxHeight", style.maxHeight);
-    setStyleValue(sizeStyle, "minHeight", style.minHeight);
+  ): T {
+    const sizeStyle = createStyle<T>();
+
+    setProperty(sizeStyle, "width" as keyof T, style.width);
+    setProperty(sizeStyle, "height" as keyof T, style.height);
+    setProperty(sizeStyle, "maxWidth" as keyof T, style.maxWidth);
+    setProperty(sizeStyle, "minWidth" as keyof T, style.minWidth);
+    setProperty(sizeStyle, "maxHeight" as keyof T, style.maxHeight);
+    setProperty(sizeStyle, "minHeight" as keyof T, style.minHeight);
+
     return sizeStyle;
-  };
+  }
 
-  const margin = <T extends ViewStyle | TextStyle = ViewStyle>(
+  function margin(style: IStyleMargin): ViewStyle;
+  function margin<T extends ViewStyle | TextStyle>(style: IStyleMargin): T;
+  function margin<T extends ViewStyle | TextStyle = ViewStyle>(
     style: IStyleMargin
-  ): T => {
-    const marginStyle = {} as T;
+  ): T {
+    const marginStyle = createStyle<T>();
+
+    const marginMap: Record<keyof IStyleMargin, string> = {
+      left: "marginLeft",
+      right: "marginRight",
+      top: "marginTop",
+      bottom: "marginBottom",
+      horizontal: "marginHorizontal",
+      vertical: "marginVertical",
+    };
 
     Object.entries(style).forEach(([key, value]) => {
-      if (value !== undefined) {
-        const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        const marginKey = `margin${capitalizedKey}` as keyof T;
-        marginStyle[marginKey] = value as any;
+      if (isValidStyleValue(value)) {
+        const marginKey = marginMap[key as keyof IStyleMargin];
+        if (marginKey) {
+          (marginStyle as any)[marginKey] = value;
+        }
       }
     });
+
     return marginStyle;
-  };
+  }
 
-  const padding = <T extends ViewStyle | TextStyle = ViewStyle>(
+  function padding(style: IStylePadding): ViewStyle;
+  function padding<T extends ViewStyle | TextStyle>(style: IStylePadding): T;
+  function padding<T extends ViewStyle | TextStyle = ViewStyle>(
     style: IStylePadding
-  ): T => {
-    const paddingStyle = {} as T;
+  ): T {
+    const paddingStyle = createStyle<T>();
+
+    const paddingMap: Record<keyof IStylePadding, string> = {
+      left: "paddingLeft",
+      right: "paddingRight",
+      top: "paddingTop",
+      bottom: "paddingBottom",
+      horizontal: "paddingHorizontal",
+      vertical: "paddingVertical",
+    };
 
     Object.entries(style).forEach(([key, value]) => {
-      if (value !== undefined) {
-        const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
-        const paddingKey = `padding${capitalizedKey}` as keyof T;
-        paddingStyle[paddingKey] = value as any;
+      if (isValidStyleValue(value)) {
+        const paddingKey = paddingMap[key as keyof IStylePadding];
+        if (paddingKey) {
+          (paddingStyle as any)[paddingKey] = value;
+        }
       }
     });
+
     return paddingStyle;
-  };
+  }
 
   return { size, margin, padding };
 }
 
 export function useBorderStyle() {
-  const border = <T extends ViewStyle | TextStyle = ViewStyle>(
+  function border(style: IStyleBorder): ViewStyle;
+  function border<T extends ViewStyle | TextStyle>(style: IStyleBorder): T;
+  function border<T extends ViewStyle | TextStyle = ViewStyle>(
     style: IStyleBorder
-  ): T => {
-    const borderStyle = {} as T;
+  ): T {
+    const borderStyle = createStyle<T>();
 
-    setStyleValue(borderStyle, "borderWidth", style.width);
-    setStyleValue(borderStyle, "borderColor", style.color);
-    setStyleValue(borderStyle, "borderRadius", style.radius);
+    setProperty(borderStyle, "borderWidth" as keyof T, style.width);
+    setProperty(borderStyle, "borderColor" as keyof T, style.color);
+    setProperty(borderStyle, "borderRadius" as keyof T, style.radius);
 
-    if (style.topRadius) {
-      borderStyle.borderTopLeftRadius = style.topRadius;
-      borderStyle.borderTopRightRadius = style.topRadius;
+    if (isValidStyleValue(style.topRadius)) {
+      (borderStyle as any).borderTopLeftRadius = style.topRadius;
+      (borderStyle as any).borderTopRightRadius = style.topRadius;
     }
 
-    if (style.bottomRadius) {
-      borderStyle.borderBottomLeftRadius = style.bottomRadius;
-      borderStyle.borderBottomRightRadius = style.bottomRadius;
+    if (isValidStyleValue(style.bottomRadius)) {
+      (borderStyle as any).borderBottomLeftRadius = style.bottomRadius;
+      (borderStyle as any).borderBottomRightRadius = style.bottomRadius;
     }
 
-    if (style.top) {
-      borderStyle.borderTopWidth = style.top;
-      borderStyle.borderTopColor = style.color;
+    if (isValidStyleValue(style.top)) {
+      (borderStyle as any).borderTopWidth = style.top;
+      if (isValidStyleValue(style.color)) {
+        (borderStyle as any).borderTopColor = style.color;
+      }
     }
 
-    if (style.bottom) {
-      borderStyle.borderBottomWidth = style.bottom;
-      borderStyle.borderBottomColor = style.color;
+    if (isValidStyleValue(style.bottom)) {
+      (borderStyle as any).borderBottomWidth = style.bottom;
+      if (isValidStyleValue(style.color)) {
+        (borderStyle as any).borderBottomColor = style.color;
+      }
     }
 
-    if (style.left) {
-      borderStyle.borderLeftWidth = style.left;
-      borderStyle.borderLeftColor = style.color;
+    if (isValidStyleValue(style.left)) {
+      (borderStyle as any).borderLeftWidth = style.left;
+      if (isValidStyleValue(style.color)) {
+        (borderStyle as any).borderLeftColor = style.color;
+      }
     }
 
-    if (style.right) {
-      borderStyle.borderRightWidth = style.right;
-      borderStyle.borderRightColor = style.color;
+    if (isValidStyleValue(style.right)) {
+      (borderStyle as any).borderRightWidth = style.right;
+      if (isValidStyleValue(style.color)) {
+        (borderStyle as any).borderRightColor = style.color;
+      }
     }
+
     return borderStyle;
-  };
+  }
 
   return { border };
 }
@@ -164,13 +237,15 @@ export function useFontStyle() {
       fontWeight: "500",
     };
 
-    setStyleValue(fontStyle, "fontSize", style.size);
-    setStyleValue(fontStyle, "lineHeight", style.height);
-    setStyleValue(fontStyle, "letterSpacing", style.spacing);
-    setStyleValue(fontStyle, "color", style.color);
-    setStyleValue(fontStyle, "textAlign", style.align);
-    setStyleValue(fontStyle, "textDecorationLine", style.decoration);
-    setStyleValue(fontStyle, "fontWeight", style.weight);
+    if (isValidStyleValue(style.size)) fontStyle.fontSize = style.size;
+    if (isValidStyleValue(style.height)) fontStyle.lineHeight = style.height;
+    if (isValidStyleValue(style.spacing)) fontStyle.letterSpacing = style.spacing;
+    if (isValidStyleValue(style.color)) fontStyle.color = style.color;
+    if (isValidStyleValue(style.align)) fontStyle.textAlign = style.align;
+    if (isValidStyleValue(style.decoration)) fontStyle.textDecorationLine = style.decoration;
+    if (isValidStyleValue(style.weight)) {
+      fontStyle.fontWeight = style.weight as TextStyle["fontWeight"];
+    }
 
     return fontStyle;
   };
@@ -178,11 +253,37 @@ export function useFontStyle() {
   return { font };
 }
 
+/**
+ * Shadow 스타일 전용 훅
+ */
+export function useShadowStyle() {
+  const shadow = (config: {
+    color?: string;
+    offset?: { width: number; height: number };
+    opacity?: number;
+    radius?: number;
+    elevation?: number;
+  } = {}): ViewStyle => {
+    const shadowStyle: ViewStyle = {};
+
+    if (isValidStyleValue(config.color)) shadowStyle.shadowColor = config.color;
+    if (isValidStyleValue(config.offset)) shadowStyle.shadowOffset = config.offset;
+    if (isValidStyleValue(config.opacity)) shadowStyle.shadowOpacity = config.opacity;
+    if (isValidStyleValue(config.radius)) shadowStyle.shadowRadius = config.radius;
+    if (isValidStyleValue(config.elevation)) shadowStyle.elevation = config.elevation;
+
+    return shadowStyle;
+  };
+
+  return { shadow };
+}
+
 export function useBaseStyle() {
   const { layout, flex, position } = useLayoutStyle();
   const { size, margin, padding } = useSpaceStyle();
   const { border } = useBorderStyle();
   const { font } = useFontStyle();
+  const { shadow } = useShadowStyle();
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
 
@@ -195,6 +296,7 @@ export function useBaseStyle() {
     border,
     font,
     position,
+    shadow,
     width,
     height,
     insets,

@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 import {
   KeyboardAwareScrollView,
   KeyboardStickyView,
@@ -105,13 +105,13 @@ export default function OnboardScreen() {
   ]);
 
   return (
-    <View style={{ ...flex({ flex: 1 }) }}>
+    <View style={flex<ViewStyle>({ flex: 1 })}>
       <View
-        style={{
-          ...padding({ top: insets.top, horizontal: 20 }),
-          ...size({ width: "100%", height: 40 + insets.top }),
-          ...flex({ align: "flex-start", justify: "flex-start" }),
-        }}
+        style={[
+          padding<ViewStyle>({ top: insets.top, horizontal: 20 }),
+          size<ViewStyle>({ width: "100%", height: 40 + insets.top }),
+          flex<ViewStyle>({ align: "flex-start", justify: "flex-start" }),
+        ]}
       >
         <OnboardingStepText step={step} />
       </View>
@@ -121,8 +121,8 @@ export default function OnboardScreen() {
         contentContainerStyle={{ flexGrow: 1 }}
         bottomOffset={80 + 12 + insets.bottom}
       >
-        <View style={{ ...flex({ flex: 1 }) }} />
-        <View style={{ ...flex({ flex: 10 }) }}>
+        <View style={flex<ViewStyle>({ flex: 1 })} />
+        <View style={flex<ViewStyle>({ flex: 10 })}>
           {step === "nickname" && (
             <OnboardingNicknameForm
               value={nickname}

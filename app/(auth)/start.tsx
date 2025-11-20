@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { View, ViewStyle } from "react-native";
 
 import { StartImage } from "@/assets";
 import {
@@ -39,10 +39,10 @@ export default function StartScreen() {
 
   return (
     <View
-      style={{
-        ...flex({ justify: "center", align: "center", flex: 1 }),
-        ...padding({ top: 40, bottom: bottom + 28 }),
-      }}
+      style={[
+        flex<ViewStyle>({ justify: "center", align: "center", flex: 1 }),
+        padding<ViewStyle>({ top: 40, bottom: bottom + 28 }),
+      ]}
     >
       <Image
         source={StartImage}

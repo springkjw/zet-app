@@ -1,20 +1,32 @@
-import type { ViewStyle, TextStyle } from "react-native";
+import type { ViewStyle, TextStyle, ImageStyle } from "react-native";
 
-export function setStyleValue(
-  obj: ViewStyle | TextStyle,
-  key: string,
-  value: unknown,
+/**
+ * 타입 안전한 스타일 값 설정 함수
+ * @template T - ViewStyle, TextStyle, ImageStyle 중 하나
+ * @param obj - 스타일 객체
+ * @param key - 스타일 속성 키 (타입 안전하게 검증됨)
+ * @param value - 설정할 값
+ * @param onlyValid - true일 경우 null, undefined, '' 값을 무시
+ */
+export function setStyleValue<T extends ViewStyle | TextStyle | ImageStyle>(
+  obj: T,
+  key: keyof T,
+  value: T[keyof T],
   onlyValid: boolean = true
-) {
-  /**
-   * obj 객체에 대해 key, value 값을 할당
-   * onlyValid가 참일 경우, null, undefined, '' 일 경우 해당 키를 무시합니다.
-   */
+): void {
   if (onlyValid) {
     if (value === null || value === undefined || value === "") {
       return;
     }
   }
 
-  Object.assign(obj, { [key]: value });
+  // 타입 안전한 할당
+  (obj as any)[key] = value;
+}
+
+/**
+ * 스타일 값의 유효성을 런타임에 검증
+ */
+export function isValidStyleValue(value: unknown): boolean {
+  return value !== null && value !== undefined && value !== "";
 }
