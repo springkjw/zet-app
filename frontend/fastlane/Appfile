@@ -1,0 +1,9 @@
+# Appfile - App Identifiers and Apple ID
+
+# iOS Configuration
+app_identifier(ENV["IOS_BUNDLE_ID"] || "com.geniusproject.zet")
+apple_id(ENV["APPLE_ID"])
+team_id(ENV["APPLE_TEAM_ID"])
+
+# Android Configuration (not used by Appfile, but kept for reference)
+# package_name: com.anonymous.zet (defined in app.json)

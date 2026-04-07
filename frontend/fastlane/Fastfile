@@ -1,0 +1,140 @@
+# Fastfile for Zet App
+# iOS and Android build and deployment automation
+
+default_platform(:ios)
+
+# iOS Lanes
+platform :ios do
+  desc "Build iOS app and upload to Firebase App Distribution"
+  lane :firebase do
+    # Expo prebuild to generate native iOS project
+    sh("cd .. && npx expo prebuild --platform ios --clean")
+
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "ios/zet.xcodeproj"
+    )
+
+    # Build the app
+    build_app(
+      workspace: "ios/zet.xcworkspace",
+      scheme: "zet",
+      export_method: "ad-hoc",
+      export_options: {
+        provisioningProfiles: {
+          ENV["IOS_BUNDLE_ID"] => ENV["IOS_PROVISIONING_PROFILE_NAME"]
+        }
+      },
+      output_directory: "./build",
+      output_name: "zet-ios.ipa"
+    )
+
+    # Upload to Firebase App Distribution
+    firebase_app_distribution(
+      app: ENV["FIREBASE_IOS_APP_ID"],
+      groups: "internal-testers",
+      release_notes: last_git_commit[:message],
+      firebase_cli_token: ENV["FIREBASE_TOKEN"]
+    )
+  end
+
+  desc "Build iOS app and upload to TestFlight"
+  lane :release do
+    # Expo prebuild to generate native iOS project
+    sh("cd .. && npx expo prebuild --platform ios --clean")
+
+    # Increment build number
+    increment_build_number(
+      xcodeproj: "ios/zet.xcodeproj"
+    )
+
+    # Build the app
+    build_app(
+      workspace: "ios/zet.xcworkspace",
+      scheme: "zet",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          ENV["IOS_BUNDLE_ID"] => ENV["IOS_PROVISIONING_PROFILE_NAME"]
+        }
+      },
+      output_directory: "./build",
+      output_name: "zet-ios.ipa"
+    )
+
+    # Upload to TestFlight
+    upload_to_testflight(
+      api_key_path: ENV["APP_STORE_CONNECT_API_KEY_PATH"],
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
+
+# Android Lanes
+platform :android do
+  desc "Build Android app and upload to Firebase App Distribution"
+  lane :firebase do
+    # Expo prebuild to generate native Android project
+    sh("cd .. && npx expo prebuild --platform android --clean")
+
+    # Increment version code
+    increment_version_code(
+      gradle_file_path: "android/app/build.gradle"
+    )
+
+    # Build the app
+    gradle(
+      project_dir: "android",
+      task: "clean assembleRelease",
+      properties: {
+        "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE_PATH"],
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_KEY_PASSWORD"]
+      }
+    )
+
+    # Upload to Firebase App Distribution
+    firebase_app_distribution(
+      app: ENV["FIREBASE_ANDROID_APP_ID"],
+      groups: "internal-testers",
+      release_notes: last_git_commit[:message],
+      firebase_cli_token: ENV["FIREBASE_TOKEN"],
+      android_artifact_type: "APK",
+      android_artifact_path: "android/app/build/outputs/apk/release/app-release.apk"
+    )
+  end
+
+  desc "Build Android app and upload to Play Store"
+  lane :release do
+    # Expo prebuild to generate native Android project
+    sh("cd .. && npx expo prebuild --platform android --clean")
+
+    # Increment version code
+    increment_version_code(
+      gradle_file_path: "android/app/build.gradle"
+    )
+
+    # Build the app bundle
+    gradle(
+      project_dir: "android",
+      task: "clean bundleRelease",
+      properties: {
+        "android.injected.signing.store.file" => ENV["ANDROID_KEYSTORE_PATH"],
+        "android.injected.signing.store.password" => ENV["ANDROID_KEYSTORE_PASSWORD"],
+        "android.injected.signing.key.alias" => ENV["ANDROID_KEY_ALIAS"],
+        "android.injected.signing.key.password" => ENV["ANDROID_KEY_PASSWORD"]
+      }
+    )
+
+    # Upload to Play Store (Internal Testing track)
+    upload_to_play_store(
+      track: "internal",
+      aab: "android/app/build/outputs/bundle/release/app-release.aab",
+      json_key: ENV["GOOGLE_PLAY_JSON_KEY_PATH"],
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end
