@@ -1,0 +1,4 @@
+Run migrations from backend/:
+
+- Create revision: `alembic revision --autogenerate -m "message"`
+- Upgrade: `alembic upgrade head`
