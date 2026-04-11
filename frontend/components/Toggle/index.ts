@@ -1,1 +1,1 @@
-export { default as BaseToggle } from "./BaseToggle";
+export * from "../controls/Toggle";

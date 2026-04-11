@@ -1,1 +1,1 @@
-export { default as CircleImageCheckbox } from "./CircleImageCheckbox";
+export * from "../controls/Checkbox";
