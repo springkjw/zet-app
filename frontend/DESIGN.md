@@ -12,6 +12,8 @@
 
 - MUST shared UI 변경 전에 이 문서를 먼저 따른다.
 - MUST `frontend/components/**`를 shared UI hub로 간주하고, 재사용 후보를 여기서 먼저 찾는다.
+- MUST role-first canonical surface(`controls`, `display`, `overlay`, `navigation`, `layout`, `typography`)를 shared UI의 유일한 canonical path로 간주하고, root `@/components`는 convenience aggregator로 사용한다.
+- MUST `@/components/Button`, `@/components/Menu`, `@/components/Screen` 같은 남아 있는 flat family entrypoint는 compatibility-only로 취급하며, 새 import에는 사용하지 않는다.
 - MUST screen-local concern, route composition, screen-only layout은 `frontend/app/**`에 로컬로 둔다.
 - MUST `frontend/app/**`의 screen-local component는 체크리스트 근거 없이는 shared로 승격하지 않는다.
 - MUST shared UI styling 시 검증된 공용 소스와 기존 shared component 조합을 우선 사용하고, ad-hoc style 추가를 마지막 수단으로 남긴다.
@@ -36,24 +38,26 @@
 ## Component Map
 
 - 이 맵은 **major shared components only**를 다루는 공개 표면 안내이며, 전체 internal inventory가 아니다.
+- canonical path는 아래 role-first folders이고, flat family entrypoint는 기존 consumer 호환을 위한 compatibility surface일 뿐 새 canonical import 경로가 아니다.
 
-| 범주 | 경로 | 대표 group | 언제 먼저 볼지 |
+| 범주 | canonical path | 대표 group | 언제 먼저 볼지 |
 | --- | --- | --- | --- |
-| Controls | `frontend/components/*` | `Button`, `Checkbox`, `Chip`, `Toggle` | 입력, 토글, 선택, 상태 표현이 필요하면 여기서 먼저 찾는다. |
-| Overlays / menus | `frontend/components/*` | `Menu`, `Modal` | 레이어, 액션 메뉴, 확인/닫기 흐름이 필요하면 여기서 먼저 찾는다. |
-| Navigation | `frontend/components/*` | `Nav` | 탭, 상단/하단 이동, 공용 내비게이션 뼈대가 필요하면 여기서 먼저 찾는다. |
-| Screens / layout shells | `frontend/components/*` | `Screen` | 화면 공통 shell, safe area, 기본 레이아웃 wrapper가 필요하면 여기서 먼저 찾는다. |
-| Typography / text | `frontend/components/*` | `Text` | 공용 텍스트 표현, typography wrapper, 문구 스타일 통일이 필요하면 여기서 먼저 찾는다. |
+| Controls | `frontend/components/controls/**` | `Button`, `Checkbox`, `FilterChip`, `Toggle` | 입력, 토글, 선택 control이 필요하면 여기서 먼저 찾는다. |
+| Display | `frontend/components/display/**` | `StatusBadge` | 상품/상태 badge처럼 display-only status 표현이 필요하면 여기서 먼저 찾는다. |
+| Overlays / menus | `frontend/components/overlay/**` | `Menu`, `Modal` | 레이어, 액션 메뉴, 확인/닫기 흐름이 필요하면 여기서 먼저 찾는다. |
+| Navigation | `frontend/components/navigation/**` | `Nav` | 탭, 상단/하단 이동, 공용 내비게이션 뼈대가 필요하면 여기서 먼저 찾는다. |
+| Screens / layout shells | `frontend/components/layout/**` | `Screen` | route-oriented shared screen families(`HomeScreen`, `LoginScreen`, `ProfileScreen`, `SettingScreen` 등)와 그 support export가 필요하면 여기서 먼저 찾는다. |
+| Typography / text | `frontend/components/typography/**` | `Text` | 공용 텍스트 표현, typography wrapper, 문구 스타일 통일이 필요하면 여기서 먼저 찾는다. |
 
 ## New Shared Component Checklist
 
 - 새 shared component를 만들기 전에 아래 gate를 **모두** 통과해야 한다.
 - [ ] `frontend/components/**`에서 유사한 shared component를 먼저 검색했다. 예: 버튼형 CTA가 필요하면 새 `PrimaryAction`을 만들기 전에 `Button` group부터 확인한다.
 - [ ] 기존 shared component **composition**만으로 해결되지 않는다. 예: `Screen` + `Text` + `Button` 조합으로 충분하면 새 wrapper를 만들지 않는다.
-- [ ] 기존 shared component의 **variant/prop 확장**만으로도 해결되지 않는다. 예: 기존 `Chip`에 prop 하나 추가하면 끝나는 요구사항이면 새 `StatusChip` shared를 만들지 않는다.
+- [ ] 기존 shared component의 **variant/prop 확장**만으로도 해결되지 않는다. 예: 기존 `FilterChip` 또는 `StatusBadge` 변형으로 끝나는 요구사항이면 새 shared family를 만들지 않는다.
 - [ ] 한 화면에서 잠깐 쓰는 임시 UI가 아니다. 예: `frontend/app/settings/**` 한 곳 전용 안내 박스면 local component가 기본이다.
 - [ ] 반복 재사용 가치가 충분히 높다.
-- [ ] 이름이 역할 기반이며 기존 공개 shared 이름과 충돌하지 않는다.
+- [ ] 이름이 역할 기반이며 기존 공개 shared 이름과 충돌하지 않는다. `Chip` 같은 umbrella family 대신 `FilterChip`, `StatusBadge`처럼 역할이 바로 드러나는 이름을 우선한다.
 - [ ] `frontend/assets/style.ts`, `frontend/constants/ui.ts`, `frontend/hooks/style.ts`, 기존 shared pattern으로 구현 근거를 설명할 수 있다.
 - [ ] 새 shared component를 추가하면 이 문서의 Component Map도 함께 갱신할 계획이 있다.
 
