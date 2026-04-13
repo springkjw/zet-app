@@ -12,8 +12,7 @@
 
 - MUST shared UI 변경 전에 이 문서를 먼저 따른다.
 - MUST `frontend/components/**`를 shared UI hub로 간주하고, 재사용 후보를 여기서 먼저 찾는다.
-- MUST role-first canonical surface(`controls`, `display`, `overlay`, `navigation`, `layout`, `typography`)를 shared UI의 유일한 canonical path로 간주하고, root `@/components`는 convenience aggregator로 사용한다.
-- MUST `@/components/Button`, `@/components/Menu`, `@/components/Screen` 같은 남아 있는 flat family entrypoint는 compatibility-only로 취급하며, 새 import에는 사용하지 않는다.
+- MUST role-first canonical surface(`controls`, `display`, `overlay`, `navigation`, `layout`, `typography`)를 shared UI의 유일한 canonical path로 간주하고, root `@/components`는 canonical surface를 노출하는 convenience aggregator로 사용한다.
 - MUST screen-local concern, route composition, screen-only layout은 `frontend/app/**`에 로컬로 둔다.
 - MUST `frontend/app/**`의 screen-local component는 체크리스트 근거 없이는 shared로 승격하지 않는다.
 - MUST shared UI styling 시 검증된 공용 소스와 기존 shared component 조합을 우선 사용하고, ad-hoc style 추가를 마지막 수단으로 남긴다.
@@ -38,7 +37,7 @@
 ## Component Map
 
 - 이 맵은 **major shared components only**를 다루는 공개 표면 안내이며, 전체 internal inventory가 아니다.
-- canonical path는 아래 role-first folders이고, flat family entrypoint는 기존 consumer 호환을 위한 compatibility surface일 뿐 새 canonical import 경로가 아니다.
+- canonical path는 아래 role-first folders와 root `@/components` aggregator뿐이며, flat family entrypoint는 더 이상 shared public surface에 포함되지 않는다.
 
 | 범주 | canonical path | 대표 group | 언제 먼저 볼지 |
 | --- | --- | --- | --- |
