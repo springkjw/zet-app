@@ -8,7 +8,7 @@ export interface IOptions {
   value: number;
 }
 
-export enum ItemChipType {
+export enum StatusBadgeType {
   DEFAULT = "default",
   ZET_PICK = "zet_pick",
   PRICE = "price",

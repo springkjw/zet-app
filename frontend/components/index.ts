@@ -1,9 +1,8 @@
-export * from "./Button";
-export * from "./Checkbox";
-export * from "./Chip";
-export * from "./Menu";
-export * from "./Modal";
-export * from "./Nav";
-export * from "./Screen";
-export * from "./Text";
-export * from "./Toggle";
+// Root @/components remains the convenience aggregator.
+// The role-first surface is the canonical public component API.
+export * from "./controls";
+export * from "./display";
+export * from "./overlay";
+export * from "./navigation";
+export * from "./layout";
+export * from "./typography";
