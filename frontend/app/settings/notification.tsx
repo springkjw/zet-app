@@ -2,15 +2,13 @@ import { useMemo, useState } from "react";
 import { View } from "react-native";
 
 import { colors } from "@/assets";
-import { BaseMenu } from "@/components/Menu";
-import { BaseNav } from "@/components/Nav";
-import { BaseToggle } from "@/components/Toggle";
+import { BaseMenu, BaseNav, BaseToggle } from "@/components";
 import { CONTENT_PADDING, HORIZONTAL_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 
 import type { ViewStyle } from "react-native";
 
-export default function NotificationSettingScreen() {
+export function NotificationSettingScreen() {
   const { flex, layout, padding, size } = useBaseStyle();
 
   const [newStockNotification, setNewStockNotification] = useState(true);
@@ -84,3 +82,5 @@ export default function NotificationSettingScreen() {
     </View>
   );
 }
+
+export default NotificationSettingScreen;

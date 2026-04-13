@@ -7,7 +7,7 @@ import {
   NotificationConfirmModal,
   StartAction,
   StartDescription,
-} from "@/components/Screen";
+} from "@/components";
 import {
   useBaseStyle,
   useModal,

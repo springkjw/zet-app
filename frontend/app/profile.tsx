@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
 
-import { ProfileHeader, ProfileInfo } from "@/components/Screen/ProfileScreen";
+import { ProfileHeader, ProfileInfo } from "@/components";
 import { HORIZONTAL_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 import { useAuthStore } from "@/stores";

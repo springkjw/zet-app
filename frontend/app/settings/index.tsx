@@ -3,8 +3,7 @@ import { useMemo } from "react";
 import { View } from "react-native";
 
 import { colors } from "@/assets";
-import { BaseNav } from "@/components/Nav";
-import { LogoutModal, SettingMenu } from "@/components/Screen";
+import { BaseNav, LogoutModal, SettingMenu } from "@/components";
 import { CONTENT_PADDING, HORIZONTAL_PADDING } from "@/constants";
 import { useBaseStyle, useModal } from "@/hooks";
 
