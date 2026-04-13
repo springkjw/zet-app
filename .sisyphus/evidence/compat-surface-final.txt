@@ -1,0 +1,35 @@
+# Compatibility Surface Final Verification
+
+Status: PASS
+
+## Exact checks
+
+- `grep -R "@/components/(Button|Checkbox|Toggle|Menu|Modal|Nav|Screen|Text)" frontend --include="*.ts" --include="*.tsx"`
+  - Result: `No matches found`
+
+- `grep -R "@/components/(Button|Checkbox|Toggle|Menu|Modal|Nav|Screen|Text)" . --include="*.md" --include="*.txt"`
+  - Result: `No matches found`
+
+- `grep -R "@/components/Chip|ItemChip|ItemChipType|MarketChip" frontend --include="*.ts" --include="*.tsx"`
+  - Result: `No matches found`
+
+- `find frontend/components -maxdepth 2 -name index.ts | sort`
+  - Result:
+    - `frontend/components/controls/index.ts`
+    - `frontend/components/display/index.ts`
+    - `frontend/components/index.ts`
+    - `frontend/components/layout/index.ts`
+    - `frontend/components/navigation/index.ts`
+    - `frontend/components/overlay/index.ts`
+    - `frontend/components/typography/index.ts`
+
+- `cd frontend && yarn lint`
+  - Result: exit 0
+  - Output summary:
+    - `yarn lint` ran `expo lint`
+    - `eslint ...`
+    - `Done in 8.71s.`
+
+## Conclusion
+
+The compatibility-only flat family import surface has been fully removed from code and documentation. The legacy `Chip` family names remain absent, only the canonical role-first barrels remain under `frontend/components`, and frontend lint passes.

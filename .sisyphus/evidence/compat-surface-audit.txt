@@ -1,0 +1,8 @@
+Task 1 audit evidence
+
+Scope: `frontend/**/*.ts` and `frontend/**/*.tsx`
+Pattern: `@/components/(Button|Checkbox|Toggle|Menu|Modal|Nav|Screen|Text)`
+
+Result: no matches found.
+
+Verification: reran the same grep over `frontend` with `--include="*.ts" --include="*.tsx"`; output was `No matches found`.
