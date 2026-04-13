@@ -6,7 +6,7 @@ import { LoginAction } from "@/components";
 import { useBaseStyle, useWindowDimensions } from "@/hooks";
 
 export default function LoginScreen() {
-  const { layout } = useBaseStyle();
+  useBaseStyle();
   const { width, height } = useWindowDimensions();
 
   return (

@@ -41,7 +41,7 @@ export default function SettingsScreen() {
         },
       ],
     ];
-  }, [router, onConfirm]);
+  }, [onConfirm]);
 
   return (
     <View
