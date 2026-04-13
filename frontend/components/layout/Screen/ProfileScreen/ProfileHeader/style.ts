@@ -6,7 +6,7 @@ import { useBaseStyle } from "@/hooks";
 import type { ViewStyle } from "react-native";
 
 export default function useStyle() {
-  const { flex, padding, size } = useBaseStyle();
+  const { flex, size } = useBaseStyle();
 
   return StyleSheet.create({
     SettingsButton: {

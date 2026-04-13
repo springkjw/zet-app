@@ -4,8 +4,6 @@ import { colors } from "@/assets";
 import { CONTENT_PADDING } from "@/constants";
 import { useBaseStyle } from "@/hooks";
 
-import type { ViewStyle } from "react-native";
-
 export default function useStyle() {
   const { flex, padding, size, layout, border, font } = useBaseStyle();
 
