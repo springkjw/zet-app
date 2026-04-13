@@ -1,1 +1,1 @@
-export { default as LoginAction } from "./LoginAction";
+export * from "../../layout/Screen/LoginScreen";
