@@ -1,1 +1,1 @@
-export { default as BaseMenu } from "./BaseMenu";
+export * from "../overlay/Menu";

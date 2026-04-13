@@ -1,1 +1,1 @@
-export { default as BaseText } from "./BaseText";
+export * from "../typography/Text";

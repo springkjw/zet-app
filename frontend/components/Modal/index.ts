@@ -1,2 +1,1 @@
-export { default as ConfirmModal } from "./ConfirmModal";
-export { default as PermissionModal } from "./PermissionModal";
+export * from "../overlay/Modal";
