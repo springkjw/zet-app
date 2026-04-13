@@ -76,7 +76,7 @@ export function useStyle({
       default:
         return 100;
     }
-  }, [radius]);
+  }, [radius, buttonSize]);
 
   return StyleSheet.create({
     BaseButton: {

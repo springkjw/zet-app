@@ -32,7 +32,7 @@ export default function BaseToggle({
 
   useEffect(() => {
     animatedValue.value = withTiming(value ? 1 : 0, { duration: 300 });
-  }, [value]);
+  }, [value, animatedValue]);
 
   const thumbAnimatedStyle = useAnimatedStyle(() => {
     return {
