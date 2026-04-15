@@ -11,6 +11,7 @@ export default function BaseButton({
   height,
   radius,
   disabled = false,
+  testID,
   variant = "primary",
   size = "large",
   onPress,
@@ -35,6 +36,7 @@ export default function BaseButton({
     <Pressable
       style={[innerStyle.BaseButton, style]}
       disabled={disabled}
+      testID={testID}
       onPress={onPress}
       onPressIn={() => setPressed(true)}
       onPressOut={() => setPressed(false)}

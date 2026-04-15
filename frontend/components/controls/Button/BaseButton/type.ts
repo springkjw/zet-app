@@ -7,6 +7,7 @@ export interface IBaseButtonProps {
   height?: number;
   radius?: number;
   disabled?: boolean;
+  testID?: string;
   variant?: TVariant;
   size?: TSize;
   onPress?: () => void;
