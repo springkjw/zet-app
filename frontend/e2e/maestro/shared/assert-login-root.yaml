@@ -1,0 +1,15 @@
+appId: com.geniusproject.zet
+name: Assert auth login root contract
+tags:
+  - auth
+  - contract
+env:
+  AUTH_LOGIN_SCREEN_ROOT_ID: auth.login.screen.root
+
+---
+- extendedWaitUntil:
+    visible:
+      id: ${AUTH_LOGIN_SCREEN_ROOT_ID}
+    timeout: 20000
+- assertVisible:
+    id: ${AUTH_LOGIN_SCREEN_ROOT_ID}

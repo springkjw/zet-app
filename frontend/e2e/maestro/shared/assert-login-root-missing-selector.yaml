@@ -1,0 +1,11 @@
+appId: com.geniusproject.zet
+name: Assert missing auth login root selector contract
+tags:
+  - auth
+  - negative
+env:
+  AUTH_LOGIN_SCREEN_ROOT_MISSING_ID: auth.login.screen.root.missing
+
+---
+- assertVisible:
+    id: ${AUTH_LOGIN_SCREEN_ROOT_MISSING_ID}

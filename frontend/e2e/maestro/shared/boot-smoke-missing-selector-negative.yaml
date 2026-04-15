@@ -1,0 +1,17 @@
+appId: com.geniusproject.zet
+name: Auth boot smoke missing-selector negative
+tags:
+  - auth
+  - smoke
+  - negative
+
+---
+- runFlow:
+    when:
+      platform: iOS
+    file: ../ios/launch-dev-client.yaml
+- runFlow:
+    when:
+      platform: Android
+    file: ../android/launch-dev-client.yaml
+- runFlow: assert-login-root-missing-selector.yaml
