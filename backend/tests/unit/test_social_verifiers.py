@@ -37,7 +37,7 @@ def _build_apple_id_token(
     private_key: Any,
     *,
     kid: str,
-    audience: str = "com.geniusproject.zet",
+    audience: str = "dev.geniusproject.zet",
     issuer: str = "https://appleid.apple.com",
     subject: str = "apple-user-123",
     email: str = "apple@example.com",
@@ -199,8 +199,8 @@ async def test_naver_verifier_rejects_invalid_access_token(monkeypatch: pytest.M
 async def test_apple_verifier_validates_jwt_signature_and_claims(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
@@ -232,8 +232,8 @@ async def test_apple_verifier_validates_jwt_signature_and_claims(monkeypatch: py
 async def test_apple_verifier_rejects_invalid_issuer(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
@@ -262,8 +262,8 @@ async def test_apple_verifier_rejects_invalid_issuer(monkeypatch: pytest.MonkeyP
 async def test_apple_verifier_rejects_invalid_audience(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
@@ -292,8 +292,8 @@ async def test_apple_verifier_rejects_invalid_audience(monkeypatch: pytest.Monke
 async def test_apple_verifier_rejects_service_audience_for_ios_login(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
@@ -302,7 +302,7 @@ async def test_apple_verifier_rejects_service_audience_for_ios_login(monkeypatch
     token = _build_apple_id_token(
         private_key,
         kid=str(jwk["kid"]),
-        audience="com.geniusproject.zet.web",
+        audience="dev.geniusproject.zet.web",
     )
 
     async def fake_get(self: httpx.AsyncClient, url: str, **_: object) -> httpx.Response:
@@ -322,8 +322,8 @@ async def test_apple_verifier_rejects_service_audience_for_ios_login(monkeypatch
 async def test_apple_verifier_rejects_expired_token(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
@@ -352,8 +352,8 @@ async def test_apple_verifier_rejects_expired_token(monkeypatch: pytest.MonkeyPa
 async def test_apple_verifier_rejects_invalid_signature(monkeypatch: pytest.MonkeyPatch) -> None:
     verifier = AppleVerifier(
         AppleVerifierConfig(
-            bundle_id="com.geniusproject.zet",
-            service_id="com.geniusproject.zet.web",
+            bundle_id="dev.geniusproject.zet",
+            service_id="dev.geniusproject.zet.web",
             issuer="https://appleid.apple.com",
             jwks_url="https://appleid.apple.com/auth/keys",
         )
