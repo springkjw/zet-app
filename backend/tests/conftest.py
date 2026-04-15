@@ -27,6 +27,16 @@ def test_settings(tmp_path) -> Settings:
         jwt_algorithm="HS256",
         jwt_access_token_ttl_minutes=60,
         jwt_refresh_token_ttl_days=30,
+        auth_kakao_app_key="kakao-app-key",
+        auth_kakao_rest_api_key="kakao-rest-api-key",
+        auth_kakao_jwks_url="https://kauth.kakao.com/.well-known/jwks.json",
+        auth_naver_client_id="naver-client-id",
+        auth_naver_client_secret="naver-client-secret",
+        auth_naver_userinfo_url="https://openapi.naver.com/v1/nid/me",
+        auth_apple_bundle_id="com.geniusproject.zet",
+        auth_apple_service_id="com.geniusproject.zet",
+        auth_apple_issuer="https://appleid.apple.com",
+        auth_apple_jwks_url="https://appleid.apple.com/auth/keys",
         default_shop_image_url="https://example.com/default-shop.png",
     )
 
