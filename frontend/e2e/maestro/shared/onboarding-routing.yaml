@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Auth onboarding routing
 tags:
   - auth
@@ -14,10 +14,10 @@ env:
 # Precondition: seed an authenticated session before running.
 # Optional: set EXPECTED_ROUTE=start|onboard|home for strict route verification.
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: false
 - openLink:
-    link: zet://
+    link: "dev.geniusproject.zet://"
 - assertNotVisible:
     id: auth.login.screen.root
 - runFlow:

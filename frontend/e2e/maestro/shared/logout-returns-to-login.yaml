@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Logout returns to login
 tags:
   - auth
@@ -12,10 +12,10 @@ env:
 ---
 # Precondition: seed an authenticated + fully onboarded session before running.
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: false
 - openLink:
-    link: zet://settings
+    link: "dev.geniusproject.zet://settings"
 - assertVisible: 설정
 - tapOn: 로그아웃
 - assertVisible: 로그아웃 하시겠습니까?

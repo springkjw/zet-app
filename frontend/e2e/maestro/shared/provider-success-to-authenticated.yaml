@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Provider success reaches authenticated route
 tags:
   - auth
@@ -15,10 +15,10 @@ env:
 # or a future dev hook), then run this flow to assert the returned in-app route.
 # Optional: set EXPECTED_ROUTE=start|onboard|home for strict route verification.
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: false
 - openLink:
-    link: zet://
+    link: "dev.geniusproject.zet://"
 - assertNotVisible:
     id: auth.login.screen.root
 - runFlow:
