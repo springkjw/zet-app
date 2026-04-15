@@ -10,7 +10,6 @@ export type { TSocialProvider, IUser, IAuthTokens, IOnboardingState };
 export interface IAuthState {
   user: IUser | null;
   tokens: IAuthTokens | null;
-  isGuest: boolean;
   isAuthenticated: boolean;
   isLoading: boolean;
   onboarding: IOnboardingState;

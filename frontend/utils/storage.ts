@@ -8,6 +8,11 @@ const KEYS = {
   ONBOARDING: "onboarding",
 } as const;
 
+export interface IRestoredAuthSession {
+  user: IUser | null;
+  tokens: IAuthTokens | null;
+}
+
 export const storage = {
   async saveUser(user: IUser): Promise<void> {
     try {
@@ -52,6 +57,29 @@ export const storage = {
     } catch (error) {
       console.error("Failed to clear auth:", error);
     }
+  },
+
+  async restoreAuthSession(): Promise<IRestoredAuthSession> {
+    const [user, tokens] = await Promise.all([storage.getUser(), storage.getTokens()]);
+
+    const hasValidAuth = Boolean(user && tokens);
+    const hasPartialAuth = Boolean((user && !tokens) || (!user && tokens));
+
+    if (hasPartialAuth) {
+      await storage.clearAuth();
+    }
+
+    if (!hasValidAuth) {
+      return {
+        user: null,
+        tokens: null,
+      };
+    }
+
+    return {
+      user,
+      tokens,
+    };
   },
 
   async saveOnboarding(state: IOnboardingState): Promise<void> {

@@ -1,38 +1,33 @@
 import { create } from "zustand";
 
-import { storage, guestStorage } from "@/utils";
+import { storage } from "@/utils";
 
 import type {
   IAuthState,
   IAuthTokens,
-  IGuestProfile,
   IOnboardingState,
   IUser,
   TSocialProvider,
 } from "@/types";
 
 interface IAuthStore extends IAuthState {
-  loginAsGuest: () => void;
+  bootstrapAuth: () => Promise<void>;
   loginWithSocial: (
     provider: TSocialProvider,
     user: IUser,
-    tokens: IAuthTokens
-  ) => void;
+    tokens: IAuthTokens,
+    onboarding: IOnboardingState
+  ) => Promise<void>;
   logout: () => void;
   setLoading: (isLoading: boolean) => void;
   restoreAuth: (user: IUser, tokens: IAuthTokens) => void;
   setOnboarding: (state: Partial<IOnboardingState>) => void;
   restoreOnboarding: (state: IOnboardingState) => void;
-  setGuestProfile: (nickname: string, shopIds: string[]) => Promise<void>;
-  getGuestProfile: () => Promise<IGuestProfile | null>;
-  clearGuestProfile: () => Promise<void>;
-  hasGuestProfile: () => Promise<boolean>;
 }
 
 export const useAuthStore = create<IAuthStore>((set) => ({
   user: null,
   tokens: null,
-  isGuest: false,
   isAuthenticated: false,
   isLoading: true,
   onboarding: {
@@ -40,35 +35,46 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     hasCompletedOnboarding: false,
   },
 
-  loginAsGuest: () =>
+  bootstrapAuth: async () => {
+    const { user, tokens } = await storage.restoreAuthSession();
+
+    if (user && tokens) {
+      set({
+        user,
+        tokens,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+      return;
+    }
+
     set({
-      isGuest: true,
-      isAuthenticated: false,
       user: null,
       tokens: null,
+      isAuthenticated: false,
       isLoading: false,
-    }),
+    });
+  },
 
-  loginWithSocial: async (provider, user, tokens) => {
+  loginWithSocial: async (_provider, user, tokens, onboarding) => {
     await storage.saveUser(user);
     await storage.saveTokens(tokens);
+    await storage.saveOnboarding(onboarding);
     set({
       user,
       tokens,
-      isGuest: false,
       isAuthenticated: true,
       isLoading: false,
+      onboarding,
     });
   },
 
   logout: async () => {
     await storage.clearAuth();
     await storage.clearOnboarding();
-    await guestStorage.clear();
     set({
       user: null,
       tokens: null,
-      isGuest: false,
       isAuthenticated: false,
       isLoading: false,
       onboarding: {
@@ -84,7 +90,6 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     set({
       user,
       tokens,
-      isGuest: false,
       isAuthenticated: true,
       isLoading: false,
     }),
@@ -101,20 +106,4 @@ export const useAuthStore = create<IAuthStore>((set) => ({
     set({
       onboarding: state,
     }),
-
-  setGuestProfile: async (nickname, shopIds) => {
-    await guestStorage.save({ nickname, preferredShopIds: shopIds });
-  },
-
-  getGuestProfile: async () => {
-    return await guestStorage.get();
-  },
-
-  clearGuestProfile: async () => {
-    await guestStorage.clear();
-  },
-
-  hasGuestProfile: async () => {
-    return await guestStorage.has();
-  },
 }));
