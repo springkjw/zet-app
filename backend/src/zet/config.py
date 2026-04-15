@@ -85,8 +85,8 @@ class Settings(BaseModel):
             auth_naver_userinfo_url=os.getenv(
                 "AUTH_NAVER_USERINFO_URL", "https://openapi.naver.com/v1/nid/me"
             ),
-            auth_apple_bundle_id=os.getenv("AUTH_APPLE_BUNDLE_ID", "com.geniusproject.zet"),
-            auth_apple_service_id=os.getenv("AUTH_APPLE_SERVICE_ID", "com.geniusproject.zet"),
+            auth_apple_bundle_id=os.getenv("AUTH_APPLE_BUNDLE_ID", "dev.geniusproject.zet"),
+            auth_apple_service_id=os.getenv("AUTH_APPLE_SERVICE_ID", "dev.geniusproject.zet"),
             auth_apple_issuer=os.getenv("AUTH_APPLE_ISSUER", "https://appleid.apple.com"),
             auth_apple_jwks_url=os.getenv(
                 "AUTH_APPLE_JWKS_URL", "https://appleid.apple.com/auth/keys"
