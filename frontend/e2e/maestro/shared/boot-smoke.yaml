@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Auth boot smoke
 tags:
   - auth

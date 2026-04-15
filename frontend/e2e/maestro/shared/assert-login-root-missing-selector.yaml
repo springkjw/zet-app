@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Assert missing auth login root selector contract
 tags:
   - auth
