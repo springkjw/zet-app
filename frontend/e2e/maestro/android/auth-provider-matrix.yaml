@@ -1,0 +1,21 @@
+appId: com.geniusproject.zet
+name: Android auth provider matrix
+tags:
+  - auth
+  - android
+  - contract
+
+env:
+  AUTH_LOGIN_KAKAO_BUTTON_ID: auth.login.provider.kakao.button
+  AUTH_LOGIN_NAVER_BUTTON_ID: auth.login.provider.naver.button
+  AUTH_LOGIN_APPLE_BUTTON_ID: auth.login.provider.apple.button
+
+---
+- runFlow: launch-dev-client.yaml
+- runFlow: ../shared/assert-login-root.yaml
+- assertVisible:
+    id: ${AUTH_LOGIN_KAKAO_BUTTON_ID}
+- assertVisible:
+    id: ${AUTH_LOGIN_NAVER_BUTTON_ID}
+- assertNotVisible:
+    id: ${AUTH_LOGIN_APPLE_BUTTON_ID}
