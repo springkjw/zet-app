@@ -11,11 +11,14 @@ import {
   type ILoginResponse,
   type IOnboardingState,
   type IRefreshTokenResponse,
+  type TSocialProvider,
 } from '../../api/schemas/auth.schema';
 
 fakerKO.seed(123);
 
-export const generateUser = (): IUser => {
+export const generateUser = (
+  overrides?: Partial<IUser> & { provider?: TSocialProvider }
+): IUser => {
   const mockUser = generateMock(UserSchema, {
     stringMap: {
       nickname: () => fakerKO.person.firstName(),
@@ -23,7 +26,10 @@ export const generateUser = (): IUser => {
     },
   });
 
-  return mockUser;
+  return {
+    ...mockUser,
+    ...overrides,
+  };
 };
 
 export const generateAuthTokens = (): IAuthTokens => {
