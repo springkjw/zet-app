@@ -29,12 +29,10 @@ export const authKeys = {
 
 export const useLogin = () => {
   const queryClient = useQueryClient();
-  const { mutate: updateProfile } = useUpdateProfile();
-  const { mutate: updatePreferredShops } = useUpdatePreferredShops();
 
   return useMutation<ILoginResponse, Error, ILoginRequest>({
-    mutationFn: async (credentials) => {
-      const validatedRequest = LoginRequestSchema.parse(credentials);
+    mutationFn: async (loginRequest) => {
+      const validatedRequest = LoginRequestSchema.parse(loginRequest);
       const response = await apiClient.post<ILoginResponse>(
         "/auth/login",
         validatedRequest
@@ -44,16 +42,7 @@ export const useLogin = () => {
     onSuccess: async (data) => {
       apiClient.setAuthToken(data.tokens.accessToken);
 
-      if (data.isNewUser) {
-        const guestProfile = await guestStorage.get();
-        if (guestProfile) {
-          updateProfile({ nickname: guestProfile.nickname });
-          updatePreferredShops({ shopIds: guestProfile.preferredShopIds });
-          await guestStorage.clear();
-        }
-      } else {
-        await guestStorage.clear();
-      }
+      await guestStorage.clear();
 
       queryClient.setQueryData(authKeys.me(), data.user);
     },
