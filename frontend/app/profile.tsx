@@ -10,23 +10,12 @@ import type { ViewStyle } from "react-native";
 
 export default function ProfileScreen() {
   const { padding } = useBaseStyle();
-  const { user, isGuest, getGuestProfile } = useAuthStore();
+  const { user } = useAuthStore();
   const [nickname, setNickname] = useState<string>("");
 
   useEffect(() => {
-    const loadProfile = async () => {
-      if (isGuest) {
-        const guestProfile = await getGuestProfile();
-        if (guestProfile) {
-          setNickname(guestProfile.nickname);
-        }
-      } else if (user) {
-        setNickname(user.nickname);
-      }
-    };
-
-    loadProfile();
-  }, [isGuest, user, getGuestProfile]);
+    setNickname(user?.nickname ?? "");
+  }, [user]);
 
   return (
     <View>

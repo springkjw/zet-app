@@ -10,7 +10,7 @@ import "react-native-reanimated";
 import { colors } from "@/assets";
 import { API_CONFIG } from "@/services/config";
 import { useAuthStore } from "@/stores";
-import { guestStorage, storage } from "@/utils";
+import { storage } from "@/utils";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -48,8 +48,7 @@ async function initializeMocks() {
 }
 
 export default function RootLayout() {
-  const { restoreAuth, restoreOnboarding, setLoading, loginAsGuest } =
-    useAuthStore();
+  const { bootstrapAuth, restoreOnboarding, setLoading } = useAuthStore();
   const [mockingInitialized, setMockingInitialized] = useState(false);
 
   useEffect(() => {
@@ -58,20 +57,9 @@ export default function RootLayout() {
       setMockingInitialized(true);
 
       try {
-        const [user, tokens, onboarding, guestProfile] = await Promise.all([
-          storage.getUser(),
-          storage.getTokens(),
-          storage.getOnboarding(),
-          guestStorage.get(),
-        ]);
+        const onboarding = await storage.getOnboarding();
 
-        if (user && tokens) {
-          restoreAuth(user, tokens);
-        } else if (guestProfile) {
-          loginAsGuest();
-        } else {
-          setLoading(false);
-        }
+        await bootstrapAuth();
 
         if (onboarding) {
           restoreOnboarding(onboarding);
@@ -83,7 +71,7 @@ export default function RootLayout() {
     };
 
     initialize();
-  }, [restoreAuth, restoreOnboarding, setLoading, loginAsGuest]);
+  }, [bootstrapAuth, restoreOnboarding, setLoading]);
 
   if (API_CONFIG.ENABLE_MOCKS && !mockingInitialized) {
     return null;

@@ -1,5 +1,4 @@
 import { Redirect } from "expo-router";
-import { useEffect, useState } from "react";
 import { View, ViewStyle } from "react-native";
 
 import { colors } from "@/assets";
@@ -9,40 +8,21 @@ import { useAuthStore } from "@/stores";
 
 export default function HomeScreen() {
   const { size, layout } = useBaseStyle();
-  const { isAuthenticated, isGuest, isLoading, onboarding, hasGuestProfile } =
-    useAuthStore();
-  const [isReady, setIsReady] = useState(false);
-  const [shouldCheckGuest, setShouldCheckGuest] = useState(false);
+  const { isAuthenticated, isLoading, onboarding } = useAuthStore();
 
-  useEffect(() => {
-    const checkAuthState = async () => {
-      if (isLoading) {
-        return;
-      }
-
-      if (isGuest && !onboarding.hasCompletedOnboarding) {
-        const hasProfile = await hasGuestProfile();
-        setShouldCheckGuest(!hasProfile);
-      }
-
-      setIsReady(true);
-    };
-
-    checkAuthState();
-  }, [isLoading, isGuest, onboarding.hasCompletedOnboarding, hasGuestProfile]);
-
-  if (isLoading || !isReady) {
+  if (isLoading) {
     return <View />;
   }
 
-  if (!onboarding.hasAgreedToTerms || (!isAuthenticated && !isGuest)) {
+  if (!isAuthenticated) {
     return <Redirect href="/(auth)/login" />;
   }
 
-  if (
-    (isGuest && shouldCheckGuest) ||
-    (!isGuest && !onboarding.hasCompletedOnboarding)
-  ) {
+  if (!onboarding.hasAgreedToTerms) {
+    return <Redirect href="/(auth)/start" />;
+  }
+
+  if (!onboarding.hasCompletedOnboarding) {
     return <Redirect href="/(auth)/onboard" />;
   }
 
