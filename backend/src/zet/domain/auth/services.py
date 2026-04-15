@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from uuid import NAMESPACE_URL, UUID, uuid4, uuid5
+from uuid import UUID, uuid4
 
 from litestar.exceptions import NotAuthorizedException, ValidationException
 from litestar.security.jwt import Token
-from pydantic import BaseModel
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -17,45 +17,36 @@ from .schemas import (
     AuthTokensSchema,
     CurrentUserResponseSchema,
     LoginRequestSchema,
+    LoginCredentialType,
     LoginResponseSchema,
+    MobilePlatform,
     OnboardingStateSchema,
     RefreshTokenResponseSchema,
     UpdatePreferredShopsResponseSchema,
     UpdateProfileResponseSchema,
     UserSchema,
 )
-
-
-class SocialIdentity(BaseModel):
-    provider: SocialProvider
-    subject: str
-    nickname: str
+from .verifiers import NormalizedSocialIdentity, SocialVerificationError, SocialVerifierRegistry
 
 
 class AuthService:
-    def __init__(self, settings: Settings, jwt_state: JWTState) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        jwt_state: JWTState,
+        social_verifiers: SocialVerifierRegistry,
+    ) -> None:
         self.settings = settings
         self.jwt_state = jwt_state
+        self.social_verifiers = social_verifiers
 
     async def login(
         self,
         db_session: AsyncSession,
         data: LoginRequestSchema,
     ) -> LoginResponseSchema:
-        identity = await self.verify_social_token(data.provider, data.token)
-        user = await self._get_user_by_identity(db_session, identity.provider, identity.subject)
-        is_new_user = user is None
-
-        if user is None:
-            user = User(
-                nickname=identity.nickname,
-                provider=identity.provider,
-                provider_subject=identity.subject,
-                has_agreed_to_terms=False,
-                has_completed_onboarding=False,
-            )
-            db_session.add(user)
-            await db_session.commit()
+        identity = await self._verify_identity(data)
+        user, is_new_user = await self._resolve_or_create_user(db_session, identity)
 
         user = await self._load_user(db_session, user.id)
         tokens = self._issue_tokens(user)
@@ -132,13 +123,47 @@ class AuthService:
         user = await self._load_user(db_session, current_user.id)
         return UpdatePreferredShopsResponseSchema(user=UserSchema.from_model(user))
 
-    async def verify_social_token(self, provider: SocialProvider, token: str) -> SocialIdentity:
-        normalized_token = token.strip()
-        if normalized_token.lower().startswith("invalid"):
-            raise NotAuthorizedException(detail=f"{provider.value} token could not be verified")
-        subject = str(uuid5(NAMESPACE_URL, f"{provider.value}:{normalized_token}"))
-        nickname = f"{provider.value}-{subject[:8]}"
-        return SocialIdentity(provider=provider, subject=subject, nickname=nickname)
+    async def _verify_identity(self, data: LoginRequestSchema) -> NormalizedSocialIdentity:
+        try:
+            return await self.social_verifiers.verify(
+                provider=data.provider,
+                credential_type=data.credential_type,
+                credential=data.credential,
+                platform=data.platform,
+            )
+        except SocialVerificationError as exc:
+            raise NotAuthorizedException(detail=str(exc)) from exc
+
+    async def _resolve_or_create_user(
+        self,
+        db_session: AsyncSession,
+        identity: NormalizedSocialIdentity,
+    ) -> tuple[User, bool]:
+        existing_user = await self._get_user_by_identity(db_session, identity.provider, identity.provider_user_id)
+        if existing_user is not None:
+            return existing_user, False
+
+        user = User(
+            nickname=self._resolve_display_name(identity),
+            provider=identity.provider,
+            provider_subject=identity.provider_user_id,
+            has_agreed_to_terms=False,
+            has_completed_onboarding=False,
+        )
+        db_session.add(user)
+        try:
+            await db_session.commit()
+        except IntegrityError:
+            await db_session.rollback()
+            raced_user = await self._get_user_by_identity(
+                db_session,
+                identity.provider,
+                identity.provider_user_id,
+            )
+            if raced_user is None:
+                raise
+            return raced_user, False
+        return user, True
 
     async def _get_user_by_identity(
         self,
@@ -192,3 +217,7 @@ class AuthService:
             },
         )
         return AuthTokensSchema(access_token=access_token, refresh_token=refresh_token)
+
+    def _resolve_display_name(self, identity: NormalizedSocialIdentity) -> str:
+        display_name = identity.display_name or identity.email or f"{identity.provider.value}-{identity.provider_user_id[:8]}"
+        return display_name[:20]
