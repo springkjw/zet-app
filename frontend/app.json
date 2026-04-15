@@ -34,6 +34,34 @@
     "plugins": [
       "expo-router",
       [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraMavenRepos": [
+              "https://devrepo.kakao.com/nexus/content/groups/public/"
+            ]
+          }
+        }
+      ],
+      [
+        "@react-native-kakao/core",
+        {
+          "nativeAppKey": "EXPO_PUBLIC_AUTH_KAKAO_NATIVE_APP_KEY",
+          "android": {
+            "authCodeHandlerActivity": true
+          },
+          "ios": {
+            "handleKakaoOpenUrl": true
+          }
+        }
+      ],
+      [
+        "@react-native-seoul/naver-login",
+        {
+          "urlScheme": "zet"
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
@@ -127,6 +155,22 @@
     "extra": {
       "eas": {
         "projectId": "9aeea512-5d4e-49b6-9d35-59a32ffa1821"
+      },
+      "authProviders": {
+        "redirectScheme": "zet",
+        "kakao": {
+          "nativeAppKeyPlaceholder": "EXPO_PUBLIC_AUTH_KAKAO_NATIVE_APP_KEY",
+          "androidRedirectSchemePlaceholder": "kakao<your-kakao-native-app-key>"
+        },
+        "naver": {
+          "consumerKeyPlaceholder": "EXPO_PUBLIC_AUTH_NAVER_CONSUMER_KEY",
+          "consumerSecretPlaceholder": "EXPO_PUBLIC_AUTH_NAVER_CONSUMER_SECRET",
+          "appNamePlaceholder": "EXPO_PUBLIC_AUTH_NAVER_APP_NAME"
+        },
+        "apple": {
+          "serviceIdPlaceholder": "EXPO_PUBLIC_AUTH_APPLE_SERVICE_ID",
+          "bundleIdentifier": "com.geniusproject.zet"
+        }
       }
     }
   }
