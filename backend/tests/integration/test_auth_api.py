@@ -31,7 +31,7 @@ def _build_apple_id_token(
     private_key: Any,
     *,
     kid: str,
-    audience: str = "com.geniusproject.zet",
+    audience: str = "dev.geniusproject.zet",
     issuer: str = "https://appleid.apple.com",
     subject: str = "apple-user-123",
     email: str = "apple@example.com",
