@@ -48,3 +48,6 @@ backend/alembic/versions/__pycache__/
 
 # Generated types
 frontend/types/generated/
+
+# Local agent artifacts
+.sisyphus/
