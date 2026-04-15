@@ -35,7 +35,7 @@ Minimal Maestro coverage for the mobile auth surface lives here. This harness is
    cp .env.example .env
    ```
 
-3. Build and install a simulator or emulator dev client for `com.geniusproject.zet`:
+3. Build and install a simulator or emulator dev client for `dev.geniusproject.zet`:
 
    ```bash
    cd frontend
@@ -81,7 +81,7 @@ Some Task 10 flows intentionally verify only app-owned behavior after an externa
 
 - `shared/guest-upgrade-forces-login.yaml` expects a device install seeded with the legacy `guest_profile` key before launch.
 - `shared/onboarding-routing.yaml` supports `EXPECTED_ROUTE=start|onboard|home|auto`; exact route checks require a pre-seeded authenticated session plus onboarding state.
-- `shared/logout-returns-to-login.yaml` expects an authenticated, fully onboarded session and deep-links into `zet://settings` before asserting logout behavior.
+- `shared/logout-returns-to-login.yaml` expects an authenticated, fully onboarded session and deep-links into `dev.geniusproject.zet://settings` before asserting logout behavior.
 - `shared/provider-success-to-authenticated.yaml` expects the provider login to complete outside the app-owned boundary (live provider UI or a future dev hook) and then asserts the returned in-app route.
 - `shared/provider-cancel-or-fail.yaml` starts from the login screen, taps a provider button, and then asserts the app returns safely to login after a config failure or manual provider cancellation; on Android it first reuses `android/launch-dev-client.yaml`, waits for the external Kakao/Chrome page, and backs out before the shared login-root assertion.
 
@@ -98,8 +98,8 @@ The current smoke flow only asserts `auth.login.screen.root`, but the shared sel
 
 ## Assumptions
 
-- Both iOS and Android dev clients use the app id `com.geniusproject.zet` from `app.json`.
+- Both iOS and Android dev clients use the app id `dev.geniusproject.zet` from `app.json`.
 - `launchApp.clearState` is enough to avoid stale auth state during smoke verification.
 - Android may land on Expo Dev Launcher first, then an Expo developer-menu onboarding screen, then a connected overlay; the Android launch flow waits for Development Build UI and then selects `http://10.0.2.2:8082`, taps `Continue`, and taps `Close` when those screens are visible.
 - This harness verifies only app-owned selectors and app launch boundaries; provider-native UI automation belongs to later work.
-- Expo Router deep links use the `zet://` scheme from `app.json`, so settings-route flows can enter the app at `zet://settings` without inventing a second test framework.
+- Expo Router deep links use the `dev.geniusproject.zet://` scheme from `app.json`, so settings-route flows can enter the app at `dev.geniusproject.zet://settings` without inventing a second test framework.
