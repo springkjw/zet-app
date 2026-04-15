@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Launch Android dev client for auth flows
 tags:
   - auth
@@ -6,7 +6,7 @@ tags:
 
 ---
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: true
 - extendedWaitUntil:
     visible: Development Build

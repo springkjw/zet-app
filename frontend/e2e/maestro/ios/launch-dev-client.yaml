@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Launch iOS dev client for auth flows
 tags:
   - auth
@@ -6,5 +6,5 @@ tags:
 
 ---
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: true

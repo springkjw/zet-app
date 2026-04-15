@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: iOS auth provider matrix
 tags:
   - auth
