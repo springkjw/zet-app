@@ -1,0 +1,40 @@
+appId: com.geniusproject.zet
+name: Guest upgrade forces provider login
+tags:
+  - auth
+  - migration
+
+env:
+  AUTH_LOGIN_KAKAO_BUTTON_ID: auth.login.provider.kakao.button
+  AUTH_LOGIN_NAVER_BUTTON_ID: auth.login.provider.naver.button
+  AUTH_LOGIN_APPLE_BUTTON_ID: auth.login.provider.apple.button
+  START_PRIMARY_TEXT: 프로필 설정 시작하기
+  ONBOARDING_NICKNAME_TEXT: 몇 가지 더 설정하고
+  HOME_FILTER_TEXT: 최저가 탐색·알림 필터
+
+---
+# Precondition: seed the legacy guest_profile storage key before running.
+# This flow verifies only the in-app cold-launch result after bootstrap migration.
+- launchApp:
+    appId: com.geniusproject.zet
+    clearState: false
+- runFlow: assert-login-root.yaml
+- assertVisible:
+    id: ${AUTH_LOGIN_KAKAO_BUTTON_ID}
+- assertVisible:
+    id: ${AUTH_LOGIN_NAVER_BUTTON_ID}
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible:
+          id: ${AUTH_LOGIN_APPLE_BUTTON_ID}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertNotVisible:
+          id: ${AUTH_LOGIN_APPLE_BUTTON_ID}
+- assertNotVisible: ${START_PRIMARY_TEXT}
+- assertNotVisible: ${ONBOARDING_NICKNAME_TEXT}
+- assertNotVisible: ${HOME_FILTER_TEXT}

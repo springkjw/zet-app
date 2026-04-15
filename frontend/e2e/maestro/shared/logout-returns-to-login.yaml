@@ -1,0 +1,39 @@
+appId: com.geniusproject.zet
+name: Logout returns to login
+tags:
+  - auth
+  - logout
+
+env:
+  AUTH_LOGIN_KAKAO_BUTTON_ID: auth.login.provider.kakao.button
+  AUTH_LOGIN_NAVER_BUTTON_ID: auth.login.provider.naver.button
+  AUTH_LOGIN_APPLE_BUTTON_ID: auth.login.provider.apple.button
+
+---
+# Precondition: seed an authenticated + fully onboarded session before running.
+- launchApp:
+    appId: com.geniusproject.zet
+    clearState: false
+- openLink:
+    link: zet://settings
+- assertVisible: 설정
+- tapOn: 로그아웃
+- assertVisible: 로그아웃 하시겠습니까?
+- tapOn: 로그아웃
+- runFlow: assert-login-root.yaml
+- assertVisible:
+    id: ${AUTH_LOGIN_KAKAO_BUTTON_ID}
+- assertVisible:
+    id: ${AUTH_LOGIN_NAVER_BUTTON_ID}
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - assertVisible:
+          id: ${AUTH_LOGIN_APPLE_BUTTON_ID}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - assertNotVisible:
+          id: ${AUTH_LOGIN_APPLE_BUTTON_ID}
