@@ -11,8 +11,10 @@ requires-python = ">=3.12"
 dependencies = [
     "advanced-alchemy>=0.20.0",
     "alembic>=1.14.0",
+    "httpx>=0.28.0",
     "litestar[jwt,pydantic,structlog]>=2.13.0",
     "pydantic>=2.9.0",
+    "PyJWT>=2.10.1",
     "psycopg[binary,pool]>=3.2.0",
     "python-dotenv>=1.0.1",
     "sqlalchemy>=2.0.36",
@@ -22,7 +24,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "aiosqlite>=0.20.0",
-    "httpx>=0.28.0",
     "mypy>=1.13.0",
     "pytest>=8.3.0",
     "pytest-asyncio>=0.24.0",

@@ -30,6 +30,16 @@ class Settings(BaseModel):
     jwt_algorithm: str
     jwt_access_token_ttl_minutes: int
     jwt_refresh_token_ttl_days: int
+    auth_kakao_app_key: str
+    auth_kakao_rest_api_key: str
+    auth_kakao_jwks_url: str
+    auth_naver_client_id: str
+    auth_naver_client_secret: str
+    auth_naver_userinfo_url: str
+    auth_apple_bundle_id: str
+    auth_apple_service_id: str
+    auth_apple_issuer: str
+    auth_apple_jwks_url: str
     default_shop_image_url: str
 
     @property
@@ -63,6 +73,24 @@ class Settings(BaseModel):
             jwt_algorithm=os.getenv("JWT_ALGORITHM", "HS256"),
             jwt_access_token_ttl_minutes=int(os.getenv("JWT_ACCESS_TOKEN_TTL_MINUTES", "60")),
             jwt_refresh_token_ttl_days=int(os.getenv("JWT_REFRESH_TOKEN_TTL_DAYS", "30")),
+            auth_kakao_app_key=os.getenv("AUTH_KAKAO_APP_KEY", "your-kakao-app-key"),
+            auth_kakao_rest_api_key=os.getenv("AUTH_KAKAO_REST_API_KEY", "your-kakao-rest-api-key"),
+            auth_kakao_jwks_url=os.getenv(
+                "AUTH_KAKAO_JWKS_URL", "https://kauth.kakao.com/.well-known/jwks.json"
+            ),
+            auth_naver_client_id=os.getenv("AUTH_NAVER_CLIENT_ID", "your-naver-client-id"),
+            auth_naver_client_secret=os.getenv(
+                "AUTH_NAVER_CLIENT_SECRET", "your-naver-client-secret"
+            ),
+            auth_naver_userinfo_url=os.getenv(
+                "AUTH_NAVER_USERINFO_URL", "https://openapi.naver.com/v1/nid/me"
+            ),
+            auth_apple_bundle_id=os.getenv("AUTH_APPLE_BUNDLE_ID", "com.geniusproject.zet"),
+            auth_apple_service_id=os.getenv("AUTH_APPLE_SERVICE_ID", "com.geniusproject.zet"),
+            auth_apple_issuer=os.getenv("AUTH_APPLE_ISSUER", "https://appleid.apple.com"),
+            auth_apple_jwks_url=os.getenv(
+                "AUTH_APPLE_JWKS_URL", "https://appleid.apple.com/auth/keys"
+            ),
             default_shop_image_url=os.getenv(
                 "DEFAULT_SHOP_IMAGE_URL", "https://via.placeholder.com/300"
             ),
