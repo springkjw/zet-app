@@ -5,14 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "zet",
+    "scheme": "dev.geniusproject.zet",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.geniusproject.zet",
+      "bundleIdentifier": "dev.geniusproject.zet",
       "usesAppleSignIn": true,
-      "scheme": "zet",
+      "scheme": "dev.geniusproject.zet",
       "appleTeamId": "ZMP384EB88"
     },
     "android": {
@@ -24,7 +24,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.geniusproject.zet",
+      "package": "dev.geniusproject.zet",
       "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
@@ -58,7 +58,7 @@
       [
         "@react-native-seoul/naver-login",
         {
-          "urlScheme": "zet"
+          "urlScheme": "dev.geniusproject.zet"
         }
       ],
       [
@@ -157,7 +157,7 @@
         "projectId": "9aeea512-5d4e-49b6-9d35-59a32ffa1821"
       },
       "authProviders": {
-        "redirectScheme": "zet",
+        "redirectScheme": "dev.geniusproject.zet",
         "kakao": {
           "nativeAppKeyPlaceholder": "EXPO_PUBLIC_AUTH_KAKAO_NATIVE_APP_KEY",
           "androidRedirectSchemePlaceholder": "kakao<your-kakao-native-app-key>"
@@ -169,7 +169,7 @@
         },
         "apple": {
           "serviceIdPlaceholder": "EXPO_PUBLIC_AUTH_APPLE_SERVICE_ID",
-          "bundleIdentifier": "com.geniusproject.zet"
+          "bundleIdentifier": "dev.geniusproject.zet"
         }
       }
     }

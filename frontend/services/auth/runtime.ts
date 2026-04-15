@@ -32,7 +32,7 @@ export const getAuthProviderRuntimeConfig = (): IAuthProviderRuntimeConfig => {
     redirectScheme:
       process.env.EXPO_PUBLIC_AUTH_REDIRECT_SCHEME ??
       authProviders.redirectScheme ??
-      "zet",
+      "dev.geniusproject.zet",
     kakaoNativeAppKey:
       process.env.EXPO_PUBLIC_AUTH_KAKAO_NATIVE_APP_KEY ??
       authProviders.kakao?.nativeAppKeyPlaceholder ??
