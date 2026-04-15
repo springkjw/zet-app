@@ -1,11 +1,21 @@
 from __future__ import annotations
 
+from typing import Literal
 from uuid import UUID
 
-from pydantic import Field
+from pydantic import Field, model_validator
 
 from zet.db.models.user import SocialProvider, User
 from zet.lib.schema import CamelizedBaseSchema
+
+LoginCredentialType = Literal["access_token", "id_token"]
+MobilePlatform = Literal["ios", "android"]
+
+PROVIDER_CREDENTIAL_TYPE_MAP: dict[SocialProvider, LoginCredentialType] = {
+    SocialProvider.KAKAO: "access_token",
+    SocialProvider.NAVER: "access_token",
+    SocialProvider.APPLE: "id_token",
+}
 
 
 class UserSchema(CamelizedBaseSchema):
@@ -38,7 +48,16 @@ class OnboardingStateSchema(CamelizedBaseSchema):
 
 class LoginRequestSchema(CamelizedBaseSchema):
     provider: SocialProvider
-    token: str = Field(min_length=1)
+    credential_type: LoginCredentialType
+    credential: str = Field(min_length=1)
+    platform: MobilePlatform
+
+    @model_validator(mode="after")
+    def validate_provider_credential_type(self) -> "LoginRequestSchema":
+        expected_credential_type = PROVIDER_CREDENTIAL_TYPE_MAP[self.provider]
+        if self.credential_type != expected_credential_type:
+            raise ValueError(f"{self.provider.value} login requires {expected_credential_type}")
+        return self
 
 
 class LoginResponseSchema(CamelizedBaseSchema):
