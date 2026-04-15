@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Guest upgrade forces provider login
 tags:
   - auth
@@ -16,7 +16,7 @@ env:
 # Precondition: seed the legacy guest_profile storage key before running.
 # This flow verifies only the in-app cold-launch result after bootstrap migration.
 - launchApp:
-    appId: com.geniusproject.zet
+    appId: dev.geniusproject.zet
     clearState: false
 - runFlow: assert-login-root.yaml
 - assertVisible:

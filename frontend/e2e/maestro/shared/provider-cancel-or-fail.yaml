@@ -1,4 +1,4 @@
-appId: com.geniusproject.zet
+appId: dev.geniusproject.zet
 name: Provider cancel or fail returns to login
 tags:
   - auth
@@ -16,7 +16,7 @@ env:
       platform: iOS
     commands:
       - launchApp:
-          appId: com.geniusproject.zet
+          appId: dev.geniusproject.zet
           clearState: true
 - runFlow:
     when:
