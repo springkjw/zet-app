@@ -1,0 +1,66 @@
+appId: com.geniusproject.zet
+name: Provider success reaches authenticated route
+tags:
+  - auth
+  - success
+
+env:
+  EXPECTED_ROUTE: auto
+  START_PRIMARY_TEXT: 프로필 설정 시작하기
+  ONBOARDING_NICKNAME_TEXT: 몇 가지 더 설정하고
+  HOME_FILTER_TEXT: 최저가 탐색·알림 필터
+
+---
+# Precondition: complete provider login outside the app-owned boundary (live provider UI
+# or a future dev hook), then run this flow to assert the returned in-app route.
+# Optional: set EXPECTED_ROUTE=start|onboard|home for strict route verification.
+- launchApp:
+    appId: com.geniusproject.zet
+    clearState: false
+- openLink:
+    link: zet://
+- assertNotVisible:
+    id: auth.login.screen.root
+- runFlow:
+    when:
+      true: ${EXPECTED_ROUTE == 'start'}
+    commands:
+      - assertVisible: ${START_PRIMARY_TEXT}
+      - assertNotVisible: ${ONBOARDING_NICKNAME_TEXT}
+      - assertNotVisible: ${HOME_FILTER_TEXT}
+- runFlow:
+    when:
+      true: ${EXPECTED_ROUTE == 'onboard'}
+    commands:
+      - assertVisible: ${ONBOARDING_NICKNAME_TEXT}
+      - assertNotVisible: ${START_PRIMARY_TEXT}
+      - assertNotVisible: ${HOME_FILTER_TEXT}
+- runFlow:
+    when:
+      true: ${EXPECTED_ROUTE == 'home'}
+    commands:
+      - assertVisible: ${HOME_FILTER_TEXT}
+      - assertNotVisible: ${START_PRIMARY_TEXT}
+      - assertNotVisible: ${ONBOARDING_NICKNAME_TEXT}
+- runFlow:
+    when:
+      true: ${EXPECTED_ROUTE == 'auto'}
+    commands:
+      - runFlow:
+          when:
+            visible: ${START_PRIMARY_TEXT}
+          commands:
+            - assertNotVisible: ${ONBOARDING_NICKNAME_TEXT}
+            - assertNotVisible: ${HOME_FILTER_TEXT}
+      - runFlow:
+          when:
+            visible: ${ONBOARDING_NICKNAME_TEXT}
+          commands:
+            - assertNotVisible: ${START_PRIMARY_TEXT}
+            - assertNotVisible: ${HOME_FILTER_TEXT}
+      - runFlow:
+          when:
+            visible: ${HOME_FILTER_TEXT}
+          commands:
+            - assertNotVisible: ${START_PRIMARY_TEXT}
+            - assertNotVisible: ${ONBOARDING_NICKNAME_TEXT}

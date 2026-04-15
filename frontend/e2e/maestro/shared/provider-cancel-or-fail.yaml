@@ -1,0 +1,52 @@
+appId: com.geniusproject.zet
+name: Provider cancel or fail returns to login
+tags:
+  - auth
+  - negative
+
+env:
+  AUTH_PROVIDER_BUTTON_ID: auth.login.provider.kakao.button
+  AUTH_LOGIN_ERROR_BANNER_ID: auth.login.error.banner
+
+---
+# This flow stays app-owned: it taps a provider button, then expects a safe return
+# to the login screen after provider config failure or manual cancellation.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - launchApp:
+          appId: com.geniusproject.zet
+          clearState: true
+- runFlow:
+    when:
+      platform: Android
+    file: ../android/launch-dev-client.yaml
+- runFlow: assert-login-root.yaml
+- assertVisible:
+    id: ${AUTH_PROVIDER_BUTTON_ID}
+- tapOn:
+    id: ${AUTH_PROVIDER_BUTTON_ID}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible: Kakao Account
+          timeout: 30000
+      - back
+- extendedWaitUntil:
+    visible:
+      id: auth.login.screen.root
+    timeout: 60000
+- assertVisible:
+    id: auth.login.screen.root
+- assertVisible:
+    id: ${AUTH_PROVIDER_BUTTON_ID}
+- runFlow:
+    when:
+      visible:
+        id: ${AUTH_LOGIN_ERROR_BANNER_ID}
+    commands:
+      - assertVisible:
+          id: ${AUTH_LOGIN_ERROR_BANNER_ID}
