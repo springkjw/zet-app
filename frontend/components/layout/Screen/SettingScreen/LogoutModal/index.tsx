@@ -18,6 +18,12 @@ export default function LogoutModal({
   const { logout } = useAuthStore();
   const router = useRouter();
 
+  const handleLogout = async () => {
+    await logout();
+    router.dismissAll();
+    router.replace("/(auth)/login");
+  };
+
   return (
     <ConfirmModal
       confirmLabel="로그아웃"
@@ -26,9 +32,7 @@ export default function LogoutModal({
         onConfirm?.(false);
 
         if (value) {
-          await logout();
-          router.dismissAll();
-          router.replace("/(auth)/login");
+          await handleLogout();
         }
       }}
     >
