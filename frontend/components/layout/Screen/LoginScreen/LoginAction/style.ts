@@ -18,17 +18,6 @@ export default function useStyle() {
     LoginActionContainer: {
       ...flex({ flex: 1 }),
     },
-    LoginGuestContainer: {
-      ...size({ height: 42 }),
-      ...flex({ justify: "center", align: "center" }),
-    },
-    LoginGuestText: {
-      ...font({
-        color: colors.GRAY[500],
-        size: 12,
-        decoration: "underline",
-      }),
-    },
     LoginButtonContainer: {
       ...flex({
         direction: "column",
@@ -37,16 +26,37 @@ export default function useStyle() {
         gap: 8,
       }),
     },
-    LoginAppleButton: {
+    LoginErrorBanner: {
       ...size({ width: width - 40 }),
-      ...layout({ color: colors.COMMON[100] }),
-      ...border({ width: 1, color: colors.COMMON[0] }),
+      ...layout({ color: colors.RED[900] }),
+      ...border({ width: 1, color: colors.RED[700], radius: 12 }),
+      ...padding({ horizontal: 16, vertical: 12 }),
+    },
+    LoginErrorText: {
+      ...font({
+        color: colors.RED[100],
+        size: 12,
+      }),
+    },
+    LoginProviderButton: {
+      ...size({ width: width - 40 }),
+      ...layout({ color: colors.RED[500] }),
       ...flex({
         direction: "row",
         justify: "center",
         align: "center",
         gap: 8,
       }),
+    },
+    LoginProviderButtonText: {
+      ...font({
+        color: colors.COMMON[0],
+        size: 14,
+      }),
+    },
+    LoginAppleButton: {
+      ...layout({ color: colors.COMMON[100] }),
+      ...border({ width: 1, color: colors.COMMON[0] }),
     },
     LoginAppleButtonImage: {
       ...size<ImageStyle>({ width: 20, height: 20 }),

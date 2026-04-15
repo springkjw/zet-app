@@ -27,7 +27,7 @@ export default function StartAction({ onPress }: IStartActionProps) {
       </View>
 
       <BaseButton
-        label="ZET와 최저가 탐색 시작하기"
+        label="프로필 설정 시작하기"
         style={style.StartActionButtonContainer}
         labelStyle={style.StartActionButtonLabel}
         onPress={onPress}
