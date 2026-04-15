@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 import { View, ViewStyle } from "react-native";
 import {
@@ -21,7 +21,7 @@ import type { TOnboardingStep } from "@/types";
 export default function OnboardScreen() {
   const { flex, insets, size, padding } = useBaseStyle();
   const router = useRouter();
-  const { isGuest, setOnboarding, setGuestProfile } = useAuthStore();
+  const { isAuthenticated, isLoading, onboarding, setOnboarding } = useAuthStore();
   const selectedShopIds = useShopStore(
     (state) => state.onboarding.selectedShopIds
   );
@@ -52,57 +52,59 @@ export default function OnboardScreen() {
         return;
       }
 
-      if (isGuest) {
-        await setGuestProfile(nickname, []);
-        setStep("shop");
-      } else {
-        updateProfile(
-          { nickname },
-          {
-            onSuccess: () => {
-              setStep("shop");
-            },
-            onError: (error) => {
-              console.error("Failed to update profile:", error);
-            },
-          }
-        );
-      }
+      updateProfile(
+        { nickname },
+        {
+          onSuccess: () => {
+            setStep("shop");
+          },
+          onError: (error) => {
+            console.error("Failed to update profile:", error);
+          },
+        }
+      );
     } else if (step === "shop") {
-      if (isGuest) {
-        await setGuestProfile(nickname, selectedShopIds);
-        await setOnboarding({ hasCompletedOnboarding: true });
-        clearOnboardingShops();
-        router.replace("/");
-      } else {
-        updatePreferredShops(
-          { shopIds: selectedShopIds },
-          {
-            onSuccess: async () => {
-              await setOnboarding({ hasCompletedOnboarding: true });
-              clearOnboardingShops();
-              router.replace("/");
-            },
-            onError: (error) => {
-              console.error("Failed to update preferred shops:", error);
-            },
-          }
-        );
-      }
+      updatePreferredShops(
+        { shopIds: selectedShopIds },
+        {
+          onSuccess: async () => {
+            await setOnboarding({ hasCompletedOnboarding: true });
+            clearOnboardingShops();
+            router.replace("/");
+          },
+          onError: (error) => {
+            console.error("Failed to update preferred shops:", error);
+          },
+        }
+      );
     }
   }, [
     step,
     nickname,
     hasError,
     selectedShopIds,
-    isGuest,
     updatePreferredShops,
     updateProfile,
     setOnboarding,
-    setGuestProfile,
     clearOnboardingShops,
     router,
   ]);
+
+  if (isLoading) {
+    return <View />;
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
+  if (!onboarding.hasAgreedToTerms) {
+    return <Redirect href="/(auth)/start" />;
+  }
+
+  if (onboarding.hasCompletedOnboarding) {
+    return <Redirect href="/" />;
+  }
 
   return (
     <View style={flex<ViewStyle>({ flex: 1 })}>

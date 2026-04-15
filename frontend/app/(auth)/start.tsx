@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { useRouter } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { View, ViewStyle } from "react-native";
 
 import { StartImage } from "@/assets";
@@ -23,8 +23,24 @@ export default function StartScreen() {
   const { bottom } = useSafeAreaInsets();
 
   const router = useRouter();
-  const { setOnboarding } = useAuthStore();
+  const { isAuthenticated, isLoading, onboarding, setOnboarding } = useAuthStore();
   const { isConfirm, onConfirm } = useModal();
+
+  if (isLoading) {
+    return <View />;
+  }
+
+  if (!isAuthenticated) {
+    return <Redirect href="/(auth)/login" />;
+  }
+
+  if (onboarding.hasCompletedOnboarding) {
+    return <Redirect href="/" />;
+  }
+
+  if (onboarding.hasAgreedToTerms) {
+    return <Redirect href="/(auth)/onboard" />;
+  }
 
   const handleStart = async () => {
     const permissionStatus = await checkNotificationPermission();
