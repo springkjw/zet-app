@@ -18,6 +18,14 @@ Minimal Maestro coverage for the mobile auth surface lives here. This harness is
 - `shared/provider-success-to-authenticated.yaml` — verifies a completed provider auth lands in an authenticated in-app route.
 - `real-device-smoke-checklist.md` — manual device/provider matrix for Kakao/Naver on iOS+Android and Apple on iOS.
 
+## Brand provenance
+
+- Kakao source URLs: `https://developers.kakao.com/docs/_next/image?url=%2Fimg%2Flogin_button_standard_ko.png&w=2040&q=75` and `https://developers.kakao.com/docs/_next/image?url=%2Fimg%2Flogin_button_component_ko.png&w=2040&q=75`.
+- Naver source URL: `https://developers.naver.com/inc/devcenter/downloads/bi/NAVER_login_KR.zip`.
+- Adopted UI basis: Kakao uses `#FEE500`, Naver uses `#03A94D`, Apple stays Apple-branded and only layout-aligned, and the outer provider stack keeps 48px buttons with a 12px gap.
+- Local assets: `frontend/assets/images/kakao-login-button-ko.png` is the primary Kakao export; Naver uses `frontend/assets/images/naver-login-dark-green-wide-h48.png`; Apple remains the existing icon+CTA treatment and no deleted Kakao source-reference PNGs are retained.
+- Scope boundary: the shared provider root and test IDs stay unchanged, and the provider login flow semantics remain preserved.
+
 ## Prerequisites
 
 1. Install Maestro CLI and verify it is available:
