@@ -9,11 +9,12 @@ export default function useStyle() {
 
   return StyleSheet.create({
     LoginContainer: {
-      ...size({ height: 234 }),
+      ...size({ height: 258 }),
       ...padding({ horizontal: 20, top: 40, bottom: 16 }),
     },
     LoginTitle: {
       ...flex({ justify: "center", align: "center" }),
+      marginBottom: 24,
     },
     LoginActionContainer: {
       ...flex({ flex: 1 }),
@@ -22,8 +23,8 @@ export default function useStyle() {
       ...flex({
         direction: "column",
         justify: "center",
-        align: "center",
-        gap: 8,
+        align: "stretch",
+        gap: 12,
       }),
     },
     LoginErrorBanner: {
@@ -39,14 +40,23 @@ export default function useStyle() {
       }),
     },
     LoginProviderButton: {
-      ...size({ width: width - 40 }),
-      ...layout({ color: colors.RED[500] }),
+      ...size({ width: width - 40, height: 48 }),
+      ...layout({ color: colors.COMMON[0] }),
+      ...border({ width: 0, radius: 14 }),
       ...flex({
         direction: "row",
         justify: "center",
         align: "center",
-        gap: 8,
+        gap: 12,
       }),
+    },
+    LoginKakaoButton: {
+      ...layout({ color: "#FEE500" }),
+      ...border({ width: 0, radius: 14 }),
+    },
+    LoginNaverButton: {
+      ...layout({ color: "#03A94D" }),
+      ...border({ width: 0, radius: 14 }),
     },
     LoginProviderButtonText: {
       ...font({
@@ -56,7 +66,7 @@ export default function useStyle() {
     },
     LoginAppleButton: {
       ...layout({ color: colors.COMMON[100] }),
-      ...border({ width: 1, color: colors.COMMON[0] }),
+      ...border({ width: 1, color: colors.COMMON[0], radius: 14 }),
     },
     LoginAppleButtonImage: {
       ...size<ImageStyle>({ width: 20, height: 20 }),
@@ -66,6 +76,16 @@ export default function useStyle() {
         color: colors.COMMON[0],
         size: 14,
       }),
+    },
+    LoginBrandedButtonPendingText: {
+      ...font({
+        color: colors.COMMON[100],
+        size: 14,
+      }),
+    },
+    LoginBrandedButtonImage: {
+      width: "100%",
+      height: "100%",
     },
   });
 }
